@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:carousel_pro/carousel_pro.dart';
 
 import 'package:ohack/horizontal.dart';
-import 'package:ohack/sigunUp.dart';
+import 'package:ohack/signUp.dart';
+import 'package:ohack/inventoryMenu.dart';
 
 void main() {
   runApp(MyApp());
@@ -177,7 +178,13 @@ class FirstRoute extends StatelessWidget {
           ElevatedButton(onPressed: null, child: Text('Invoice')),
           ElevatedButton(onPressed: null, child: Text('Sales')),
           ElevatedButton(onPressed: null, child: Text('Purchase')),
-          ElevatedButton(onPressed: null, child: Text('Inventory')),
+          ElevatedButton(
+              onPressed: () {
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => InventoryMenu()));
+              },
+              child: Text('Inventory')),
           ElevatedButton(onPressed: null, child: Text('Report')),
         ],
       ),
