@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "202278832080",
+    "firebase_url": "https://payir-thoorgai.firebaseio.com",
+    "project_id": "payir-thoorgai",
+    "storage_bucket": "payir-thoorgai.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:202278832080:android:9ee8ff6bf26fbbec72dbd5",
+        "android_client_info": {
+          "package_name": "com.example.ohack"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "202278832080-cb8lrtkruqa8m5dsnjcvf4tf36trg0n7.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCTq6R4FewYHpgN01WbM9RHsn5zVP0jLPs"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "202278832080-cb8lrtkruqa8m5dsnjcvf4tf36trg0n7.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
