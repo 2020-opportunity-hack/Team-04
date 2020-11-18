@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:carousel_pro/carousel_pro.dart';
 
 import 'package:ohack/horizontal.dart';
+import 'package:ohack/sigunUp.dart';
 
 void main() {
   runApp(MyApp());
@@ -51,12 +52,12 @@ class MyHomePage extends StatefulWidget {
   @override
   _MyHomePageState createState() => _MyHomePageState();
 }
+
 class _MyHomePageState extends State<MyHomePage> {
   TextStyle style = TextStyle(fontFamily: 'Montserrat', fontSize: 20.0);
 
   @override
   Widget build(BuildContext context) {
-
     final emailField = TextField(
       obscureText: false,
       style: style,
@@ -64,7 +65,7 @@ class _MyHomePageState extends State<MyHomePage> {
           contentPadding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
           hintText: "Email",
           border:
-          OutlineInputBorder(borderRadius: BorderRadius.circular(32.0))),
+              OutlineInputBorder(borderRadius: BorderRadius.circular(32.0))),
     );
     final passwordField = TextField(
       obscureText: true,
@@ -73,7 +74,7 @@ class _MyHomePageState extends State<MyHomePage> {
           contentPadding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
           hintText: "Password",
           border:
-          OutlineInputBorder(borderRadius: BorderRadius.circular(32.0))),
+              OutlineInputBorder(borderRadius: BorderRadius.circular(32.0))),
     );
 
     final loginButon = Material(
@@ -96,6 +97,26 @@ class _MyHomePageState extends State<MyHomePage> {
       ),
     );
 
+    final signUpButton = Material(
+      elevation: 5.0,
+      borderRadius: BorderRadius.circular(30.0),
+      color: Colors.blue,
+      child: MaterialButton(
+        minWidth: MediaQuery.of(context).size.width,
+        padding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
+        onPressed: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => SignUp()),
+          );
+        },
+        child: Text("Sign Up",
+            textAlign: TextAlign.center,
+            style: style.copyWith(
+                color: Colors.white, fontWeight: FontWeight.bold)),
+      ),
+    );
+
     return Scaffold(
       body: Center(
         child: Container(
@@ -107,7 +128,7 @@ class _MyHomePageState extends State<MyHomePage> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
                 SizedBox(
-                  height: 155.0,
+                  height: 125.0,
                   child: Image.asset(
                     "lib/assets/images/logo.png",
                     fit: BoxFit.contain,
@@ -124,6 +145,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 SizedBox(
                   height: 15.0,
                 ),
+                signUpButton
               ],
             ),
           ),
@@ -134,7 +156,6 @@ class _MyHomePageState extends State<MyHomePage> {
 }
 
 class FirstRoute extends StatelessWidget {
-
   @override
   Widget build(BuildContext context) {
     TextStyle style = TextStyle(fontFamily: 'Montserrat', fontSize: 20.0);
@@ -160,11 +181,9 @@ class FirstRoute extends StatelessWidget {
           ElevatedButton(onPressed: null, child: Text('Report')),
         ],
       ),
-
     );
   }
 }
-
 
 // class HomePage extends StatefulWidget {
 //   @override
