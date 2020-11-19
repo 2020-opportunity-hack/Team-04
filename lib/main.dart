@@ -1,12 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:carousel_pro/carousel_pro.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 import 'package:ohack/horizontal.dart';
 import 'package:ohack/signUp.dart';
 import 'package:ohack/inventoryMenu.dart';
 
+
 void main() {
-  runApp(MyApp());
+  runApp(EasyLocalization(
+    child: MyApp(),
+    supportedLocales: [Locale('en', 'US'), Locale('ta', 'IN')],
+    path: 'lib/assets/translations',
+    fallbackLocale: Locale('en', 'US'),
+    )
+  );
 }
 
 class MyApp extends StatelessWidget {
@@ -14,6 +22,8 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      supportedLocales: context.supportedLocales,
+      localizationsDelegates: context.localizationDelegates,
       title: 'Thoorgai',
       theme: ThemeData(
         // This is the theme of your application.

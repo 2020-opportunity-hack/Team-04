@@ -12,7 +12,7 @@ class _UpdateInventoryItemState extends State<UpdateInventoryItem> {
     TextStyle style = TextStyle(fontFamily: 'Montserrat', fontSize: 20.0);
 
     final heading = Padding(
-      padding: const EdgeInsets.all(8.0),
+      padding: const EdgeInsets.only(bottom: 20.0),
       child: Text(
         'Update Inventory Item',
         textAlign: TextAlign.center,
@@ -36,7 +36,6 @@ class _UpdateInventoryItemState extends State<UpdateInventoryItem> {
     final quantityInput = TextFormField(
       decoration: const InputDecoration(
         hintText: 'Enter Quantity',
-        // hintStyle: 
       ),
       validator: (value) {
         if (value.isEmpty) {
@@ -50,7 +49,8 @@ class _UpdateInventoryItemState extends State<UpdateInventoryItem> {
     );
 
     final buttonStyle = ButtonStyle(
-        backgroundColor: MaterialStateProperty.all<Color>(Colors.grey));
+        backgroundColor: MaterialStateProperty.all<Color>(Colors.grey),
+    );
 
     final incrementButton = ElevatedButton(
       style: buttonStyle,
@@ -78,7 +78,7 @@ class _UpdateInventoryItemState extends State<UpdateInventoryItem> {
       color: Colors.blue,
       child: MaterialButton(
         minWidth: MediaQuery.of(context).size.width,
-        padding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
+        padding: EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
         onPressed: () {
           Navigator.push(
             context,
@@ -98,7 +98,7 @@ class _UpdateInventoryItemState extends State<UpdateInventoryItem> {
       color: Colors.blue,
       child: MaterialButton(
         minWidth: MediaQuery.of(context).size.width,
-        padding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
+        padding: EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
         onPressed: () {
           Navigator.push(
             context,
@@ -118,39 +118,41 @@ class _UpdateInventoryItemState extends State<UpdateInventoryItem> {
       ),
       body: Center(
         child: Container(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              heading,
-              Form(
-                child: Column(
-                  children: <Widget>[
-                    Row(
-                      // problem here <-------
-                      children: [
-                        Expanded(child: itemCodeInput),
-                        Column(
-                          children: [
-                            incrementButton,
-                            decrementButton,
-                          ],
-                        ),
-                        Expanded(child: quantityInput),
-                      ],
-                    ),
-                    SizedBox(
-                      height: 35,
-                    ),
-                    updateButton,
-                    SizedBox(
-                      height: 35,
-                    ),
-                    backButton,
-                  ],
-                ),
-              )
-            ],
+          child: Padding(
+            padding: const EdgeInsets.only(left: 20.0, right: 20.0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                heading,
+                Form(
+                  child: Column(
+                    children: <Widget>[
+                      Row(
+                        children: [
+                          Expanded(child: itemCodeInput),
+                          Column(
+                            children: [
+                              incrementButton,
+                              decrementButton,
+                            ],
+                          ),
+                          Expanded(child: quantityInput),
+                        ],
+                      ),
+                      SizedBox(
+                        height: 35,
+                      ),
+                      updateButton,
+                      SizedBox(
+                        height: 35,
+                      ),
+                      backButton,
+                    ],
+                  ),
+                )
+              ],
+            ),
           ),
         ),
       ),
