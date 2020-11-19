@@ -1,3 +1,7 @@
 {
-  "Email": "Email"
+  "Login": "Login",
+  "Sign_Up": "Sign Up",
+  "Password_Hint": "Password",
+  "Email_Hint": "Email",
+  "Invoice": "Invoice"
 }

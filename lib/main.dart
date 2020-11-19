@@ -1,20 +1,19 @@
-import 'package:flutter/material.dart';
-import 'package:carousel_pro/carousel_pro.dart';
 import 'package:easy_localization/easy_localization.dart';
+import 'package:flutter/material.dart';
+// import 'package:carousel_pro/carousel_pro.dart';
 
-import 'package:ohack/horizontal.dart';
+// import 'package:ohack/horizontal.dart';
 import 'package:ohack/signUp.dart';
 import 'package:ohack/inventoryMenu.dart';
 import 'package:modal_progress_hud/modal_progress_hud.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
-
 void main() {
   runApp(EasyLocalization(
-    child: MyApp(),
     supportedLocales: [Locale('en', 'US'), Locale('ta', 'IN')],
     path: 'lib/assets/translations',
     fallbackLocale: Locale('en', 'US'),
+    child: MyApp()
     )
   );
 }
@@ -82,7 +81,7 @@ class _MyHomePageState extends State<MyHomePage> {
       },
       decoration: InputDecoration(
           contentPadding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
-          hintText: "Email",
+          hintText: "Email_Hint".tr(),
           border:
               OutlineInputBorder(borderRadius: BorderRadius.circular(32.0))),
     );
@@ -94,9 +93,10 @@ class _MyHomePageState extends State<MyHomePage> {
       },
       decoration: InputDecoration(
           contentPadding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
-          hintText: "Password",
+          hintText: "Password_Hint".tr(),
           border:
-              OutlineInputBorder(borderRadius: BorderRadius.circular(32.0))),
+              OutlineInputBorder(borderRadius: BorderRadius.circular(32.0))
+          ),
     );
 
     final loginButon = Material(
@@ -135,10 +135,11 @@ class _MyHomePageState extends State<MyHomePage> {
         //   );
         // },
 
-        child: Text("Login",
+        child: Text("Login".tr(),
             textAlign: TextAlign.center,
             style: style.copyWith(
-                color: Colors.white, fontWeight: FontWeight.bold)),
+                color: Colors.white, fontWeight: FontWeight.bold)
+            ),
       ),
     );
 
@@ -155,43 +156,59 @@ class _MyHomePageState extends State<MyHomePage> {
             MaterialPageRoute(builder: (context) => SignUp()),
           );
         },
-        child: Text("Sign Up",
+        child: Text("Sign_Up".tr(),
             textAlign: TextAlign.center,
             style: style.copyWith(
-                color: Colors.white, fontWeight: FontWeight.bold)),
+                color: Colors.white, fontWeight: FontWeight.bold)
+            ),
       ),
     );
 
+    final enLangButton = ElevatedButton(onPressed: () {
+      context.locale = Locale('en', 'US');
+    }, child: Text('EN'));
+    final taLangButton = ElevatedButton(onPressed: () {
+      context.locale = Locale('ta', 'IN');
+    }, child: Text('TA'));
+
     return Scaffold(
-      body: Center(
-        child: Container(
-          color: Colors.white,
-          child: Padding(
-            padding: const EdgeInsets.all(36.0),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                SizedBox(
-                  height: 125.0,
-                  child: Image.asset(
-                    "lib/assets/images/logo.png",
-                    fit: BoxFit.contain,
+      body: SingleChildScrollView(
+        child: Center(
+          child: Container(
+            color: Colors.white,
+            child: Padding(
+              padding: const EdgeInsets.all(36.0),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  SizedBox(
+                    height: 125.0,
+                    child: Image.asset(
+                      "lib/assets/images/logo.png",
+                      fit: BoxFit.contain,
+                    ),
                   ),
-                ),
-                SizedBox(height: 45.0),
-                emailField,
-                SizedBox(height: 25.0),
-                passwordField,
-                SizedBox(
-                  height: 35.0,
-                ),
-                loginButon,
-                SizedBox(
-                  height: 15.0,
-                ),
-                signUpButton
-              ],
+                  SizedBox(height: 45.0),
+                  emailField,
+                  SizedBox(height: 25.0),
+                  passwordField,
+                  SizedBox(
+                    height: 35.0,
+                  ),
+                  loginButon,
+                  SizedBox(
+                    height: 15.0,
+                  ),
+                  signUpButton,
+                  SizedBox(
+                    height: 15.0,
+                  ),
+                  Row(
+                    children: [enLangButton, taLangButton],
+                  ),
+                ],
+              ),
             ),
           ),
         ),
@@ -221,7 +238,7 @@ class FirstRoute extends StatelessWidget {
         child: Text("Invoice",
             textAlign: TextAlign.center,
             style: style.copyWith(
-                color: Colors.white, fontWeight: FontWeight.bold)),
+                color: Colors.white, fontWeight: FontWeight.bold)).tr(),
       ),
     );
 
@@ -317,36 +334,38 @@ class FirstRoute extends StatelessWidget {
       //     },
       //   ),
       // ),
-      body: Center(
-        child: Container(
-          color: Colors.white,
-          child: Padding(
-            padding: const EdgeInsets.all(20.0),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                SizedBox(
-                  height: 35.0,
-                ),
-                invoiceButton,
-                SizedBox(
-                  height: 35.0,
-                ),
-                salesButton,
-                SizedBox(
-                  height: 35.0,
-                ),
-                purchaseButton,
-                SizedBox(
-                  height: 35.0,
-                ),
-                inventoryButton,
-                SizedBox(
-                  height: 35.0,
-                ),
-                reportButton
-              ],
+      body: SingleChildScrollView(
+        child: Center(
+          child: Container(
+            color: Colors.white,
+            child: Padding(
+              padding: const EdgeInsets.all(20.0),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  SizedBox(
+                    height: 35.0,
+                  ),
+                  invoiceButton,
+                  SizedBox(
+                    height: 35.0,
+                  ),
+                  salesButton,
+                  SizedBox(
+                    height: 35.0,
+                  ),
+                  purchaseButton,
+                  SizedBox(
+                    height: 35.0,
+                  ),
+                  inventoryButton,
+                  SizedBox(
+                    height: 35.0,
+                  ),
+                  reportButton
+                ],
+              ),
             ),
           ),
         ),

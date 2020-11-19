@@ -40,7 +40,7 @@ dependencies:
   cupertino_icons: ^1.0.0
 
   # The following adds package for localization
-  easy_localization: ^2.3.3
+  easy_localization: ^2.3.2
 
 dev_dependencies:
   flutter_test:
