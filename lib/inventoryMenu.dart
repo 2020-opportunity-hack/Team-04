@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:ohack/updateInventory.dart';
 
 import 'main.dart';
 
@@ -37,7 +38,7 @@ class InventoryMenu extends StatelessWidget {
         onPressed: () {
           Navigator.push(
             context,
-            MaterialPageRoute(builder: (context) => MyHomePage()),
+            MaterialPageRoute(builder: (context) => UpdateInventoryItem()),
           );
         },
         child: Text("Edit item",
