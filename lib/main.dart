@@ -1,3 +1,5 @@
+import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:carousel_pro/carousel_pro.dart';
 
@@ -5,7 +7,9 @@ import 'package:ohack/horizontal.dart';
 import 'package:ohack/signUp.dart';
 import 'package:ohack/inventoryMenu.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
   runApp(MyApp());
 }
 
@@ -55,10 +59,14 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
+  final fb = FirebaseDatabase.instance;
+  final myController = TextEditingController();
+  final name = "Name";
   TextStyle style = TextStyle(fontFamily: 'Montserrat', fontSize: 20.0);
 
   @override
   Widget build(BuildContext context) {
+    inal ref = fb.reference();
     final emailField = TextField(
       obscureText: false,
       style: style,
@@ -106,6 +114,7 @@ class _MyHomePageState extends State<MyHomePage> {
         minWidth: MediaQuery.of(context).size.width,
         padding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
         onPressed: () {
+          ref.child(name).set(myController.text);
           Navigator.push(
             context,
             MaterialPageRoute(builder: (context) => SignUp()),
