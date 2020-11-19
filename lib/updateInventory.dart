@@ -22,6 +22,17 @@ class _UpdateInventoryItemState extends State<UpdateInventoryItem> {
       ),
     );
 
+    final description = Padding(
+      padding: const EdgeInsets.all(10.0),
+      child: Text(
+        'Input the Item Code to update Quantity',
+        textAlign: TextAlign.center,
+        style: style.copyWith(
+          fontSize: 20,
+        ),
+      ),
+    );
+
     final itemCodeInput = TextFormField(
       decoration: const InputDecoration(hintText: 'Enter an item code'),
       validator: (value) {
@@ -48,8 +59,44 @@ class _UpdateInventoryItemState extends State<UpdateInventoryItem> {
       },
     );
 
+    final transportInput = TextFormField(
+      decoration: const InputDecoration(
+        hintText: 'Enter transport cost',
+      ),
+      validator: (value) {
+        if (value.isEmpty) {
+          return 'Please enter a cost';
+        }
+        return null;
+      },
+    );
+
+    final costInput = TextFormField(
+      decoration: const InputDecoration(
+        hintText: 'Enter cost price',
+      ),
+      validator: (value) {
+        if (value.isEmpty) {
+          return 'Please enter a cost';
+        }
+        return null;
+      },
+    );
+
+    final saleInput = TextFormField(
+      decoration: const InputDecoration(
+        hintText: 'Enter sale price',
+      ),
+      validator: (value) {
+        if (value.isEmpty) {
+          return 'Please enter a cost';
+        }
+        return null;
+      },
+    );
+
     final buttonStyle = ButtonStyle(
-        backgroundColor: MaterialStateProperty.all<Color>(Colors.grey),
+      backgroundColor: MaterialStateProperty.all<Color>(Colors.grey),
     );
 
     final incrementButton = ElevatedButton(
@@ -116,42 +163,48 @@ class _UpdateInventoryItemState extends State<UpdateInventoryItem> {
       appBar: AppBar(
         title: Text('Payir - Thoorgayi'),
       ),
-      body: Center(
-        child: Container(
-          child: Padding(
-            padding: const EdgeInsets.only(left: 20.0, right: 20.0),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                heading,
-                Form(
-                  child: Column(
-                    children: <Widget>[
-                      Row(
-                        children: [
-                          Expanded(child: itemCodeInput),
-                          Column(
-                            children: [
-                              incrementButton,
-                              decrementButton,
-                            ],
-                          ),
-                          Expanded(child: quantityInput),
-                        ],
-                      ),
-                      SizedBox(
-                        height: 35,
-                      ),
-                      updateButton,
-                      SizedBox(
-                        height: 35,
-                      ),
-                      backButton,
-                    ],
-                  ),
-                )
-              ],
+      body: SingleChildScrollView(
+        child: Center(
+          child: Container(
+            child: Padding(
+              padding: const EdgeInsets.only(left: 20.0, right: 20.0),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  heading,
+                  description,
+                  Form(
+                    child: Column(
+                      children: <Widget>[
+                        itemCodeInput,
+                        Row(
+                          children: [
+                            Expanded(child: quantityInput),
+                            Container(
+                              padding: EdgeInsets.only(left:10.0, top: 5.0, bottom: 5.0),
+                              child: incrementButton),
+                            Container(
+                              padding: EdgeInsets.only(left:10.0, top: 5.0, bottom: 5.0),
+                              child: decrementButton),
+                          ],
+                        ),
+                        transportInput,
+                        costInput,
+                        saleInput,
+                        SizedBox(
+                          height: 35,
+                        ),
+                        updateButton,
+                        SizedBox(
+                          height: 35,
+                        ),
+                        backButton,
+                      ],
+                    ),
+                  )
+                ],
+              ),
             ),
           ),
         ),
