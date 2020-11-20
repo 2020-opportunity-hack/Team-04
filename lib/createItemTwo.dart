@@ -3,15 +3,20 @@ import 'main.dart';
 import 'package:ohack/createItem.dart';
 
 class CreateInventoryItemTwo extends StatefulWidget {
+  final Function createSectionContainerfn;
+  const CreateInventoryItemTwo ({ Key key, this.createSectionContainerfn }): super(key: key);
+
   @override
   _CreateInventoryItemTwoState createState() => _CreateInventoryItemTwoState();
 }
 
 class _CreateInventoryItemTwoState extends State<CreateInventoryItemTwo> {
   final List<Widget> otherList = [];
-
+  
   @override
   Widget build(BuildContext context) {
+    // testing
+
     TextStyle style = TextStyle(
         fontFamily: 'Montserrat', fontSize: 20.0, fontWeight: FontWeight.bold);
 
@@ -114,12 +119,18 @@ class _CreateInventoryItemTwoState extends State<CreateInventoryItemTwo> {
       },
     );
 
+    final removeOtherButton = ElevatedButton(onPressed: null, child: Text('x'));
+
     Widget _otherRow() {
       return Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.baseline,
         children: [
-          Expanded(flex: 3, child: emptyFieldInput),
+          Expanded(flex: 5, child: emptyFieldInput),
           Expanded(flex: 1, child: SizedBox()),
-          Expanded(flex: 3, child: emptyValueInput)
+          Expanded(flex: 5, child: emptyValueInput),
+          Expanded(flex: 1, child: SizedBox()),
+          Expanded(flex: 2, child: removeOtherButton),
         ],
       );
     }
@@ -184,6 +195,19 @@ class _CreateInventoryItemTwoState extends State<CreateInventoryItemTwo> {
       ),
     );
 
+    // Widget _createSectionContainer(List <Widget> children) {
+    //   return Container(
+    //       margin: EdgeInsets.only(top: 15, left: 5, right: 5),
+    //       padding: EdgeInsets.all(10),
+    //       decoration: BoxDecoration(
+    //           border: Border.all(color: Colors.grey, width: 3),
+    //           borderRadius: BorderRadius.circular(5)),
+    //       child: Column(
+    //         children: children,
+    //       ),
+    //     );
+    // }
+
     return Scaffold(
       appBar: AppBar(
         title: Text('Payir - Thoorgayi'),
@@ -198,26 +222,31 @@ class _CreateInventoryItemTwoState extends State<CreateInventoryItemTwo> {
                 Form(
                   child: ConstrainedBox(
                     constraints: new BoxConstraints(
-                      maxWidth: 300.0,
+                      maxWidth: MediaQuery.of(context).size.width - 50,
                     ),
                     child: Column(
                       children: [
-                        _customHeading('Labor'),
-                        cuttingInput,
-                        stitchingInput,
-                        otherInput,
-                        _customHeading('Cost'),
-                        transportInput,
-                        costInput,
-                        saleInput,
-                        _customHeading('Other'),
-                        
-                        _otherRow(),
-                        
-                        otherListView,
-                        Container(
-                            padding: EdgeInsets.only(top: 10.0),
-                            child: addOtherButton),
+                        widget.createSectionContainerfn([
+                          _customHeading('Labor'),
+                          cuttingInput,
+                          stitchingInput,
+                          otherInput,
+                        ]),
+                        widget.createSectionContainerfn([
+                          _customHeading('Cost'),
+                          transportInput,
+                          costInput,
+                          saleInput,
+                        ]),
+                        widget.createSectionContainerfn([
+                          _customHeading('Other'),
+                          _otherRow(),
+                          otherListView,
+                          Container(
+                              padding: EdgeInsets.only(top: 10.0),
+                              child: addOtherButton),
+                        ]),
+
                         SizedBox(
                           height: 35,
                         ),

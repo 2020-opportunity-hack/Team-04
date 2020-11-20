@@ -36,6 +36,19 @@ class _CreateInventoryItemState extends State<CreateInventoryItem> {
       );
     }
 
+    Widget createSectionContainer(List<Widget> children) {
+      return Container(
+        margin: EdgeInsets.only(top: 15, left: 5, right: 5),
+        padding: EdgeInsets.all(10),
+        decoration: BoxDecoration(
+            border: Border.all(color: Colors.grey, width: 3),
+            borderRadius: BorderRadius.circular(5)),
+        child: Column(
+          children: children,
+        ),
+      );
+    }
+
     final heading = Container(
       margin: EdgeInsets.fromLTRB(5.0, 15.0, 20.0, 30.0),
       alignment: Alignment.center,
@@ -120,16 +133,29 @@ class _CreateInventoryItemState extends State<CreateInventoryItem> {
         onChanged: (val) {
           setState(() {
             width = val;
+          });
         });
-    });
+
+    final removeMaterialButton = Container(
+      margin: EdgeInsets.only(top: 5),
+      child: ElevatedButton(onPressed: () {}, child: Text('Remove')),
+    );
 
     Widget _materialRow() {
-      return Column(
-        children: [
-          materialTypeInput,
-          numberLengthInput,
-          widthInput
-        ],
+      return Container(
+        margin: EdgeInsets.only(top: 15, left: 5, right: 5),
+        padding: EdgeInsets.all(10),
+        decoration: BoxDecoration(
+            border: Border.all(color: Colors.grey, width: 3),
+            borderRadius: BorderRadius.circular(5)),
+        child: Column(
+          children: [
+            materialTypeInput,
+            numberLengthInput,
+            widthInput,
+            removeMaterialButton
+          ],
+        ),
       );
     }
 
@@ -163,7 +189,10 @@ class _CreateInventoryItemState extends State<CreateInventoryItem> {
         onPressed: () {
           Navigator.push(
             context,
-            MaterialPageRoute(builder: (context) => CreateInventoryItemTwo()),
+            MaterialPageRoute(builder: (context) => CreateInventoryItemTwo(
+                createSectionContainerfn: createSectionContainer,
+              )
+            ),
           );
           writeData();
         },
@@ -198,8 +227,8 @@ class _CreateInventoryItemState extends State<CreateInventoryItem> {
       appBar: AppBar(
         title: Text('Payir - Thoorgayi'),
       ),
-      body: SingleChildScrollView(
-        child: Center(
+      body: Center(
+        child: SingleChildScrollView(
           child: Container(
             padding: EdgeInsets.fromLTRB(20.0, 0.0, 10.0, 0.0),
             child: Column(
@@ -208,25 +237,26 @@ class _CreateInventoryItemState extends State<CreateInventoryItem> {
                 Form(
                   child: ConstrainedBox(
                     constraints: new BoxConstraints(
-                      maxWidth: 300.0,
+                      maxWidth: MediaQuery.of(context).size.width - 50,
                     ),
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: <Widget>[
-                        itemCodeInput,
-                        itemDescriptionInput,
-                        _customHeading('Material Type'),
-                        Column(children: [
-                          _materialRow(),
-                          materialListView,
-                          ],
-                        
-                        ),
-                        
-                        Container(
-                            padding: EdgeInsets.only(top: 10.0),
-                            child: addMaterialButton),
+                        createSectionContainer(
+                            [itemCodeInput, itemDescriptionInput]),
+                        createSectionContainer([
+                          _customHeading('Material Type'),
+                          Column(
+                            children: [
+                              _materialRow(),
+                              materialListView,
+                            ],
+                          ),
+                          Container(
+                              padding: EdgeInsets.only(top: 10.0),
+                              child: addMaterialButton),
+                        ]),
                         SizedBox(
                           height: 35,
                         ),
