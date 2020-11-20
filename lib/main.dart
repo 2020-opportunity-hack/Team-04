@@ -1,4 +1,7 @@
+import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_database/firebase_database.dart';
 import 'package:easy_localization/easy_localization.dart';
+
 import 'package:flutter/material.dart';
 // import 'package:carousel_pro/carousel_pro.dart';
 
@@ -9,6 +12,8 @@ import 'package:modal_progress_hud/modal_progress_hud.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 void main() {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
   runApp(EasyLocalization(
     supportedLocales: [Locale('en', 'US'), Locale('ta', 'IN')],
     path: 'lib/assets/translations',
@@ -66,6 +71,9 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
+  final fb = FirebaseDatabase.instance;
+  final myController = TextEditingController();
+  final name = "Name";
   TextStyle style = TextStyle(fontFamily: 'Montserrat', fontSize: 20.0);
   final _auth = FirebaseAuth.instance;
   bool showProgress = false;
