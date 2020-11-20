@@ -41,7 +41,16 @@ class _CreateInventoryItemState extends State<CreateInventoryItem> {
         margin: EdgeInsets.only(top: 15, left: 5, right: 5),
         padding: EdgeInsets.all(10),
         decoration: BoxDecoration(
-            border: Border.all(color: Colors.grey, width: 3),
+            color: Colors.white,
+            // border: Border.all(color: Colors.grey, width: 1),
+            boxShadow: [
+              BoxShadow(
+                color: Colors.black.withOpacity(0.2),
+                spreadRadius: 3,
+                blurRadius: 7,
+                offset: Offset(0, 3), // changes position of shadow
+              ),
+            ],
             borderRadius: BorderRadius.circular(5)),
         child: Column(
           children: children,
@@ -143,10 +152,11 @@ class _CreateInventoryItemState extends State<CreateInventoryItem> {
 
     Widget _materialRow() {
       return Container(
+
         margin: EdgeInsets.only(top: 15, left: 5, right: 5),
         padding: EdgeInsets.all(10),
         decoration: BoxDecoration(
-            border: Border.all(color: Colors.grey, width: 3),
+            border: Border.all(color: Colors.grey[200], width: 3),
             borderRadius: BorderRadius.circular(5)),
         child: Column(
           children: [
@@ -243,14 +253,20 @@ class _CreateInventoryItemState extends State<CreateInventoryItem> {
                               padding: EdgeInsets.only(top: 10.0),
                               child: addMaterialButton),
                         ]),
-                        SizedBox(
-                          height: 35,
-                        ),
-                        nextButton,
-                        SizedBox(
-                          height: 35,
-                        ),
-                        backButton,
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                          Container(
+                            margin: const EdgeInsets.symmetric(horizontal: 10, vertical: 25),
+                            width: MediaQuery.of(context).size.width / 3,
+                            child: nextButton),
+                          Container(
+                            margin: const EdgeInsets.symmetric(horizontal: 10, vertical: 25),
+                            width: MediaQuery.of(context).size.width / 3,
+                            child: backButton),
+                        ],),
+                        
                       ],
                     ),
                   ),

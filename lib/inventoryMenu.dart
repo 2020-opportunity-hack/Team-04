@@ -17,8 +17,8 @@ class InventoryMenu extends StatelessWidget {
       },
       child: Text("Create item",
           textAlign: TextAlign.center,
-          style: style.copyWith(
-              color: Colors.white, fontWeight: FontWeight.bold)),
+          style:
+              style.copyWith(color: Colors.white, fontWeight: FontWeight.bold)),
     );
 
     final editButton = ElevatedButton(
@@ -30,8 +30,8 @@ class InventoryMenu extends StatelessWidget {
       },
       child: Text("Edit item",
           textAlign: TextAlign.center,
-          style: style.copyWith(
-              color: Colors.white, fontWeight: FontWeight.bold)),
+          style:
+              style.copyWith(color: Colors.white, fontWeight: FontWeight.bold)),
     );
 
     final viewButton = ElevatedButton(
@@ -43,8 +43,8 @@ class InventoryMenu extends StatelessWidget {
       },
       child: Text("View all items",
           textAlign: TextAlign.center,
-          style: style.copyWith(
-              color: Colors.white, fontWeight: FontWeight.bold)),
+          style:
+              style.copyWith(color: Colors.white, fontWeight: FontWeight.bold)),
     );
 
     return Scaffold(
@@ -69,22 +69,22 @@ class InventoryMenu extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.center,
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
-
                 Container(
-                  width: MediaQuery.of(context).size.width - 50,
-                  margin: const EdgeInsets.all(20),
-                  child: createButton
-                  ),
-
+                    width: MediaQuery.of(context).size.width - 50,
+                    margin: const EdgeInsets.symmetric(
+                        horizontal: 35, vertical: 20),
+                        
+                    child: createButton),
                 Container(
-                  width: MediaQuery.of(context).size.width - 50,
-                  margin: const EdgeInsets.all(20),
-                  child: editButton),
-
+                    width: MediaQuery.of(context).size.width - 50,
+                    margin: const EdgeInsets.symmetric(
+                        horizontal: 35, vertical: 20),
+                    child: editButton),
                 Container(
-                  width: MediaQuery.of(context).size.width - 50,
-                  margin: const EdgeInsets.all(20),
-                  child: viewButton)
+                    width: MediaQuery.of(context).size.width - 50,
+                    margin: const EdgeInsets.symmetric(
+                        horizontal: 35, vertical: 20),
+                    child: viewButton)
               ],
             ),
           ),

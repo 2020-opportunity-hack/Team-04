@@ -45,14 +45,16 @@ class MyApp extends StatelessWidget {
         buttonColor: Colors.purple[600],
         elevatedButtonTheme: ElevatedButtonThemeData(
             style: ButtonStyle(
-          elevation: MaterialStateProperty.all<double>(5),
-          backgroundColor: MaterialStateProperty.all<Color>(Colors.purple[600]),
-        )),
+            elevation: MaterialStateProperty.all<double>(7),
+            backgroundColor: MaterialStateProperty.all<Color>(Colors.purple[600]),
+            )
+        ),
         textTheme: TextTheme(
           headline1: TextStyle(fontSize: 72.0, fontWeight: FontWeight.bold),
           headline6: TextStyle(fontSize: 36.0, fontStyle: FontStyle.italic),
           bodyText2: TextStyle(fontSize: 14.0, fontFamily: 'Hind'),
         ),
+        
         // This makes the visual density adapt to the platform that you run
         // the app on. For desktop platforms, the controls will be smaller and
         // closer together (more dense) than on mobile platforms.
@@ -92,6 +94,7 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   Widget build(BuildContext context) {
+
     final emailField = TextField(
       obscureText: false,
       style: style,
@@ -166,16 +169,13 @@ class _MyHomePageState extends State<MyHomePage> {
             child: Text('EN')));
 
     final taLangButton = Container(
-        margin: const EdgeInsets.all(5),
-        child: ElevatedButton(
-        onPressed: () {
-          context.locale = Locale('ta', 'IN');
-        },
-        child: Text('TA')),
-
+      margin: const EdgeInsets.all(5),
+      child: ElevatedButton(
+          onPressed: () {
+            context.locale = Locale('ta', 'IN');
+          },
+          child: Text('TA')),
     );
-
-    
 
     return Scaffold(
       body: SingleChildScrollView(
@@ -200,13 +200,13 @@ class _MyHomePageState extends State<MyHomePage> {
                   SizedBox(height: 25.0),
                   passwordField,
                   Container(
-                    margin: const EdgeInsets.only(top: 30),
-                    width: MediaQuery.of(context).size.width - 50,
-                    child: loginButton),
+                      margin: const EdgeInsets.only(top: 30),
+                      width: MediaQuery.of(context).size.width - 50,
+                      child: loginButton),
                   Container(
-                    margin: const EdgeInsets.only(top: 10),
-                    width: MediaQuery.of(context).size.width - 50,
-                    child: signUpButton),
+                      margin: const EdgeInsets.only(top: 10),
+                      width: MediaQuery.of(context).size.width - 50,
+                      child: signUpButton),
                   SizedBox(
                     height: 15.0,
                   ),
@@ -294,6 +294,7 @@ class FirstRoute extends StatelessWidget {
               style.copyWith(color: Colors.white, fontWeight: FontWeight.bold)),
     );
 
+    
     return Scaffold(
       appBar: AppBar(
         title: Text('Payir - Thoorgayi'),
@@ -309,20 +310,30 @@ class FirstRoute extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
                   Container(
-                    width: MediaQuery.of(context).size.width - 50,
-                    margin: const EdgeInsets.all(20), child: invoiceButton),
+                      width: MediaQuery.of(context).size.width - 50,
+                      margin: const EdgeInsets.symmetric(
+                          horizontal: 35, vertical: 20),
+                      child: invoiceButton),
                   Container(
-                    width: MediaQuery.of(context).size.width - 50,
-                    margin: const EdgeInsets.all(20), child: salesButton),
+                      width: MediaQuery.of(context).size.width - 50,
+                      margin: const EdgeInsets.symmetric(
+                          horizontal: 35, vertical: 20),
+                      child: salesButton),
                   Container(
-                    width: MediaQuery.of(context).size.width - 50,
-                    margin: const EdgeInsets.all(20), child: purchaseButton),
+                      width: MediaQuery.of(context).size.width - 50,
+                      margin: const EdgeInsets.symmetric(
+                          horizontal: 35, vertical: 20),
+                      child: purchaseButton),
                   Container(
-                    width: MediaQuery.of(context).size.width - 50,
-                    margin: const EdgeInsets.all(20), child: inventoryButton),
+                      width: MediaQuery.of(context).size.width - 50,
+                      margin: const EdgeInsets.symmetric(
+                          horizontal: 35, vertical: 20),
+                      child: inventoryButton),
                   Container(
-                    width: MediaQuery.of(context).size.width - 50,
-                    margin: const EdgeInsets.all(20), child: reportButton)
+                      width: MediaQuery.of(context).size.width - 50,
+                      margin: const EdgeInsets.symmetric(
+                          horizontal: 35, vertical: 20),
+                      child: reportButton)
                 ],
               ),
             ),

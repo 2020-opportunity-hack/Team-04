@@ -120,7 +120,14 @@ class _CreateInventoryItemTwoState extends State<CreateInventoryItemTwo> {
       },
     );
 
-    final removeOtherButton = ElevatedButton(onPressed: null, child: Text('x'));
+    final removeOtherButton = ElevatedButton(
+      onPressed: null,
+      child: Text('x'),
+      style: ButtonStyle(
+        elevation: MaterialStateProperty.all<double>(3),
+        backgroundColor: MaterialStateProperty.all<Color>(Colors.grey[300]),
+      ),
+    );
 
     Widget _otherRow() {
       return Row(
@@ -182,19 +189,6 @@ class _CreateInventoryItemTwoState extends State<CreateInventoryItemTwo> {
               color: Colors.white, fontWeight: FontWeight.bold)),
     );
 
-    // Widget _createSectionContainer(List <Widget> children) {
-    //   return Container(
-    //       margin: EdgeInsets.only(top: 15, left: 5, right: 5),
-    //       padding: EdgeInsets.all(10),
-    //       decoration: BoxDecoration(
-    //           border: Border.all(color: Colors.grey, width: 3),
-    //           borderRadius: BorderRadius.circular(5)),
-    //       child: Column(
-    //         children: children,
-    //       ),
-    //     );
-    // }
-
     return Scaffold(
       appBar: AppBar(
         title: Text('Payir - Thoorgayi'),
@@ -233,14 +227,20 @@ class _CreateInventoryItemTwoState extends State<CreateInventoryItemTwo> {
                               padding: EdgeInsets.only(top: 10.0),
                               child: addOtherButton),
                         ]),
-                        SizedBox(
-                          height: 35,
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                          Container(
+                            margin: const EdgeInsets.symmetric(horizontal: 10, vertical: 25),
+                            width: MediaQuery.of(context).size.width / 3,
+                            child: nextButton),
+                          Container(
+                            margin: const EdgeInsets.symmetric(horizontal: 10, vertical: 25),
+                            width: MediaQuery.of(context).size.width / 3,
+                            child: backButton),
+                          ],
                         ),
-                        nextButton,
-                        SizedBox(
-                          height: 35,
-                        ),
-                        backButton,
                       ],
                     ),
                   ),
