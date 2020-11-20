@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:ohack/main.dart';
 import 'package:modal_progress_hud/modal_progress_hud.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:easy_localization/easy_localization.dart';
+
 
 class SignUp extends StatefulWidget {
   @override
@@ -67,7 +69,7 @@ class _SignUpState extends State<SignUp> {
         child: Text("Login",
             textAlign: TextAlign.center,
             style: style.copyWith(
-                color: Colors.white, fontWeight: FontWeight.bold)),
+                color: Colors.white, fontWeight: FontWeight.bold)).tr(),
       ),
     );
 
@@ -104,48 +106,50 @@ class _SignUpState extends State<SignUp> {
         //     MaterialPageRoute(builder: (context) => MyHomePage()),
         //   );
         // },
-        child: Text("Sign Up",
+        child: Text("Sign_Up",
             textAlign: TextAlign.center,
             style: style.copyWith(
-                color: Colors.white, fontWeight: FontWeight.bold)),
+                color: Colors.white, fontWeight: FontWeight.bold)).tr(),
       ),
     );
 
     return Scaffold(
-      body: Center(
-        child: Container(
-          color: Colors.white,
-          child: Padding(
-            padding: const EdgeInsets.all(20.0),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                SizedBox(
-                  height: 125.0,
-                  child: Image.asset(
-                    "lib/assets/images/logo.png",
-                    fit: BoxFit.contain,
-                  ),
-                ),
-                SizedBox(height: 45.0),
-                emailField,
-                SizedBox(height: 25.0),
-                passwordField,
-                // SizedBox(height: 25.0),
-                // reEnterPasswordField,
-                SizedBox(
-                  height: 35.0,
-                ),
-                signUpButton,
-                SizedBox(
-                  height: 15.0,
-                ),
-                loginButon
-              ],
-            ),
+      body: SingleChildScrollView(
+        child: Center(
+         child: Container(
+           color: Colors.white,
+           child: Padding(
+             padding: const EdgeInsets.all(20.0),
+             child: Column(
+               crossAxisAlignment: CrossAxisAlignment.center,
+               mainAxisAlignment: MainAxisAlignment.center,
+               children: <Widget>[
+                 SizedBox(
+                   height: 125.0,
+                   child: Image.asset(
+                     "lib/assets/images/logo.png",
+                     fit: BoxFit.contain,
+                   ),
+                 ),
+                 SizedBox(height: 45.0),
+                 emailField,
+                 SizedBox(height: 25.0),
+                 passwordField,
+                 // SizedBox(height: 25.0),
+                 // reEnterPasswordField,
+                 SizedBox(
+                   height: 35.0,
+                 ),
+                 signUpButton,
+                 SizedBox(
+                   height: 15.0,
+                 ),
+                 loginButon
+               ],
+             ),
+           ),
+         ),
           ),
-        ),
       ),
     );
   }
