@@ -65,7 +65,7 @@ flutter:
     - images/Bags.jpg
     - images/tshirt.png
     - images/c1.jpg
-    - lib/assets/images/logo.png
+    - lib/assets/images/logo.jpg
     - lib/assets/translations/
 
   # An image asset can refer to one or more resolution-specific "variants", see

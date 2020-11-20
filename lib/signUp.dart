@@ -128,7 +128,7 @@ class _SignUpState extends State<SignUp> {
                  SizedBox(
                    height: 125.0,
                    child: Image.asset(
-                     "lib/assets/images/logo.png",
+                     "lib/assets/images/logo.jpg",
                      fit: BoxFit.contain,
                    ),
                  ),
