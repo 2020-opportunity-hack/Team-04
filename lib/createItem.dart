@@ -1,3 +1,4 @@
+import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'main.dart';
 import 'package:ohack/createItemTwo.dart';
@@ -8,6 +9,13 @@ class CreateInventoryItem extends StatefulWidget {
 }
 
 class _CreateInventoryItemState extends State<CreateInventoryItem> {
+
+  final fbInstance = FirebaseDatabase.instance.reference().child("inventory");
+  String itemCode;
+  String material;
+  String numLen;
+  String width;
+
   @override
   Widget build(BuildContext context) {
     TextStyle style = TextStyle(fontFamily: 'Montserrat', fontSize: 20.0);
@@ -25,64 +33,85 @@ class _CreateInventoryItemState extends State<CreateInventoryItem> {
     );
 
     final itemCodeInput = TextFormField(
-      decoration: InputDecoration(labelText: 'Item Code'),
-      validator: (value) {
-        if (value.isEmpty) {
-          return 'Please enter an item code';
+        decoration: InputDecoration(labelText: 'Item Code'),
+        validator: (value) {
+          if (value.isEmpty) {
+            return 'Please enter an item code';
+          }
+          // need to validate if item code exist
+          return null;
+        },
+        onChanged: (val) {
+          setState(() {
+            itemCode = val;
+          });
         }
-        // need to validate if item code exist
-        return null;
-      },
     );
 
     final materialTypeInput = TextFormField(
-      decoration: InputDecoration(labelText: 'Material'),
-      validator: (value) {
-        if (value.isEmpty) {
-          return 'Please enter an material';
+        decoration: InputDecoration(labelText: 'Material'),
+        validator: (value) {
+          if (value.isEmpty) {
+            return 'Please enter an material';
+          }
+          // need to validate if item code exist
+          return null;
+        },
+        onChanged: (val) {
+          setState(() {
+            material = val;
+          });
         }
-        // need to validate if item code exist
-        return null;
-      },
     );
 
     final numberLengthInput = TextFormField(
-      decoration: InputDecoration(labelText: 'Number / Length:'),
-      validator: (value) {
-        if (value.isEmpty) {
-          return 'Please enter Number / Length';
+        decoration: InputDecoration(labelText: 'Number / Length:'),
+        validator: (value) {
+          if (value.isEmpty) {
+            return 'Please enter Number / Length';
+          }
+          // need to validate if item code exist
+          return null;
+        },
+        onChanged: (val) {
+          setState(() {
+            numLen = val;
+          });
         }
-        // need to validate if item code exist
-        return null;
-      },
     );
 
     final widthInput = TextFormField(
-      decoration: InputDecoration(labelText: 'Width:'),
-      validator: (value) {
-        if (value.isEmpty) {
-          return 'Please enter width';
+        decoration: InputDecoration(labelText: 'Width:'),
+        validator: (value) {
+          if (value.isEmpty) {
+            return 'Please enter width';
+          }
+          // need to validate if item code exist
+          return null;
+        },
+        onChanged: (val) {
+          setState(() {
+            width = val;
+          });
         }
-        // need to validate if item code exist
-        return null;
-      },
     );
-
-    final buttonStyle = ButtonStyle(
-        backgroundColor: MaterialStateProperty.all<Color>(Colors.grey));
 
     final nextButton = Material(
       elevation: 5.0,
       borderRadius: BorderRadius.circular(30.0),
       color: Colors.blue,
       child: MaterialButton(
-        minWidth: MediaQuery.of(context).size.width,
+        minWidth: MediaQuery
+            .of(context)
+            .size
+            .width,
         padding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
         onPressed: () {
           Navigator.push(
             context,
             MaterialPageRoute(builder: (context) => CreateInventoryItemTwo()),
           );
+          writeData();
         },
         child: Text("Next",
             textAlign: TextAlign.center,
@@ -96,7 +125,10 @@ class _CreateInventoryItemState extends State<CreateInventoryItem> {
       borderRadius: BorderRadius.circular(30.0),
       color: Colors.blue,
       child: MaterialButton(
-        minWidth: MediaQuery.of(context).size.width,
+        minWidth: MediaQuery
+            .of(context)
+            .size
+            .width,
         padding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
         onPressed: () {
           Navigator.push(
@@ -162,5 +194,13 @@ class _CreateInventoryItemState extends State<CreateInventoryItem> {
         ),
       ),
     );
+  }
+  void writeData() {
+    fbInstance.child("deliverable_product").push().set({
+      "item_code": itemCode,
+      "material": material,
+      "number_length": numLen,
+      "width": width
+    });
   }
 }
