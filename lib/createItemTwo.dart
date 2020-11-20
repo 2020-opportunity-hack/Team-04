@@ -17,7 +17,7 @@ class _CreateInventoryItemTwoState extends State<CreateInventoryItemTwo> {
 
     final heading = Container(
       margin: EdgeInsets.fromLTRB(5.0, 15.0, 20.0, 30.0),
-      alignment: new FractionalOffset(0.2, -0.05),
+      alignment: Alignment.center,
       child: Text(
         'Create Inventory Item',
         textAlign: TextAlign.center,
@@ -117,9 +117,9 @@ class _CreateInventoryItemTwoState extends State<CreateInventoryItemTwo> {
     Widget _otherRow() {
       return Row(
         children: [
-          Expanded(flex: 2, child: emptyFieldInput),
+          Expanded(flex: 3, child: emptyFieldInput),
           Expanded(flex: 1, child: SizedBox()),
-          Expanded(flex: 2, child: emptyValueInput)
+          Expanded(flex: 3, child: emptyValueInput)
         ],
       );
     }
@@ -138,6 +138,7 @@ class _CreateInventoryItemTwoState extends State<CreateInventoryItemTwo> {
 
     Widget otherListView = ListView.builder(
       itemCount: otherList.length,
+      shrinkWrap: true,
       itemBuilder: (context, index) {
         return otherList[index];
       },
@@ -195,33 +196,38 @@ class _CreateInventoryItemTwoState extends State<CreateInventoryItemTwo> {
               children: [
                 heading,
                 Form(
-                  child: Column(
-                    children: [
-                      _customHeading('Labor'),
-                      cuttingInput,
-                      stitchingInput,
-                      otherInput,
-                      _customHeading('Cost'),
-                      transportInput,
-                      costInput,
-                      saleInput,
-                      _customHeading('Other'),
-                      
-                      _otherRow(),
-                      
-                      SizedBox(height: 100, child: otherListView),
-                      Container(
-                          padding: EdgeInsets.only(top: 10.0),
-                          child: addOtherButton),
-                      SizedBox(
-                        height: 35,
-                      ),
-                      nextButton,
-                      SizedBox(
-                        height: 35,
-                      ),
-                      backButton,
-                    ],
+                  child: ConstrainedBox(
+                    constraints: new BoxConstraints(
+                      maxWidth: 300.0,
+                    ),
+                    child: Column(
+                      children: [
+                        _customHeading('Labor'),
+                        cuttingInput,
+                        stitchingInput,
+                        otherInput,
+                        _customHeading('Cost'),
+                        transportInput,
+                        costInput,
+                        saleInput,
+                        _customHeading('Other'),
+                        
+                        _otherRow(),
+                        
+                        otherListView,
+                        Container(
+                            padding: EdgeInsets.only(top: 10.0),
+                            child: addOtherButton),
+                        SizedBox(
+                          height: 35,
+                        ),
+                        nextButton,
+                        SizedBox(
+                          height: 35,
+                        ),
+                        backButton,
+                      ],
+                    ),
                   ),
                 )
               ],

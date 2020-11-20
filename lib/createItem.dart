@@ -9,20 +9,36 @@ class CreateInventoryItem extends StatefulWidget {
 }
 
 class _CreateInventoryItemState extends State<CreateInventoryItem> {
-
   final fbInstance = FirebaseDatabase.instance.reference().child("inventory");
   String itemCode;
+  String description;
   String material;
   String numLen;
   String width;
 
+  final List<Widget> materialTypeList = [];
+
   @override
   Widget build(BuildContext context) {
-    TextStyle style = TextStyle(fontFamily: 'Montserrat', fontSize: 20.0);
+    TextStyle style = TextStyle(
+        fontFamily: 'Montserrat', fontSize: 20.0, fontWeight: FontWeight.bold);
+
+    Widget _customHeading(headingName) {
+      return Container(
+        margin: EdgeInsets.only(top: 15.0, bottom: 5.0),
+        child: Text(
+          headingName,
+          textAlign: TextAlign.center,
+          style: style.copyWith(
+            fontSize: 18,
+          ),
+        ),
+      );
+    }
 
     final heading = Container(
       margin: EdgeInsets.fromLTRB(5.0, 15.0, 20.0, 30.0),
-      alignment: new FractionalOffset(0.2, -0.05),
+      alignment: Alignment.center,
       child: Text(
         'Create Inventory Item',
         textAlign: TextAlign.center,
@@ -45,8 +61,22 @@ class _CreateInventoryItemState extends State<CreateInventoryItem> {
           setState(() {
             itemCode = val;
           });
-        }
-    );
+        });
+
+    final itemDescriptionInput = TextFormField(
+        decoration: InputDecoration(labelText: 'Description'),
+        validator: (value) {
+          if (value.isEmpty) {
+            return 'Please enter an item code';
+          }
+          // need to validate if item code exist
+          return null;
+        },
+        onChanged: (val) {
+          setState(() {
+            itemCode = val;
+          });
+        });
 
     final materialTypeInput = TextFormField(
         decoration: InputDecoration(labelText: 'Material'),
@@ -61,8 +91,7 @@ class _CreateInventoryItemState extends State<CreateInventoryItem> {
           setState(() {
             material = val;
           });
-        }
-    );
+        });
 
     final numberLengthInput = TextFormField(
         decoration: InputDecoration(labelText: 'Number / Length:'),
@@ -77,8 +106,7 @@ class _CreateInventoryItemState extends State<CreateInventoryItem> {
           setState(() {
             numLen = val;
           });
-        }
-    );
+        });
 
     final widthInput = TextFormField(
         decoration: InputDecoration(labelText: 'Width:'),
@@ -92,8 +120,37 @@ class _CreateInventoryItemState extends State<CreateInventoryItem> {
         onChanged: (val) {
           setState(() {
             width = val;
-          });
-        }
+        });
+    });
+
+    Widget _materialRow() {
+      return Column(
+        children: [
+          materialTypeInput,
+          numberLengthInput,
+          widthInput
+        ],
+      );
+    }
+
+    final addMaterialButton = ElevatedButton(
+      onPressed: () {
+        setState(() {
+          materialTypeList.add(_materialRow());
+        });
+      },
+      child: Text("+ Add Material Type",
+          textAlign: TextAlign.center,
+          style:
+              style.copyWith(color: Colors.white, fontWeight: FontWeight.bold)),
+    );
+
+    Widget materialListView = ListView.builder(
+      itemCount: materialTypeList.length,
+      shrinkWrap: true,
+      itemBuilder: (context, index) {
+        return materialTypeList[index];
+      },
     );
 
     final nextButton = Material(
@@ -101,10 +158,7 @@ class _CreateInventoryItemState extends State<CreateInventoryItem> {
       borderRadius: BorderRadius.circular(30.0),
       color: Colors.blue,
       child: MaterialButton(
-        minWidth: MediaQuery
-            .of(context)
-            .size
-            .width,
+        minWidth: MediaQuery.of(context).size.width,
         padding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
         onPressed: () {
           Navigator.push(
@@ -125,10 +179,7 @@ class _CreateInventoryItemState extends State<CreateInventoryItem> {
       borderRadius: BorderRadius.circular(30.0),
       color: Colors.blue,
       child: MaterialButton(
-        minWidth: MediaQuery
-            .of(context)
-            .size
-            .width,
+        minWidth: MediaQuery.of(context).size.width,
         padding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
         onPressed: () {
           Navigator.push(
@@ -155,21 +206,37 @@ class _CreateInventoryItemState extends State<CreateInventoryItem> {
               children: [
                 heading,
                 Form(
-                  child: Column(
-                    children: <Widget>[
-                      itemCodeInput,
-                      materialTypeInput,
-                      numberLengthInput,
-                      widthInput,
-                      SizedBox(
-                        height: 35,
-                      ),
-                      nextButton,
-                      SizedBox(
-                        height: 35,
-                      ),
-                      backButton,
-                    ],
+                  child: ConstrainedBox(
+                    constraints: new BoxConstraints(
+                      maxWidth: 300.0,
+                    ),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: <Widget>[
+                        itemCodeInput,
+                        itemDescriptionInput,
+                        _customHeading('Material Type'),
+                        Column(children: [
+                          _materialRow(),
+                          materialListView,
+                          ],
+                        
+                        ),
+                        
+                        Container(
+                            padding: EdgeInsets.only(top: 10.0),
+                            child: addMaterialButton),
+                        SizedBox(
+                          height: 35,
+                        ),
+                        nextButton,
+                        SizedBox(
+                          height: 35,
+                        ),
+                        backButton,
+                      ],
+                    ),
                   ),
                 )
               ],
@@ -179,6 +246,7 @@ class _CreateInventoryItemState extends State<CreateInventoryItem> {
       ),
     );
   }
+
   void writeData() {
     fbInstance.child("deliverable_product").push().set({
       "item_code": itemCode,
