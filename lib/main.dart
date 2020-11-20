@@ -6,6 +6,8 @@ import 'package:carousel_pro/carousel_pro.dart';
 import 'package:ohack/horizontal.dart';
 import 'package:ohack/signUp.dart';
 import 'package:ohack/inventoryMenu.dart';
+import 'package:modal_progress_hud/modal_progress_hud.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -63,6 +65,9 @@ class _MyHomePageState extends State<MyHomePage> {
   final myController = TextEditingController();
   final name = "Name";
   TextStyle style = TextStyle(fontFamily: 'Montserrat', fontSize: 20.0);
+  final _auth = FirebaseAuth.instance;
+  bool showProgress = false;
+  String email, password;
 
   @override
   Widget build(BuildContext context) {
@@ -70,6 +75,9 @@ class _MyHomePageState extends State<MyHomePage> {
     final emailField = TextField(
       obscureText: false,
       style: style,
+      onChanged: (value) {
+        email = value;
+      },
       decoration: InputDecoration(
           contentPadding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
           hintText: "Email",
@@ -79,6 +87,9 @@ class _MyHomePageState extends State<MyHomePage> {
     final passwordField = TextField(
       obscureText: true,
       style: style,
+      onChanged: (value) {
+        password = value;
+      },
       decoration: InputDecoration(
           contentPadding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
           hintText: "Password",
@@ -93,12 +104,35 @@ class _MyHomePageState extends State<MyHomePage> {
       child: MaterialButton(
         minWidth: MediaQuery.of(context).size.width,
         padding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
-        onPressed: () {
-          Navigator.push(
-            context,
-            MaterialPageRoute(builder: (context) => FirstRoute()),
-          );
+
+        onPressed: () async {
+          setState(() {
+            showProgress = true;
+          });
+          try {
+            final newUser = await _auth.signInWithEmailAndPassword(
+                email: email, password: password);
+            print(newUser.toString());
+            if (newUser != null) {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => FirstRoute()),
+              );
+
+              setState(() {
+                showProgress = false;
+              });
+            }
+          } catch (e) {}
         },
+
+        // onPressed: () {
+        //   Navigator.push(
+        //     context,
+        //     MaterialPageRoute(builder: (context) => FirstRoute()),
+        //   );
+        // },
+
         child: Text("Login",
             textAlign: TextAlign.center,
             style: style.copyWith(
