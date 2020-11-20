@@ -15,12 +15,10 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
   runApp(EasyLocalization(
-    supportedLocales: [Locale('en', 'US'), Locale('ta', 'IN')],
-    path: 'lib/assets/translations',
-    fallbackLocale: Locale('en', 'US'),
-    child: MyApp()
-    )
-  );
+      supportedLocales: [Locale('en', 'US'), Locale('ta', 'IN')],
+      path: 'lib/assets/translations',
+      fallbackLocale: Locale('en', 'US'),
+      child: MyApp()));
 }
 
 class MyApp extends StatelessWidget {
@@ -42,8 +40,15 @@ class MyApp extends StatelessWidget {
         // Notice that the counter didn't reset back to zero; the application
         // is not restarted.
         // primarySwatch: Colors.white,
-        primaryColor: Colors.white,
-        accentColor: Colors.cyan[600],
+        primaryColor: Colors.purple[600],
+        accentColor: Colors.purple[600],
+        buttonColor: Colors.purple[600],
+        elevatedButtonTheme: ElevatedButtonThemeData(
+            style: ButtonStyle(
+          elevation: MaterialStateProperty.all<double>(5),
+          backgroundColor: MaterialStateProperty.all<Color>(Colors.purple[600]),
+          minimumSize: MaterialStateProperty.all<Size>(Size(100, 30)),
+        )),
         textTheme: TextTheme(
           headline1: TextStyle(fontSize: 72.0, fontWeight: FontWeight.bold),
           headline6: TextStyle(fontSize: 36.0, fontStyle: FontStyle.italic),
@@ -110,81 +115,67 @@ class _MyHomePageState extends State<MyHomePage> {
           contentPadding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
           hintText: "Password_Hint".tr(),
           border:
-              OutlineInputBorder(borderRadius: BorderRadius.circular(32.0))
-          ),
+              OutlineInputBorder(borderRadius: BorderRadius.circular(32.0))),
     );
 
-    final loginButon = Material(
-      elevation: 5.0,
-      borderRadius: BorderRadius.circular(30.0),
-      color: Colors.blue,
-      child: MaterialButton(
-        minWidth: MediaQuery.of(context).size.width,
-        padding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
+    final loginButton = ElevatedButton(
+      onPressed: () async {
+        setState(() {
+          showProgress = true;
+        });
+        try {
+          final newUser = await _auth.signInWithEmailAndPassword(
+              email: email, password: password);
+          print(newUser.toString());
+          if (newUser != null) {
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => FirstRoute()),
+            );
 
-        onPressed: () async {
-          setState(() {
-            showProgress = true;
-          });
-          try {
-            final newUser = await _auth.signInWithEmailAndPassword(
-                email: email, password: password);
-            print(newUser.toString());
-            if (newUser != null) {
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => FirstRoute()),
-              );
+            setState(() {
+              showProgress = false;
+            });
+          }
+        } catch (e) {}
+      },
 
-              setState(() {
-                showProgress = false;
-              });
-            }
-          } catch (e) {}
-        },
+      // onPressed: () {
+      //   Navigator.push(
+      //     context,
+      //     MaterialPageRoute(builder: (context) => FirstRoute()),
+      //   );
+      // },
 
-        // onPressed: () {
-        //   Navigator.push(
-        //     context,
-        //     MaterialPageRoute(builder: (context) => FirstRoute()),
-        //   );
-        // },
-
-        child: Text("Login".tr(),
-            textAlign: TextAlign.center,
-            style: style.copyWith(
-                color: Colors.white, fontWeight: FontWeight.bold)
-            ),
-      ),
+      child: Text("Login".tr(),
+          textAlign: TextAlign.center,
+          style:
+              style.copyWith(color: Colors.white, fontWeight: FontWeight.bold)),
     );
 
-    final signUpButton = Material(
-      elevation: 5.0,
-      borderRadius: BorderRadius.circular(30.0),
-      color: Colors.blue,
-      child: MaterialButton(
-        minWidth: MediaQuery.of(context).size.width,
-        padding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
+    final signUpButton = ElevatedButton(
+      onPressed: () {
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => SignUp()),
+        );
+      },
+      child: Text("Sign_Up".tr(),
+          textAlign: TextAlign.center,
+          style:
+              style.copyWith(color: Colors.white, fontWeight: FontWeight.bold)),
+    );
+
+    final enLangButton = ElevatedButton(
         onPressed: () {
-          Navigator.push(
-            context,
-            MaterialPageRoute(builder: (context) => SignUp()),
-          );
+          context.locale = Locale('en', 'US');
         },
-        child: Text("Sign_Up".tr(),
-            textAlign: TextAlign.center,
-            style: style.copyWith(
-                color: Colors.white, fontWeight: FontWeight.bold)
-            ),
-      ),
-    );
-
-    final enLangButton = ElevatedButton(onPressed: () {
-      context.locale = Locale('en', 'US');
-    }, child: Text('EN'));
-    final taLangButton = ElevatedButton(onPressed: () {
-      context.locale = Locale('ta', 'IN');
-    }, child: Text('TA'));
+        child: Text('EN'));
+    final taLangButton = ElevatedButton(
+        onPressed: () {
+          context.locale = Locale('ta', 'IN');
+        },
+        child: Text('TA'));
 
     return Scaffold(
       body: SingleChildScrollView(
@@ -211,7 +202,7 @@ class _MyHomePageState extends State<MyHomePage> {
                   SizedBox(
                     height: 35.0,
                   ),
-                  loginButon,
+                  loginButton,
                   SizedBox(
                     height: 15.0,
                   ),
@@ -237,150 +228,104 @@ class FirstRoute extends StatelessWidget {
   Widget build(BuildContext context) {
     TextStyle style = TextStyle(fontFamily: 'Montserrat', fontSize: 20.0);
 
-    final invoiceButton = Material(
-      elevation: 5.0,
-      borderRadius: BorderRadius.circular(30.0),
-      color: Colors.blue,
-      child: MaterialButton(
-        minWidth: MediaQuery.of(context).size.width,
-        padding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
-        onPressed: () {
-          Navigator.push(
-            context,
-            MaterialPageRoute(builder: (context) => MyHomePage()),
-          );
-        },
-        child: Text("Invoice",
-            textAlign: TextAlign.center,
-            style: style.copyWith(
-                color: Colors.white, fontWeight: FontWeight.bold)).tr(),
-      ),
+    final invoiceButton = ElevatedButton(
+      onPressed: () {
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => MyHomePage()),
+        );
+      },
+      child: Text("Invoice",
+              textAlign: TextAlign.center,
+              style: style.copyWith(
+                  color: Colors.white, fontWeight: FontWeight.bold))
+          .tr(),
     );
 
-    final salesButton = Material(
-      elevation: 5.0,
-      borderRadius: BorderRadius.circular(30.0),
-      color: Colors.blue,
-      child: MaterialButton(
-        minWidth: MediaQuery.of(context).size.width,
-        padding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
-        onPressed: () {
-          Navigator.push(
-            context,
-            MaterialPageRoute(builder: (context) => MyHomePage()),
-          );
-        },
-        child: Text("Sales",
-            textAlign: TextAlign.center,
-            style: style.copyWith(
-                color: Colors.white, fontWeight: FontWeight.bold)),
-      ),
+    final salesButton = ElevatedButton(
+      onPressed: () {
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => MyHomePage()),
+        );
+      },
+      child: Text("Sales",
+          textAlign: TextAlign.center,
+          style:
+              style.copyWith(color: Colors.white, fontWeight: FontWeight.bold)),
     );
 
-    final purchaseButton = Material(
-      elevation: 5.0,
-      borderRadius: BorderRadius.circular(30.0),
-      color: Colors.blue,
-      child: MaterialButton(
-        minWidth: MediaQuery.of(context).size.width,
-        padding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
-        onPressed: () {
-          Navigator.push(
-            context,
-            MaterialPageRoute(builder: (context) => MyHomePage()),
-          );
-        },
-        child: Text("Purchase",
-            textAlign: TextAlign.center,
-            style: style.copyWith(
-                color: Colors.white, fontWeight: FontWeight.bold)),
-      ),
+    final purchaseButton = ElevatedButton(
+      onPressed: () {
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => MyHomePage()),
+        );
+      },
+      child: Text("Purchase",
+          textAlign: TextAlign.center,
+          style:
+              style.copyWith(color: Colors.white, fontWeight: FontWeight.bold)),
     );
 
-    final inventoryButton = Material(
-      elevation: 5.0,
-      borderRadius: BorderRadius.circular(30.0),
-      color: Colors.blue,
-      child: MaterialButton(
-        minWidth: MediaQuery.of(context).size.width,
-        padding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
-        onPressed: () {
-          Navigator.push(
-            context,
-            MaterialPageRoute(builder: (context) => InventoryMenu()),
-          );
-        },
-        child: Text("Inventory",
-            textAlign: TextAlign.center,
-            style: style.copyWith(
-                color: Colors.white, fontWeight: FontWeight.bold)),
-      ),
+    final inventoryButton = ElevatedButton(
+      onPressed: () {
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => InventoryMenu()),
+        );
+      },
+      child: Text("Inventory",
+          textAlign: TextAlign.center,
+          style:
+              style.copyWith(color: Colors.white, fontWeight: FontWeight.bold)),
     );
 
-    final reportButton = Material(
-      elevation: 5.0,
-      borderRadius: BorderRadius.circular(30.0),
-      color: Colors.blue,
-      child: MaterialButton(
-        minWidth: MediaQuery.of(context).size.width,
-        padding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
-        onPressed: () {
-          Navigator.push(
-            context,
-            MaterialPageRoute(builder: (context) => MyHomePage()),
-          );
-        },
-        child: Text("Reports",
-            textAlign: TextAlign.center,
-            style: style.copyWith(
-                color: Colors.white, fontWeight: FontWeight.bold)),
-      ),
+    final reportButton = ElevatedButton(
+      onPressed: () {
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => MyHomePage()),
+        );
+      },
+      child: Text("Reports",
+          textAlign: TextAlign.center,
+          style:
+              style.copyWith(color: Colors.white, fontWeight: FontWeight.bold)),
     );
 
     return Scaffold(
       appBar: AppBar(
         title: Text('Payir - Thoorgayi'),
       ),
-      // body: Center(
-      //   child: ElevatedButton(
-      //     child: Text('Open route'),
-      //     onPressed: () {
-      //       // Navigate to second route when tapped.
-      //     },
-      //   ),
-      // ),
-      body: SingleChildScrollView(
-        child: Center(
+      body: Center(
+        child: SingleChildScrollView(
           child: Container(
-            color: Colors.white,
-            child: Padding(
-              padding: const EdgeInsets.all(20.0),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
-                  SizedBox(
-                    height: 35.0,
-                  ),
-                  invoiceButton,
-                  SizedBox(
-                    height: 35.0,
-                  ),
-                  salesButton,
-                  SizedBox(
-                    height: 35.0,
-                  ),
-                  purchaseButton,
-                  SizedBox(
-                    height: 35.0,
-                  ),
-                  inventoryButton,
-                  SizedBox(
-                    height: 35.0,
-                  ),
-                  reportButton
-                ],
-              ),
+            width: MediaQuery.of(context).size.width,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                Container(
+                  margin: const EdgeInsets.all(20),
+                  child: invoiceButton),
+
+                Container(
+                  margin: const EdgeInsets.all(20),
+                  child: salesButton),
+
+                Container(
+                  margin: const EdgeInsets.all(20),
+                  child: purchaseButton),
+
+                Container(
+                  margin: const EdgeInsets.all(20),
+                  child: inventoryButton),
+
+                Container(
+                  margin: const EdgeInsets.all(20),
+                  child: reportButton)
+              ],
             ),
           ),
         ),

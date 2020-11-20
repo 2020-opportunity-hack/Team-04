@@ -4,7 +4,8 @@ import 'package:ohack/createItem.dart';
 
 class CreateInventoryItemTwo extends StatefulWidget {
   final Function createSectionContainerfn;
-  const CreateInventoryItemTwo ({ Key key, this.createSectionContainerfn }): super(key: key);
+  const CreateInventoryItemTwo({Key key, this.createSectionContainerfn})
+      : super(key: key);
 
   @override
   _CreateInventoryItemTwoState createState() => _CreateInventoryItemTwoState();
@@ -12,7 +13,7 @@ class CreateInventoryItemTwo extends StatefulWidget {
 
 class _CreateInventoryItemTwoState extends State<CreateInventoryItemTwo> {
   final List<Widget> otherList = [];
-  
+
   @override
   Widget build(BuildContext context) {
     // testing
@@ -155,44 +156,30 @@ class _CreateInventoryItemTwoState extends State<CreateInventoryItemTwo> {
       },
     );
 
-    final nextButton = Material(
-      elevation: 5.0,
-      borderRadius: BorderRadius.circular(30.0),
-      color: Colors.blue,
-      child: MaterialButton(
-        minWidth: MediaQuery.of(context).size.width,
-        padding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
-        onPressed: () {
-          Navigator.push(
-            context,
-            MaterialPageRoute(builder: (context) => MyHomePage()),
-          );
-        },
-        child: Text("Next",
-            textAlign: TextAlign.center,
-            style: style.copyWith(
-                color: Colors.white, fontWeight: FontWeight.bold)),
-      ),
+    final nextButton = ElevatedButton(
+      onPressed: () {
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => MyHomePage()),
+        );
+      },
+      child: Text("Next",
+          textAlign: TextAlign.center,
+          style: style.copyWith(
+              color: Colors.white, fontWeight: FontWeight.bold)),
     );
 
-    final backButton = Material(
-      elevation: 5.0,
-      borderRadius: BorderRadius.circular(30.0),
-      color: Colors.blue,
-      child: MaterialButton(
-        minWidth: MediaQuery.of(context).size.width,
-        padding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
-        onPressed: () {
-          Navigator.push(
-            context,
-            MaterialPageRoute(builder: (context) => CreateInventoryItem()),
-          );
-        },
-        child: Text("Back",
-            textAlign: TextAlign.center,
-            style: style.copyWith(
-                color: Colors.white, fontWeight: FontWeight.bold)),
-      ),
+    final backButton = ElevatedButton(
+      onPressed: () {
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => CreateInventoryItem()),
+        );
+      },
+      child: Text("Back",
+          textAlign: TextAlign.center,
+          style: style.copyWith(
+              color: Colors.white, fontWeight: FontWeight.bold)),
     );
 
     // Widget _createSectionContainer(List <Widget> children) {
@@ -246,7 +233,6 @@ class _CreateInventoryItemTwoState extends State<CreateInventoryItemTwo> {
                               padding: EdgeInsets.only(top: 10.0),
                               child: addOtherButton),
                         ]),
-
                         SizedBox(
                           height: 35,
                         ),
