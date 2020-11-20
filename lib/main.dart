@@ -71,7 +71,6 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   Widget build(BuildContext context) {
-    inal ref = fb.reference();
     final emailField = TextField(
       obscureText: false,
       style: style,
@@ -148,7 +147,6 @@ class _MyHomePageState extends State<MyHomePage> {
         minWidth: MediaQuery.of(context).size.width,
         padding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
         onPressed: () {
-          ref.child(name).set(myController.text);
           Navigator.push(
             context,
             MaterialPageRoute(builder: (context) => SignUp()),

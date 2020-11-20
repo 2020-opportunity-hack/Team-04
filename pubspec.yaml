@@ -31,7 +31,7 @@ dependencies:
 
   # Add the dependencies for any other Firebase products you want to use in your app
   # For example, to use Firebase Authentication and Cloud Firestore
-#  firebase_auth: ^0.15.5
+  firebase_auth: ^0.18.3
 #  cloud_firestore: ^0.12.9+5
   carousel_pro: ^1.0.0
   modal_progress_hud: ^0.1.3
