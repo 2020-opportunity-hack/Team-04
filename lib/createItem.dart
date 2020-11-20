@@ -157,26 +157,10 @@ class _CreateInventoryItemState extends State<CreateInventoryItem> {
                 Form(
                   child: Column(
                     children: <Widget>[
-                      Row(
-                        children: [
-                          Expanded(child: itemCodeInput),
-                        ],
-                      ),
-                      Row(
-                        children: [
-                          Expanded(child: materialTypeInput),
-                        ],
-                      ),
-                      Row(
-                        children: [
-                          Expanded(child: numberLengthInput),
-                        ],
-                      ),
-                      Row(
-                        children: [
-                          Expanded(child: widthInput),
-                        ],
-                      ),
+                      itemCodeInput,
+                      materialTypeInput,
+                      numberLengthInput,
+                      widthInput,
                       SizedBox(
                         height: 35,
                       ),

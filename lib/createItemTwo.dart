@@ -209,7 +209,7 @@ class _CreateInventoryItemTwoState extends State<CreateInventoryItemTwo> {
                       
                       _otherRow(),
                       
-                      SizedBox(height: 150, child: otherListView),
+                      SizedBox(height: 100, child: otherListView),
                       Container(
                           padding: EdgeInsets.only(top: 10.0),
                           child: addOtherButton),
