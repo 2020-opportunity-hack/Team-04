@@ -34,7 +34,7 @@ class _UpdateInventoryItemState extends State<UpdateInventoryItem> {
     );
 
     final itemCodeInput = TextFormField(
-      decoration: const InputDecoration(hintText: 'Enter an item code'),
+      decoration: const InputDecoration(labelText: 'Enter an item code'),
       validator: (value) {
         if (value.isEmpty) {
           return 'Please enter an item code';
@@ -46,7 +46,7 @@ class _UpdateInventoryItemState extends State<UpdateInventoryItem> {
 
     final quantityInput = TextFormField(
       decoration: const InputDecoration(
-        hintText: 'Enter Quantity',
+        labelText: 'Enter Quantity',
       ),
       validator: (value) {
         if (value.isEmpty) {
@@ -61,7 +61,7 @@ class _UpdateInventoryItemState extends State<UpdateInventoryItem> {
 
     final transportInput = TextFormField(
       decoration: const InputDecoration(
-        hintText: 'Enter transport cost',
+        labelText: 'Enter transport cost',
       ),
       validator: (value) {
         if (value.isEmpty) {
@@ -73,7 +73,7 @@ class _UpdateInventoryItemState extends State<UpdateInventoryItem> {
 
     final costInput = TextFormField(
       decoration: const InputDecoration(
-        hintText: 'Enter cost price',
+        labelText: 'Enter cost price',
       ),
       validator: (value) {
         if (value.isEmpty) {
@@ -85,7 +85,7 @@ class _UpdateInventoryItemState extends State<UpdateInventoryItem> {
 
     final saleInput = TextFormField(
       decoration: const InputDecoration(
-        hintText: 'Enter sale price',
+        labelText: 'Enter sale price',
       ),
       validator: (value) {
         if (value.isEmpty) {

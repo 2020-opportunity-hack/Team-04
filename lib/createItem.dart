@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'main.dart';
+import 'package:ohack/createItemTwo.dart';
 
 class CreateInventoryItem extends StatefulWidget {
   @override
@@ -70,7 +71,7 @@ class _CreateInventoryItemState extends State<CreateInventoryItem> {
     final buttonStyle = ButtonStyle(
         backgroundColor: MaterialStateProperty.all<Color>(Colors.grey));
 
-    final updateButton = Material(
+    final nextButton = Material(
       elevation: 5.0,
       borderRadius: BorderRadius.circular(30.0),
       color: Colors.blue,
@@ -80,10 +81,10 @@ class _CreateInventoryItemState extends State<CreateInventoryItem> {
         onPressed: () {
           Navigator.push(
             context,
-            MaterialPageRoute(builder: (context) => MyHomePage()),
+            MaterialPageRoute(builder: (context) => CreateInventoryItemTwo()),
           );
         },
-        child: Text("Create",
+        child: Text("Next",
             textAlign: TextAlign.center,
             style: style.copyWith(
                 color: Colors.white, fontWeight: FontWeight.bold)),
@@ -114,47 +115,49 @@ class _CreateInventoryItemState extends State<CreateInventoryItem> {
       appBar: AppBar(
         title: Text('Payir - Thoorgayi'),
       ),
-      body: Center(
-        child: Container(
-          padding: EdgeInsets.fromLTRB(20.0, 0.0, 10.0, 0.0),
-          child: Column(
-            children: [
-              heading,
-              Form(
-                child: Column(
-                  children: <Widget>[
-                    Row(
-                      children: [
-                        Expanded(child: itemCodeInput),
-                      ],
-                    ),
-                    Row(
-                      children: [
-                        Expanded(child: materialTypeInput),
-                      ],
-                    ),
-                    Row(
-                      children: [
-                        Expanded(child: numberLengthInput),
-                      ],
-                    ),
-                    Row(
-                      children: [
-                        Expanded(child: widthInput),
-                      ],
-                    ),
-                    SizedBox(
-                      height: 35,
-                    ),
-                    updateButton,
-                    SizedBox(
-                      height: 35,
-                    ),
-                    backButton,
-                  ],
-                ),
-              )
-            ],
+      body: SingleChildScrollView(
+        child: Center(
+          child: Container(
+            padding: EdgeInsets.fromLTRB(20.0, 0.0, 10.0, 0.0),
+            child: Column(
+              children: [
+                heading,
+                Form(
+                  child: Column(
+                    children: <Widget>[
+                      Row(
+                        children: [
+                          Expanded(child: itemCodeInput),
+                        ],
+                      ),
+                      Row(
+                        children: [
+                          Expanded(child: materialTypeInput),
+                        ],
+                      ),
+                      Row(
+                        children: [
+                          Expanded(child: numberLengthInput),
+                        ],
+                      ),
+                      Row(
+                        children: [
+                          Expanded(child: widthInput),
+                        ],
+                      ),
+                      SizedBox(
+                        height: 35,
+                      ),
+                      nextButton,
+                      SizedBox(
+                        height: 35,
+                      ),
+                      backButton,
+                    ],
+                  ),
+                )
+              ],
+            ),
           ),
         ),
       ),
