@@ -47,7 +47,6 @@ class MyApp extends StatelessWidget {
             style: ButtonStyle(
           elevation: MaterialStateProperty.all<double>(5),
           backgroundColor: MaterialStateProperty.all<Color>(Colors.purple[600]),
-          minimumSize: MaterialStateProperty.all<Size>(Size(100, 30)),
         )),
         textTheme: TextTheme(
           headline1: TextStyle(fontSize: 72.0, fontWeight: FontWeight.bold),
@@ -139,14 +138,6 @@ class _MyHomePageState extends State<MyHomePage> {
           }
         } catch (e) {}
       },
-
-      // onPressed: () {
-      //   Navigator.push(
-      //     context,
-      //     MaterialPageRoute(builder: (context) => FirstRoute()),
-      //   );
-      // },
-
       child: Text("Login".tr(),
           textAlign: TextAlign.center,
           style:
@@ -166,16 +157,25 @@ class _MyHomePageState extends State<MyHomePage> {
               style.copyWith(color: Colors.white, fontWeight: FontWeight.bold)),
     );
 
-    final enLangButton = ElevatedButton(
-        onPressed: () {
-          context.locale = Locale('en', 'US');
-        },
-        child: Text('EN'));
-    final taLangButton = ElevatedButton(
+    final enLangButton = Container(
+        margin: const EdgeInsets.all(5),
+        child: ElevatedButton(
+            onPressed: () {
+              context.locale = Locale('en', 'US');
+            },
+            child: Text('EN')));
+
+    final taLangButton = Container(
+        margin: const EdgeInsets.all(5),
+        child: ElevatedButton(
         onPressed: () {
           context.locale = Locale('ta', 'IN');
         },
-        child: Text('TA'));
+        child: Text('TA')),
+
+    );
+
+    
 
     return Scaffold(
       body: SingleChildScrollView(
@@ -199,14 +199,14 @@ class _MyHomePageState extends State<MyHomePage> {
                   emailField,
                   SizedBox(height: 25.0),
                   passwordField,
-                  SizedBox(
-                    height: 35.0,
-                  ),
-                  loginButton,
-                  SizedBox(
-                    height: 15.0,
-                  ),
-                  signUpButton,
+                  Container(
+                    margin: const EdgeInsets.only(top: 30),
+                    width: MediaQuery.of(context).size.width - 50,
+                    child: loginButton),
+                  Container(
+                    margin: const EdgeInsets.only(top: 10),
+                    width: MediaQuery.of(context).size.width - 50,
+                    child: signUpButton),
                   SizedBox(
                     height: 15.0,
                   ),
@@ -302,30 +302,29 @@ class FirstRoute extends StatelessWidget {
         child: SingleChildScrollView(
           child: Container(
             width: MediaQuery.of(context).size.width,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                Container(
-                  margin: const EdgeInsets.all(20),
-                  child: invoiceButton),
-
-                Container(
-                  margin: const EdgeInsets.all(20),
-                  child: salesButton),
-
-                Container(
-                  margin: const EdgeInsets.all(20),
-                  child: purchaseButton),
-
-                Container(
-                  margin: const EdgeInsets.all(20),
-                  child: inventoryButton),
-
-                Container(
-                  margin: const EdgeInsets.all(20),
-                  child: reportButton)
-              ],
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 0),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  Container(
+                    width: MediaQuery.of(context).size.width - 50,
+                    margin: const EdgeInsets.all(20), child: invoiceButton),
+                  Container(
+                    width: MediaQuery.of(context).size.width - 50,
+                    margin: const EdgeInsets.all(20), child: salesButton),
+                  Container(
+                    width: MediaQuery.of(context).size.width - 50,
+                    margin: const EdgeInsets.all(20), child: purchaseButton),
+                  Container(
+                    width: MediaQuery.of(context).size.width - 50,
+                    margin: const EdgeInsets.all(20), child: inventoryButton),
+                  Container(
+                    width: MediaQuery.of(context).size.width - 50,
+                    margin: const EdgeInsets.all(20), child: reportButton)
+                ],
+              ),
             ),
           ),
         ),

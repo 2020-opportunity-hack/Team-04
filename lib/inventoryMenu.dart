@@ -64,22 +64,25 @@ class InventoryMenu extends StatelessWidget {
           width: MediaQuery.of(context).size.width,
           height: MediaQuery.of(context).size.height,
           child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+            padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 0),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
 
                 Container(
+                  width: MediaQuery.of(context).size.width - 50,
                   margin: const EdgeInsets.all(20),
                   child: createButton
                   ),
 
                 Container(
+                  width: MediaQuery.of(context).size.width - 50,
                   margin: const EdgeInsets.all(20),
                   child: editButton),
 
                 Container(
+                  width: MediaQuery.of(context).size.width - 50,
                   margin: const EdgeInsets.all(20),
                   child: viewButton)
               ],
