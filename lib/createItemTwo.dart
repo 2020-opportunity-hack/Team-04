@@ -3,6 +3,10 @@ import 'main.dart';
 import 'package:ohack/createItem.dart';
 
 class CreateInventoryItemTwo extends StatefulWidget {
+  final Function createSectionContainerfn;
+  const CreateInventoryItemTwo({Key key, this.createSectionContainerfn})
+      : super(key: key);
+
   @override
   _CreateInventoryItemTwoState createState() => _CreateInventoryItemTwoState();
 }
@@ -12,6 +16,8 @@ class _CreateInventoryItemTwoState extends State<CreateInventoryItemTwo> {
 
   @override
   Widget build(BuildContext context) {
+    // testing
+
     TextStyle style = TextStyle(
         fontFamily: 'Montserrat', fontSize: 20.0, fontWeight: FontWeight.bold);
 
@@ -114,12 +120,25 @@ class _CreateInventoryItemTwoState extends State<CreateInventoryItemTwo> {
       },
     );
 
+    final removeOtherButton = ElevatedButton(
+      onPressed: null,
+      child: Text('x'),
+      style: ButtonStyle(
+        elevation: MaterialStateProperty.all<double>(3),
+        backgroundColor: MaterialStateProperty.all<Color>(Colors.grey[300]),
+      ),
+    );
+
     Widget _otherRow() {
       return Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.baseline,
         children: [
-          Expanded(flex: 3, child: emptyFieldInput),
+          Expanded(flex: 5, child: emptyFieldInput),
           Expanded(flex: 1, child: SizedBox()),
-          Expanded(flex: 3, child: emptyValueInput)
+          Expanded(flex: 5, child: emptyValueInput),
+          Expanded(flex: 1, child: SizedBox()),
+          Expanded(flex: 2, child: removeOtherButton),
         ],
       );
     }
@@ -144,44 +163,30 @@ class _CreateInventoryItemTwoState extends State<CreateInventoryItemTwo> {
       },
     );
 
-    final nextButton = Material(
-      elevation: 5.0,
-      borderRadius: BorderRadius.circular(30.0),
-      color: Colors.blue,
-      child: MaterialButton(
-        minWidth: MediaQuery.of(context).size.width,
-        padding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
-        onPressed: () {
-          Navigator.push(
-            context,
-            MaterialPageRoute(builder: (context) => MyHomePage()),
-          );
-        },
-        child: Text("Next",
-            textAlign: TextAlign.center,
-            style: style.copyWith(
-                color: Colors.white, fontWeight: FontWeight.bold)),
-      ),
+    final nextButton = ElevatedButton(
+      onPressed: () {
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => MyHomePage()),
+        );
+      },
+      child: Text("Next",
+          textAlign: TextAlign.center,
+          style: style.copyWith(
+              color: Colors.white, fontWeight: FontWeight.bold)),
     );
 
-    final backButton = Material(
-      elevation: 5.0,
-      borderRadius: BorderRadius.circular(30.0),
-      color: Colors.blue,
-      child: MaterialButton(
-        minWidth: MediaQuery.of(context).size.width,
-        padding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
-        onPressed: () {
-          Navigator.push(
-            context,
-            MaterialPageRoute(builder: (context) => CreateInventoryItem()),
-          );
-        },
-        child: Text("Back",
-            textAlign: TextAlign.center,
-            style: style.copyWith(
-                color: Colors.white, fontWeight: FontWeight.bold)),
-      ),
+    final backButton = ElevatedButton(
+      onPressed: () {
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => CreateInventoryItem()),
+        );
+      },
+      child: Text("Back",
+          textAlign: TextAlign.center,
+          style: style.copyWith(
+              color: Colors.white, fontWeight: FontWeight.bold)),
     );
 
     return Scaffold(
@@ -198,34 +203,44 @@ class _CreateInventoryItemTwoState extends State<CreateInventoryItemTwo> {
                 Form(
                   child: ConstrainedBox(
                     constraints: new BoxConstraints(
-                      maxWidth: 300.0,
+                      maxWidth: MediaQuery.of(context).size.width - 50,
                     ),
                     child: Column(
                       children: [
-                        _customHeading('Labor'),
-                        cuttingInput,
-                        stitchingInput,
-                        otherInput,
-                        _customHeading('Cost'),
-                        transportInput,
-                        costInput,
-                        saleInput,
-                        _customHeading('Other'),
-                        
-                        _otherRow(),
-                        
-                        otherListView,
-                        Container(
-                            padding: EdgeInsets.only(top: 10.0),
-                            child: addOtherButton),
-                        SizedBox(
-                          height: 35,
+                        widget.createSectionContainerfn([
+                          _customHeading('Labor'),
+                          cuttingInput,
+                          stitchingInput,
+                          otherInput,
+                        ]),
+                        widget.createSectionContainerfn([
+                          _customHeading('Cost'),
+                          transportInput,
+                          costInput,
+                          saleInput,
+                        ]),
+                        widget.createSectionContainerfn([
+                          _customHeading('Other'),
+                          _otherRow(),
+                          otherListView,
+                          Container(
+                              padding: EdgeInsets.only(top: 10.0),
+                              child: addOtherButton),
+                        ]),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                          Container(
+                            margin: const EdgeInsets.symmetric(horizontal: 10, vertical: 25),
+                            width: MediaQuery.of(context).size.width / 3,
+                            child: nextButton),
+                          Container(
+                            margin: const EdgeInsets.symmetric(horizontal: 10, vertical: 25),
+                            width: MediaQuery.of(context).size.width / 3,
+                            child: backButton),
+                          ],
                         ),
-                        nextButton,
-                        SizedBox(
-                          height: 35,
-                        ),
-                        backButton,
                       ],
                     ),
                   ),

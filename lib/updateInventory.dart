@@ -119,44 +119,30 @@ class _UpdateInventoryItemState extends State<UpdateInventoryItem> {
       ),
     );
 
-    final updateButton = Material(
-      elevation: 5.0,
-      borderRadius: BorderRadius.circular(30.0),
-      color: Colors.blue,
-      child: MaterialButton(
-        minWidth: MediaQuery.of(context).size.width,
-        padding: EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
-        onPressed: () {
-          Navigator.push(
-            context,
-            MaterialPageRoute(builder: (context) => MyHomePage()),
-          );
-        },
-        child: Text("Update",
-            textAlign: TextAlign.center,
-            style: style.copyWith(
-                color: Colors.white, fontWeight: FontWeight.bold)),
-      ),
+    final updateButton = ElevatedButton(
+      onPressed: () {
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => MyHomePage()),
+        );
+      },
+      child: Text("Update",
+          textAlign: TextAlign.center,
+          style: style.copyWith(
+              color: Colors.white, fontWeight: FontWeight.bold)),
     );
 
-    final backButton = Material(
-      elevation: 5.0,
-      borderRadius: BorderRadius.circular(30.0),
-      color: Colors.blue,
-      child: MaterialButton(
-        minWidth: MediaQuery.of(context).size.width,
-        padding: EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
-        onPressed: () {
-          Navigator.push(
-            context,
-            MaterialPageRoute(builder: (context) => MyHomePage()),
-          );
-        },
-        child: Text("Back",
-            textAlign: TextAlign.center,
-            style: style.copyWith(
-                color: Colors.white, fontWeight: FontWeight.bold)),
-      ),
+    final backButton = ElevatedButton(
+      onPressed: () {
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => MyHomePage()),
+        );
+      },
+      child: Text("Back",
+          textAlign: TextAlign.center,
+          style: style.copyWith(
+              color: Colors.white, fontWeight: FontWeight.bold)),
     );
 
     return Scaffold(
@@ -182,11 +168,13 @@ class _UpdateInventoryItemState extends State<UpdateInventoryItem> {
                           children: [
                             Expanded(child: quantityInput),
                             Container(
-                              padding: EdgeInsets.only(left:10.0, top: 5.0, bottom: 5.0),
-                              child: incrementButton),
+                                padding: EdgeInsets.only(
+                                    left: 10.0, top: 5.0, bottom: 5.0),
+                                child: incrementButton),
                             Container(
-                              padding: EdgeInsets.only(left:10.0, top: 5.0, bottom: 5.0),
-                              child: decrementButton),
+                                padding: EdgeInsets.only(
+                                    left: 10.0, top: 5.0, bottom: 5.0),
+                                child: decrementButton),
                           ],
                         ),
                         transportInput,
