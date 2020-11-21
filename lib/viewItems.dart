@@ -22,36 +22,22 @@ class _CreateInventoryItemState extends State<ViewItems> {
     TextStyle style = TextStyle(
         fontFamily: 'Montserrat', fontSize: 20.0, fontWeight: FontWeight.bold);
 
+    List<InventoryItem> listOfItems = [];
     final fbInstance = FirebaseDatabase.instance.reference().child("inventory").child("deliverable_product");
-    List<InventoryItem> listOfItems = [
-//      new InventoryItem("My","first","12.0","40.0")
-    ];
-    Map<dynamic, dynamic> childMap;
-    fbInstance.once().then((DataSnapshot snapshot){
 
 
-         print(snapshot.key);
-         Map<dynamic, dynamic> map = snapshot.value;
-         print(map.keys.length);
+    getInventoryRecords() async {
+      await fbInstance.once().then((DataSnapshot snapshot){
 
-         for (var k in map.keys) {
-           print("Key : $k, value : ${map[k]}");
-           childMap = map[k];
-           print(childMap.keys);
-           print(childMap.values);
-         }
+        Map<dynamic, dynamic> map = snapshot.value;
+        for (var k in map.keys) {
+          InventoryItem ic = new InventoryItem(map[k]["item_code"],  map[k]["number_length"], map[k]["material"], map[k]["width"]);
+          listOfItems.add(ic);
+        }
+      });
 
-           for(var m in childMap.keys) {
-           listOfItems.add(new InventoryItem(childMap["item_code"], childMap["number_length"], childMap["material"], childMap["width"]));
-         }
-
-         print(listOfItems.length);
-//
-//         List<String> myList = map.values.toList();
-//         myList.forEach((v)=>print(v[item_code])); //just an example
-
-    });
-
+      return listOfItems;
+    }
 
     final heading = Container(
       margin: EdgeInsets.fromLTRB(5.0, 15.0, 20.0, 30.0),
@@ -65,51 +51,43 @@ class _CreateInventoryItemState extends State<ViewItems> {
       ),
     );
 
-
     return Scaffold(
       appBar: AppBar(
         title: Text('Payir - Thoorgayi'),
       ),
-      body: Center(
-          child: Container(
-                child :
-                ListView.builder(
-                    itemCount: listOfItems.length ,
-                    itemBuilder: (context,index) {
-                      return Row(
-                        children : <Widget>[
-                            Padding(padding: const EdgeInsets.all(8.0),
-                          child: Text(listOfItems[index].itemCode)
-                            ),
-                          Padding(padding: const EdgeInsets.all(8.0),
-                              child: Text(listOfItems[index].quantity)
-                          ),
-                          Padding(padding: const EdgeInsets.all(8.0),
-                              child: Text(listOfItems[index].costPrice.toString())
-                          ),
-                          Padding(padding: const EdgeInsets.all(8.0),
-                              child: Text(listOfItems[index].salesPrice.toString())
-                          )
-                        ]
-                      );
-//                        return Card(
-//                          child: ListTile(
-//                            onTap: () {},
-//                              title: Text(listOfItems[index].itemCode),
-//                          ),
-//                        );
-                    }
-                ),
-          ),
-        ),
-      );
-  }
-  void readData() {
-
-    fbInstance.child("inventory").once().then((DataSnapshot data){
-      print(data);
-      print(data.key);
-    });
+      body: FutureBuilder(
+          future: getInventoryRecords(),
+          builder:(context, AsyncSnapshot snapshot) {
+            if (!snapshot.hasData) {
+              return Center(child: CircularProgressIndicator());
+            } else {
+              return Container(
+                  child: ListView.builder(
+                      itemCount: listOfItems.length,
+                      scrollDirection: Axis.vertical,
+                      itemBuilder: (BuildContext context, int index) {
+                        return Row(
+                            children : <Widget>[
+                              Padding(padding: const EdgeInsets.all(8.0),
+                                  child: Text(listOfItems[index].itemCode)
+                              ),
+                              Padding(padding: const EdgeInsets.all(8.0),
+                                  child: Text(listOfItems[index].quantity)
+                              ),
+                              Padding(padding: const EdgeInsets.all(8.0),
+                                  child: Text(listOfItems[index].costPrice.toString())
+                              ),
+                              Padding(padding: const EdgeInsets.all(8.0),
+                                  child: Text(listOfItems[index].salesPrice.toString())
+                              )
+                            ]
+                        );                      }
+                  )
+              );
+            }
+          }
+      )
+    );
   }
   }
 
