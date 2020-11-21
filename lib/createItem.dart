@@ -152,7 +152,6 @@ class _CreateInventoryItemState extends State<CreateInventoryItem> {
 
     Widget _materialRow() {
       return Container(
-
         margin: EdgeInsets.only(top: 15, left: 5, right: 5),
         padding: EdgeInsets.all(10),
         decoration: BoxDecoration(
@@ -202,8 +201,8 @@ class _CreateInventoryItemState extends State<CreateInventoryItem> {
       },
       child: Text("Next",
           textAlign: TextAlign.center,
-          style: style.copyWith(
-              color: Colors.white, fontWeight: FontWeight.bold)),
+          style:
+              style.copyWith(color: Colors.white, fontWeight: FontWeight.bold)),
     );
 
     final backButton = ElevatedButton(
@@ -215,8 +214,8 @@ class _CreateInventoryItemState extends State<CreateInventoryItem> {
       },
       child: Text("Back",
           textAlign: TextAlign.center,
-          style: style.copyWith(
-              color: Colors.white, fontWeight: FontWeight.bold)),
+          style:
+              style.copyWith(color: Colors.white, fontWeight: FontWeight.bold)),
     );
 
     return Scaffold(
@@ -257,16 +256,18 @@ class _CreateInventoryItemState extends State<CreateInventoryItem> {
                           mainAxisAlignment: MainAxisAlignment.center,
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
-                          Container(
-                            margin: const EdgeInsets.symmetric(horizontal: 10, vertical: 25),
-                            width: MediaQuery.of(context).size.width / 3,
-                            child: nextButton),
-                          Container(
-                            margin: const EdgeInsets.symmetric(horizontal: 10, vertical: 25),
-                            width: MediaQuery.of(context).size.width / 3,
-                            child: backButton),
-                        ],),
-                        
+                            Container(
+                                margin: const EdgeInsets.symmetric(
+                                    horizontal: 10, vertical: 25),
+                                width: MediaQuery.of(context).size.width / 3,
+                                child: nextButton),
+                            Container(
+                                margin: const EdgeInsets.symmetric(
+                                    horizontal: 10, vertical: 25),
+                                width: MediaQuery.of(context).size.width / 3,
+                                child: backButton),
+                          ],
+                        ),
                       ],
                     ),
                   ),

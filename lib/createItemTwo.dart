@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'main.dart';
 import 'package:ohack/createItem.dart';
+import 'package:firebase_database/firebase_database.dart';
 
 class CreateInventoryItemTwo extends StatefulWidget {
   final Function createSectionContainerfn;
@@ -12,6 +13,13 @@ class CreateInventoryItemTwo extends StatefulWidget {
 }
 
 class _CreateInventoryItemTwoState extends State<CreateInventoryItemTwo> {
+  final fbInstance = FirebaseDatabase.instance.reference().child("inventory");
+  String cutting;
+  String stitching;
+  String transportCost;
+  String costPrice;
+  String salePrice;
+
   final List<Widget> otherList = [];
 
   @override
@@ -54,6 +62,11 @@ class _CreateInventoryItemTwoState extends State<CreateInventoryItemTwo> {
         }
         return null;
       },
+      onChanged: (val) {
+        setState(() {
+          cutting = val;
+        });
+      },
     );
 
     final stitchingInput = TextFormField(
@@ -63,6 +76,11 @@ class _CreateInventoryItemTwoState extends State<CreateInventoryItemTwo> {
           return 'Please enter ....';
         }
         return null;
+      },
+      onChanged: (val) {
+        setState(() {
+          stitching = val;
+        });
       },
     );
 
@@ -84,6 +102,11 @@ class _CreateInventoryItemTwoState extends State<CreateInventoryItemTwo> {
         }
         return null;
       },
+      onChanged: (val) {
+        setState(() {
+          transportCost = val;
+        });
+      },
     );
 
     final costInput = TextFormField(
@@ -94,6 +117,11 @@ class _CreateInventoryItemTwoState extends State<CreateInventoryItemTwo> {
         }
         return null;
       },
+      onChanged: (val) {
+        setState(() {
+          costPrice = val;
+        });
+      },
     );
 
     final saleInput = TextFormField(
@@ -103,6 +131,11 @@ class _CreateInventoryItemTwoState extends State<CreateInventoryItemTwo> {
           return 'Please enter ....';
         }
         return null;
+      },
+      onChanged: (val) {
+        setState(() {
+          salePrice = val;
+        });
       },
     );
 
@@ -169,11 +202,12 @@ class _CreateInventoryItemTwoState extends State<CreateInventoryItemTwo> {
           context,
           MaterialPageRoute(builder: (context) => MyHomePage()),
         );
+        writeData();
       },
       child: Text("Next",
           textAlign: TextAlign.center,
-          style: style.copyWith(
-              color: Colors.white, fontWeight: FontWeight.bold)),
+          style:
+              style.copyWith(color: Colors.white, fontWeight: FontWeight.bold)),
     );
 
     final backButton = ElevatedButton(
@@ -185,8 +219,8 @@ class _CreateInventoryItemTwoState extends State<CreateInventoryItemTwo> {
       },
       child: Text("Back",
           textAlign: TextAlign.center,
-          style: style.copyWith(
-              color: Colors.white, fontWeight: FontWeight.bold)),
+          style:
+              style.copyWith(color: Colors.white, fontWeight: FontWeight.bold)),
     );
 
     return Scaffold(
@@ -231,14 +265,16 @@ class _CreateInventoryItemTwoState extends State<CreateInventoryItemTwo> {
                           mainAxisAlignment: MainAxisAlignment.center,
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
-                          Container(
-                            margin: const EdgeInsets.symmetric(horizontal: 10, vertical: 25),
-                            width: MediaQuery.of(context).size.width / 3,
-                            child: nextButton),
-                          Container(
-                            margin: const EdgeInsets.symmetric(horizontal: 10, vertical: 25),
-                            width: MediaQuery.of(context).size.width / 3,
-                            child: backButton),
+                            Container(
+                                margin: const EdgeInsets.symmetric(
+                                    horizontal: 10, vertical: 25),
+                                width: MediaQuery.of(context).size.width / 3,
+                                child: nextButton),
+                            Container(
+                                margin: const EdgeInsets.symmetric(
+                                    horizontal: 10, vertical: 25),
+                                width: MediaQuery.of(context).size.width / 3,
+                                child: backButton),
                           ],
                         ),
                       ],
@@ -251,5 +287,15 @@ class _CreateInventoryItemTwoState extends State<CreateInventoryItemTwo> {
         ),
       ),
     );
+  }
+
+  void writeData() {
+    fbInstance.child("deliverable_product").push().set({
+      "cutting": cutting,
+      "stitching": stitching,
+      "transportCost": transportCost,
+      "costPrice": costPrice,
+      "salePrice": salePrice,
+    });
   }
 }
