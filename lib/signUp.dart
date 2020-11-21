@@ -68,7 +68,6 @@ class _SignUpState extends State<SignUp> {
     );
 
     final signUpButton = ElevatedButton(
-
       onPressed: () async {
         setState(() {
           showProgress = true;
@@ -87,13 +86,6 @@ class _SignUpState extends State<SignUp> {
           }
         } catch (e) {}
       },
-
-      // onPressed: () {
-      //   Navigator.push(
-      //     context,
-      //     MaterialPageRoute(builder: (context) => MyHomePage()),
-      //   );
-      // },
       child: Text("Sign_Up",
               textAlign: TextAlign.center,
               style: style.copyWith(
@@ -107,7 +99,7 @@ class _SignUpState extends State<SignUp> {
           child: Container(
             color: Colors.white,
             child: Padding(
-              padding: const EdgeInsets.all(20.0),
+              padding: const EdgeInsets.all(36.0),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -125,14 +117,17 @@ class _SignUpState extends State<SignUp> {
                   passwordField,
                   // SizedBox(height: 25.0),
                   // reEnterPasswordField,
-                  SizedBox(
-                    height: 35.0,
-                  ),
-                  signUpButton,
+                  Container(
+                      margin: const EdgeInsets.only(top: 30),
+                      width: MediaQuery.of(context).size.width - 50,
+                      child: signUpButton),
+                  Container(
+                      margin: const EdgeInsets.only(top: 10),
+                      width: MediaQuery.of(context).size.width - 50,
+                      child: loginButton),
                   SizedBox(
                     height: 15.0,
                   ),
-                  loginButton
                 ],
               ),
             ),

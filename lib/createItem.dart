@@ -2,6 +2,7 @@ import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'main.dart';
 import 'package:ohack/createItemTwo.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 class CreateInventoryItem extends StatefulWidget {
   @override
@@ -38,11 +39,11 @@ class _CreateInventoryItemState extends State<CreateInventoryItem> {
 
     Widget createSectionContainer(List<Widget> children) {
       return Container(
+        width: MediaQuery.of(context).size.width - 50,
         margin: EdgeInsets.only(top: 15, left: 5, right: 5),
         padding: EdgeInsets.all(10),
         decoration: BoxDecoration(
             color: Colors.white,
-            // border: Border.all(color: Colors.grey, width: 1),
             boxShadow: [
               BoxShadow(
                 color: Colors.black.withOpacity(0.2),
@@ -53,21 +54,23 @@ class _CreateInventoryItemState extends State<CreateInventoryItem> {
             ],
             borderRadius: BorderRadius.circular(5)),
         child: Column(
-          children: children,
-        ),
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: children,
+          ),
       );
     }
 
     final heading = Container(
-      margin: EdgeInsets.fromLTRB(5.0, 15.0, 20.0, 30.0),
+      margin: EdgeInsets.fromLTRB(5.0, 30.0, 20.0, 25.0),
       alignment: Alignment.center,
       child: Text(
-        'Create Inventory Item',
+        'Create_Inventory_Item',
         textAlign: TextAlign.center,
         style: style.copyWith(
           fontSize: 22,
         ),
-      ),
+      ).tr(),
     );
 
     final itemCodeInput = TextFormField(
@@ -180,13 +183,16 @@ class _CreateInventoryItemState extends State<CreateInventoryItem> {
               style.copyWith(color: Colors.white, fontWeight: FontWeight.bold)),
     );
 
-    Widget materialListView = ListView.builder(
-      itemCount: materialTypeList.length,
-      shrinkWrap: true,
-      itemBuilder: (context, index) {
-        return materialTypeList[index];
-      },
-    );
+    if (materialTypeList.isEmpty) {
+      materialTypeList.add(_materialRow());
+    }
+    // Widget materialListView = ListView.builder(
+    //   itemCount: materialTypeList.length,
+    //   shrinkWrap: true,
+    //   itemBuilder: (context, index) {
+    //     return materialTypeList[index];
+    //   },
+    // );
 
     final nextButton = ElevatedButton(
       onPressed: () {
@@ -207,10 +213,7 @@ class _CreateInventoryItemState extends State<CreateInventoryItem> {
 
     final backButton = ElevatedButton(
       onPressed: () {
-        Navigator.push(
-          context,
-          MaterialPageRoute(builder: (context) => MyHomePage()),
-        );
+        Navigator.pop(context);
       },
       child: Text("Back",
           textAlign: TextAlign.center,
@@ -243,10 +246,11 @@ class _CreateInventoryItemState extends State<CreateInventoryItem> {
                         createSectionContainer([
                           _customHeading('Material Type'),
                           Column(
-                            children: [
-                              _materialRow(),
-                              materialListView,
-                            ],
+                            children: materialTypeList
+                              // _materialRow(),
+                              // materialListView,
+                              
+                            ,
                           ),
                           Container(
                               padding: EdgeInsets.only(top: 10.0),
