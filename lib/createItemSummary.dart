@@ -1,11 +1,32 @@
 import 'package:flutter/material.dart';
-import 'package:ohack/createItemTwo.dart';
-// import 'package:ohack/createItem.dart';
 import 'package:ohack/inventoryMenu.dart';
 
 class CreateItemSummary extends StatefulWidget {
+  final String itemCode;
+  final String description;
+  final List<Object> materialTypes;
+  final String cutting;
+  final String stitching;
+  final String other;
+  final String transportCost;
+  final String costPrice;
+  final String salePrice;
+  final List<Object> otherFieldValue;
+
   final Function createSectionContainerfn;
-  const CreateItemSummary({Key key, this.createSectionContainerfn})
+  const CreateItemSummary(
+      {Key key,
+      this.itemCode,
+      this.description,
+      this.materialTypes,
+      this.cutting,
+      this.stitching,
+      this.other,
+      this.transportCost,
+      this.costPrice,
+      this.salePrice,
+      this.otherFieldValue,
+      this.createSectionContainerfn})
       : super(key: key);
 
   @override
@@ -32,7 +53,7 @@ class _CreateItemSummaryState extends State<CreateItemSummary> {
 
     Widget _customHeading(headingName) {
       return Container(
-        margin: EdgeInsets.only(top: 15.0, bottom: 5.0),
+        margin: EdgeInsets.only(top: 5.0, bottom: 10.0),
         child: Text(
           headingName,
           textAlign: TextAlign.center,
@@ -67,10 +88,52 @@ class _CreateItemSummaryState extends State<CreateItemSummary> {
     );
 
     Widget _createSummaryRow(String fieldName, String fieldValue) {
-      return Row(children: [
-        Text(fieldName),
-        Text(fieldValue)
-      ],);
+      return Container(
+        margin: const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            Expanded(
+              flex: 3,
+              child: Text(
+                fieldName,
+                style:
+                    style.copyWith(fontSize: 18, fontWeight: FontWeight.normal),
+              ),
+            ),
+            Expanded(flex: 1, child: SizedBox()),
+            Expanded(
+              flex: 5,
+              child: Text(
+                fieldValue,
+                style:
+                    style.copyWith(fontSize: 18, fontWeight: FontWeight.normal),
+              ),
+            ),
+          ],
+        ),
+      );
+    }
+
+    Widget _createMaterialType() {
+      if (widget.materialTypes == null) {
+        return Text('Empty');
+      }
+      return Container(
+          child: Column(
+        children: widget.materialTypes.map((row) {
+          print(row);
+          return Column(
+            children: [
+              // _createSummaryRow('Material', row['Material']),
+              // _createSummaryRow('Length', row['Length']),
+              // _createSummaryRow('Width', row['Width'])
+              _createSummaryRow('ex', 'ex')
+            ],
+          );
+        }).toList(),
+      ));
     }
 
     return Scaffold(
@@ -96,10 +159,10 @@ class _CreateItemSummaryState extends State<CreateItemSummary> {
                           _createSummaryRow('Description:', 'put value here'),
                         ]),
                         widget.createSectionContainerfn([
-                          _customHeading('Material Type:'),
-                          Column(
-                            children: [Text('need logic to map material types and display values')],
-                          ),
+                          _customHeading('Material Type'),
+                          _createSummaryRow('', ''),
+                          // below function maps all material types
+                          _createMaterialType()
                         ]),
                         widget.createSectionContainerfn([
                           _customHeading('Labor'),
@@ -109,12 +172,14 @@ class _CreateItemSummaryState extends State<CreateItemSummary> {
                         ]),
                         widget.createSectionContainerfn([
                           _customHeading('Cost'),
-                          _createSummaryRow('Transport Cost:', 'put value here'),
+                          _createSummaryRow(
+                              'Transport Cost:', 'put value here'),
                           _createSummaryRow('Cost Price:', 'put value here'),
                           _createSummaryRow('Sale Price:', 'put value here'),
                         ]),
                         widget.createSectionContainerfn([
                           _customHeading('Other'),
+                          _createSummaryRow('', '')
                           // logic for checking if other fields were filled
                         ]),
                         Row(

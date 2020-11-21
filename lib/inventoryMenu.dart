@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:ohack/updateInventory.dart';
 import 'package:ohack/createItem.dart';
 import 'package:ohack/viewItems.dart';
-import 'main.dart';
 
 class InventoryMenu extends StatelessWidget {
   @override

@@ -1,6 +1,5 @@
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
-import 'main.dart';
 import 'package:ohack/createItemTwo.dart';
 import 'package:easy_localization/easy_localization.dart';
 
@@ -13,11 +12,13 @@ class _CreateInventoryItemState extends State<CreateInventoryItem> {
   final fbInstance = FirebaseDatabase.instance.reference().child("inventory");
   String itemCode;
   String description;
-  String material;
-  String numLen;
-  String width;
+  List<Object> materialTypes;
 
   final List<Widget> materialTypeList = [];
+  String material = '';
+  String numLen = '';
+  String width = '';
+  bool showFieldsEmpty = false;
 
   @override
   Widget build(BuildContext context) {
@@ -54,10 +55,10 @@ class _CreateInventoryItemState extends State<CreateInventoryItem> {
             ],
             borderRadius: BorderRadius.circular(5)),
         child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: children,
-          ),
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: children,
+        ),
       );
     }
 
@@ -107,13 +108,14 @@ class _CreateInventoryItemState extends State<CreateInventoryItem> {
         decoration: InputDecoration(labelText: 'Material'),
         validator: (value) {
           if (value.isEmpty) {
-            return 'Please enter an material';
+            return 'Please enter a material';
           }
           // need to validate if item code exist
           return null;
         },
         onChanged: (val) {
           setState(() {
+            materialTypes.add({'Material', val});
             material = val;
           });
         });
@@ -129,6 +131,9 @@ class _CreateInventoryItemState extends State<CreateInventoryItem> {
         },
         onChanged: (val) {
           setState(() {
+            materialTypes.add({'Length', val});
+            // need debug : onchange is not printing for some reason
+            print(val);
             numLen = val;
           });
         });
@@ -144,6 +149,7 @@ class _CreateInventoryItemState extends State<CreateInventoryItem> {
         },
         onChanged: (val) {
           setState(() {
+            materialTypes.add({'Width', val});
             width = val;
           });
         });
@@ -155,7 +161,6 @@ class _CreateInventoryItemState extends State<CreateInventoryItem> {
 
     Widget _materialRow() {
       return Container(
-
         margin: EdgeInsets.only(top: 15, left: 5, right: 5),
         padding: EdgeInsets.all(10),
         decoration: BoxDecoration(
@@ -172,10 +177,29 @@ class _CreateInventoryItemState extends State<CreateInventoryItem> {
       );
     }
 
+    final emptyFieldError = Container(
+      margin: const EdgeInsets.only(top: 5),
+      child: Text('Fill empty fields',
+          textAlign: TextAlign.center,
+          style: style.copyWith(
+              color: Colors.purple[600], fontWeight: FontWeight.normal)),
+    );
+
     final addMaterialButton = ElevatedButton(
       onPressed: () {
+        if (material.length == 0 || numLen.length == 0 || width.length == 0) {
+          print('something still empty');
+          setState(() {
+            showFieldsEmpty = true;
+          });
+          return null;
+        }
+        showFieldsEmpty = false;
         setState(() {
           materialTypeList.add(_materialRow());
+          material = '';
+          numLen = '';
+          width = '';
         });
       },
       child: Text("+ Add Material Type",
@@ -187,13 +211,6 @@ class _CreateInventoryItemState extends State<CreateInventoryItem> {
     if (materialTypeList.isEmpty) {
       materialTypeList.add(_materialRow());
     }
-    // Widget materialListView = ListView.builder(
-    //   itemCount: materialTypeList.length,
-    //   shrinkWrap: true,
-    //   itemBuilder: (context, index) {
-    //     return materialTypeList[index];
-    //   },
-    // );
 
     final nextButton = ElevatedButton(
       onPressed: () {
@@ -202,14 +219,17 @@ class _CreateInventoryItemState extends State<CreateInventoryItem> {
           MaterialPageRoute(
               builder: (context) => CreateInventoryItemTwo(
                     createSectionContainerfn: createSectionContainer,
+                    itemCode: itemCode,
+                    description: description,
+                    materialTypes: materialTypes,
                   )),
         );
-        writeData();
+        // writeData();
       },
       child: Text("Next",
           textAlign: TextAlign.center,
-          style: style.copyWith(
-              color: Colors.white, fontWeight: FontWeight.bold)),
+          style:
+              style.copyWith(color: Colors.white, fontWeight: FontWeight.bold)),
     );
 
     final backButton = ElevatedButton(
@@ -218,8 +238,8 @@ class _CreateInventoryItemState extends State<CreateInventoryItem> {
       },
       child: Text("Back",
           textAlign: TextAlign.center,
-          style: style.copyWith(
-              color: Colors.white, fontWeight: FontWeight.bold)),
+          style:
+              style.copyWith(color: Colors.white, fontWeight: FontWeight.bold)),
     );
 
     return Scaffold(
@@ -247,12 +267,9 @@ class _CreateInventoryItemState extends State<CreateInventoryItem> {
                         createSectionContainer([
                           _customHeading('Material Type'),
                           Column(
-                            children: materialTypeList
-                              // _materialRow(),
-                              // materialListView,
-                              
-                            ,
+                            children: materialTypeList,
                           ),
+                          showFieldsEmpty ? emptyFieldError : SizedBox(),
                           Container(
                               padding: EdgeInsets.only(top: 10.0),
                               child: addMaterialButton),
@@ -261,16 +278,18 @@ class _CreateInventoryItemState extends State<CreateInventoryItem> {
                           mainAxisAlignment: MainAxisAlignment.center,
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
-                          Container(
-                            margin: const EdgeInsets.symmetric(horizontal: 10, vertical: 25),
-                            width: MediaQuery.of(context).size.width / 3,
-                            child: nextButton),
-                          Container(
-                            margin: const EdgeInsets.symmetric(horizontal: 10, vertical: 25),
-                            width: MediaQuery.of(context).size.width / 3,
-                            child: backButton),
-                        ],),
-                        
+                            Container(
+                                margin: const EdgeInsets.symmetric(
+                                    horizontal: 10, vertical: 25),
+                                width: MediaQuery.of(context).size.width / 3,
+                                child: nextButton),
+                            Container(
+                                margin: const EdgeInsets.symmetric(
+                                    horizontal: 10, vertical: 25),
+                                width: MediaQuery.of(context).size.width / 3,
+                                child: backButton),
+                          ],
+                        ),
                       ],
                     ),
                   ),
@@ -283,12 +302,12 @@ class _CreateInventoryItemState extends State<CreateInventoryItem> {
     );
   }
 
-  void writeData() {
-    fbInstance.child("deliverable_product").push().set({
-      "item_code": itemCode,
-      "material": material,
-      "number_length": numLen,
-      "width": width
-    });
-  }
+//   void writeData() {
+//     fbInstance.child("deliverable_product").push().set({
+//       "item_code": itemCode,
+//       "material": material,
+//       "number_length": numLen,
+//       "width": width
+//     });
+//   }
 }
