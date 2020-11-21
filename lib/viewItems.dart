@@ -6,7 +6,6 @@ import 'main.dart';
 import 'package:ohack/createItemTwo.dart';
 import 'dart:developer';
 
-
 class ViewItems extends StatefulWidget {
   @override
   _CreateInventoryItemState createState() => _CreateInventoryItemState();
@@ -23,15 +22,17 @@ class _CreateInventoryItemState extends State<ViewItems> {
         fontFamily: 'Montserrat', fontSize: 20.0, fontWeight: FontWeight.bold);
 
     List<InventoryItem> listOfItems = [];
-    final fbInstance = FirebaseDatabase.instance.reference().child("inventory").child("deliverable_product");
-
+    final fbInstance = FirebaseDatabase.instance
+        .reference()
+        .child("inventory")
+        .child("deliverable_product");
 
     getInventoryRecords() async {
-      await fbInstance.once().then((DataSnapshot snapshot){
-
+      await fbInstance.once().then((DataSnapshot snapshot) {
         Map<dynamic, dynamic> map = snapshot.value;
         for (var k in map.keys) {
-          InventoryItem ic = new InventoryItem(map[k]["item_code"],  map[k]["number_length"], map[k]["material"], map[k]["width"]);
+          InventoryItem ic = new InventoryItem(map[k]["item_code"],
+              map[k]["number_length"], map[k]["material"], map[k]["width"]);
           listOfItems.add(ic);
         }
       });
@@ -43,7 +44,7 @@ class _CreateInventoryItemState extends State<ViewItems> {
       margin: EdgeInsets.fromLTRB(5.0, 15.0, 20.0, 30.0),
       alignment: Alignment.center,
       child: Text(
-        'View Inventory',
+        'All Inventory',
         textAlign: TextAlign.center,
         style: style.copyWith(
           fontSize: 22,
@@ -51,45 +52,150 @@ class _CreateInventoryItemState extends State<ViewItems> {
       ),
     );
 
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('Payir - Thoorgayi'),
+    final columnNamesTextStyle =
+        TextStyle(fontWeight: FontWeight.bold, fontSize: 18);
+    final dataTextStyle =
+        TextStyle(fontWeight: FontWeight.normal, fontSize: 16);
+
+    final columnNames = Container(
+      child: Row(
+        children: [
+          Expanded(
+              flex: 1,
+              child: Container(
+                margin: const EdgeInsets.only(left: 2, right: 2),
+                child: Text('Item Code',
+                    textAlign: TextAlign.center, style: columnNamesTextStyle),
+              )),
+          Expanded(
+              flex: 1,
+              child: Container(
+                margin: const EdgeInsets.only(left: 2, right: 2),
+                child: Text('QTY',
+                    textAlign: TextAlign.center, style: columnNamesTextStyle),
+              )),
+          Expanded(
+              flex: 1,
+              child: Container(
+                margin: const EdgeInsets.only(left: 2, right: 2),
+                child: Text('Cost Price (Total)',
+                    textAlign: TextAlign.center, style: columnNamesTextStyle),
+              )),
+          Expanded(
+              flex: 1,
+              child: Container(
+                margin: const EdgeInsets.only(left: 2, right: 2),
+                child: Text('Sale Price (Total',
+                    textAlign: TextAlign.center, style: columnNamesTextStyle),
+              )),
+        ],
       ),
-      body: FutureBuilder(
-          future: getInventoryRecords(),
-          builder:(context, AsyncSnapshot snapshot) {
-            if (!snapshot.hasData) {
-              return Center(child: CircularProgressIndicator());
-            } else {
-              return Container(
-                  child: ListView.builder(
-                      itemCount: listOfItems.length,
-                      scrollDirection: Axis.vertical,
-                      itemBuilder: (BuildContext context, int index) {
-                        return Row(
-                            children : <Widget>[
-                              Padding(padding: const EdgeInsets.all(8.0),
-                                  child: Text(listOfItems[index].itemCode)
-                              ),
-                              Padding(padding: const EdgeInsets.all(8.0),
-                                  child: Text(listOfItems[index].quantity)
-                              ),
-                              Padding(padding: const EdgeInsets.all(8.0),
-                                  child: Text(listOfItems[index].costPrice.toString())
-                              ),
-                              Padding(padding: const EdgeInsets.all(8.0),
-                                  child: Text(listOfItems[index].salesPrice.toString())
-                              )
-                            ]
-                        );                      }
-                  )
-              );
-            }
-          }
-      )
     );
+
+    return Scaffold(
+        appBar: AppBar(
+          title: Text('Payir - Thoorgayi'),
+        ),
+        body: FutureBuilder(
+            future: getInventoryRecords(),
+            builder: (context, AsyncSnapshot snapshot) {
+              if (!snapshot.hasData) {
+                return Center(child: CircularProgressIndicator());
+              } else {
+                return Center(
+                  child: Container(
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 30.0),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+
+                        children: [
+                          heading,
+                          columnNames,
+                          Divider(),
+                          Container(
+                              height: MediaQuery.of(context).size.height * 0.50,
+                              child: ListView.builder(
+                                  itemCount: listOfItems.length,
+                                  scrollDirection: Axis.vertical,
+                                  itemBuilder:
+                                      (BuildContext context, int index) {
+                                    return Container(
+                                      color: index.isEven ? Colors.purple[100]: Colors.white,
+                                      child: Row(children: <Widget>[
+                                        Expanded(
+                                            child: Container(
+                                                margin:
+                                                    const EdgeInsets.symmetric(
+                                                        horizontal: 0,
+                                                        vertical: 5),
+                                                child: Text(
+                                                    listOfItems[index].itemCode,
+                                                    textAlign: TextAlign.center,
+                                                    style: dataTextStyle))),
+                                        Expanded(
+                                            child: Container(
+                                                margin:
+                                                    const EdgeInsets.symmetric(
+                                                        horizontal: 0,
+                                                        vertical: 5),
+                                                child: Text(
+                                                    listOfItems[index].quantity,
+                                                    textAlign: TextAlign.center,
+                                                    style: dataTextStyle))),
+                                        Expanded(
+                                          child: Container(
+                                            margin: const EdgeInsets.symmetric(
+                                                horizontal: 0, vertical: 5),
+                                            child: Text(
+                                                listOfItems[index]
+                                                    .costPrice
+                                                    .toString(),
+                                                textAlign: TextAlign.center,
+                                                style: dataTextStyle),
+                                          ),
+                                        ),
+                                        Expanded(
+                                          child: Container(
+                                            margin: const EdgeInsets.symmetric(
+                                                horizontal: 0, vertical: 5),
+                                            child: Text(
+                                                listOfItems[index]
+                                                    .salesPrice
+                                                    .toString(),
+                                                textAlign: TextAlign.center,
+                                                style: dataTextStyle),
+                                          ),
+                                        )
+                                      ]),
+                                    );
+                                  })
+                                  ),
+                                  Container(child: Column(children: [
+                                    Padding(
+                                      padding: const EdgeInsets.all(8.0),
+                                      child: Text('Total Cost Price:',
+                                      style: columnNamesTextStyle,
+                                      ),
+                                    ),
+                                    Padding(
+                                      padding: const EdgeInsets.all(8.0),
+                                      child: Text('Total Sale Price:',
+                                      style: columnNamesTextStyle,
+                                      ),
+                                    ),
+                                  ],),),
+
+                        ],
+                      ),
+                    ),
+                  ),
+                );
+              }
+            }));
   }
-  }
+}
 
 class InventoryItem {
   final String itemCode;
@@ -98,5 +204,4 @@ class InventoryItem {
   final String salesPrice;
 
   InventoryItem(this.itemCode, this.quantity, this.costPrice, this.salesPrice);
-
 }
