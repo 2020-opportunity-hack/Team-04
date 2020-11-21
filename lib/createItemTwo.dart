@@ -1,10 +1,14 @@
+import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
+import 'package:ohack/Models/Item.dart';
 import 'main.dart';
 import 'package:ohack/createItem.dart';
 
 class CreateInventoryItemTwo extends StatefulWidget {
   final Function createSectionContainerfn;
-  const CreateInventoryItemTwo({Key key, this.createSectionContainerfn})
+
+  Item item;
+  CreateInventoryItemTwo({Key key, this.createSectionContainerfn, this.item})
       : super(key: key);
 
   @override
@@ -12,6 +16,7 @@ class CreateInventoryItemTwo extends StatefulWidget {
 }
 
 class _CreateInventoryItemTwoState extends State<CreateInventoryItemTwo> {
+  final fbInstance = FirebaseDatabase.instance.reference().child("inventory");
   final List<Widget> otherList = [];
 
   @override
@@ -54,7 +59,11 @@ class _CreateInventoryItemTwoState extends State<CreateInventoryItemTwo> {
         }
         return null;
       },
-    );
+      onChanged: (val) {
+        setState(() {
+          this.widget.item.cutting_labor = val;
+        });
+      });
 
     final stitchingInput = TextFormField(
       decoration: InputDecoration(labelText: 'Stitching:'),
@@ -64,7 +73,11 @@ class _CreateInventoryItemTwoState extends State<CreateInventoryItemTwo> {
         }
         return null;
       },
-    );
+      onChanged: (val) {
+        setState(() {
+          this.widget.item.stitching_labor = val;
+        });
+      });
 
     final otherInput = TextFormField(
       decoration: InputDecoration(labelText: 'Other:'),
@@ -74,7 +87,11 @@ class _CreateInventoryItemTwoState extends State<CreateInventoryItemTwo> {
         }
         return null;
       },
-    );
+      onChanged: (val) {
+        setState(() {
+          this.widget.item.other_labor = val;
+        });
+      });
 
     final transportInput = TextFormField(
       decoration: InputDecoration(labelText: 'Transport Cost:'),
@@ -83,6 +100,11 @@ class _CreateInventoryItemTwoState extends State<CreateInventoryItemTwo> {
           return 'Please enter ....';
         }
         return null;
+      },
+      onChanged: (val) {
+        setState(() {
+          this.widget.item.transport_cost = val;
+        });
       },
     );
 
@@ -94,7 +116,11 @@ class _CreateInventoryItemTwoState extends State<CreateInventoryItemTwo> {
         }
         return null;
       },
-    );
+      onChanged: (val) {
+        setState(() {
+          this.widget.item.cost_price = val;
+        });
+      });
 
     final saleInput = TextFormField(
       decoration: InputDecoration(labelText: 'Sale Price:'),
@@ -165,10 +191,11 @@ class _CreateInventoryItemTwoState extends State<CreateInventoryItemTwo> {
 
     final nextButton = ElevatedButton(
       onPressed: () {
-        Navigator.push(
-          context,
-          MaterialPageRoute(builder: (context) => MyHomePage()),
-        );
+        writeData();
+        // Navigator.push(
+        //   context,
+        //   MaterialPageRoute(builder: (context) => MyHomePage()),
+        // );
       },
       child: Text("Next",
           textAlign: TextAlign.center,
@@ -252,4 +279,18 @@ class _CreateInventoryItemTwoState extends State<CreateInventoryItemTwo> {
       ),
     );
   }
+  void writeData() {
+    fbInstance.child("deliverable_product").push().set({
+      "item_code": this.widget.item.item_code,
+      "description": this.widget.item.description,
+      "material": this.widget.item.material,
+      "number_length": this.widget.item.number_length,
+      "width": this.widget.item.width,
+      "cutting_labor": this.widget.item.cutting_labor,
+      "stitching_labor": this.widget.item.stitching_labor,
+      "other_labor": this.widget.item.cutting_labor,
+      "transport_cost": this.widget.item.transport_cost
+    });
+  }
 }
+

@@ -1,9 +1,21 @@
+import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:ohack/updateInventory.dart';
 import 'package:ohack/createItem.dart';
 import 'main.dart';
 
-class InventoryMenu extends StatelessWidget {
+class InventoryMenu extends StatefulWidget {
+
+  @override
+  _InventoryState createState() => _InventoryState();
+}
+
+
+class _InventoryState extends State<InventoryMenu> {
+
+  final fb = FirebaseDatabase.instance.reference();
+  int productId;
+
   @override
   Widget build(BuildContext context) {
     TextStyle style = TextStyle(fontFamily: 'Montserrat', fontSize: 20.0);
@@ -36,6 +48,7 @@ class InventoryMenu extends StatelessWidget {
 
     final viewButton = ElevatedButton(
       onPressed: () {
+        viewData();
         Navigator.push(
           context,
           MaterialPageRoute(builder: (context) => MyHomePage()),
@@ -44,7 +57,7 @@ class InventoryMenu extends StatelessWidget {
       child: Text("View all items",
           textAlign: TextAlign.center,
           style:
-              style.copyWith(color: Colors.white, fontWeight: FontWeight.bold)),
+          style.copyWith(color: Colors.white, fontWeight: FontWeight.bold)),
     );
 
     return Scaffold(
@@ -91,5 +104,10 @@ class InventoryMenu extends StatelessWidget {
         ),
       ),
     );
+  }
+  void viewData() {
+    fb.once().then((DataSnapshot snapshot) {
+      print('Data: ${snapshot.value}');
+    });
   }
 }

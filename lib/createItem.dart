@@ -1,5 +1,7 @@
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
+import 'package:ohack/DisplayItem.dart';
+import 'Models/Item.dart';
 import 'main.dart';
 import 'package:ohack/createItemTwo.dart';
 
@@ -9,7 +11,7 @@ class CreateInventoryItem extends StatefulWidget {
 }
 
 class _CreateInventoryItemState extends State<CreateInventoryItem> {
-  final fbInstance = FirebaseDatabase.instance.reference().child("inventory");
+  Item item;
   String itemCode;
   String description;
   String material;
@@ -81,7 +83,7 @@ class _CreateInventoryItemState extends State<CreateInventoryItem> {
         },
         onChanged: (val) {
           setState(() {
-            itemCode = val;
+            this.item.item_code = val;
           });
         });
 
@@ -96,7 +98,7 @@ class _CreateInventoryItemState extends State<CreateInventoryItem> {
         },
         onChanged: (val) {
           setState(() {
-            itemCode = val;
+            this.item.description = val;
           });
         });
 
@@ -111,7 +113,7 @@ class _CreateInventoryItemState extends State<CreateInventoryItem> {
         },
         onChanged: (val) {
           setState(() {
-            material = val;
+            item.material = val;
           });
         });
 
@@ -126,7 +128,7 @@ class _CreateInventoryItemState extends State<CreateInventoryItem> {
         },
         onChanged: (val) {
           setState(() {
-            numLen = val;
+            item.number_length = val;
           });
         });
 
@@ -141,7 +143,7 @@ class _CreateInventoryItemState extends State<CreateInventoryItem> {
         },
         onChanged: (val) {
           setState(() {
-            width = val;
+            item.width = val;
           });
         });
 
@@ -178,7 +180,7 @@ class _CreateInventoryItemState extends State<CreateInventoryItem> {
       child: Text("+ Add Material Type",
           textAlign: TextAlign.center,
           style:
-              style.copyWith(color: Colors.white, fontWeight: FontWeight.bold)),
+          style.copyWith(color: Colors.white, fontWeight: FontWeight.bold)),
     );
 
     Widget materialListView = ListView.builder(
@@ -194,11 +196,13 @@ class _CreateInventoryItemState extends State<CreateInventoryItem> {
         Navigator.push(
           context,
           MaterialPageRoute(
-              builder: (context) => CreateInventoryItemTwo(
-                    createSectionContainerfn: createSectionContainer,
+              builder: (context) =>
+                  CreateInventoryItemTwo(
+                      createSectionContainerfn: createSectionContainer,
+                      item: item
                   )),
         );
-        writeData();
+        // writeData();
       },
       child: Text("Next",
           textAlign: TextAlign.center,
@@ -233,7 +237,10 @@ class _CreateInventoryItemState extends State<CreateInventoryItem> {
                 Form(
                   child: ConstrainedBox(
                     constraints: new BoxConstraints(
-                      maxWidth: MediaQuery.of(context).size.width - 50,
+                      maxWidth: MediaQuery
+                          .of(context)
+                          .size
+                          .width - 50,
                     ),
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
@@ -257,16 +264,24 @@ class _CreateInventoryItemState extends State<CreateInventoryItem> {
                           mainAxisAlignment: MainAxisAlignment.center,
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
-                          Container(
-                            margin: const EdgeInsets.symmetric(horizontal: 10, vertical: 25),
-                            width: MediaQuery.of(context).size.width / 3,
-                            child: nextButton),
-                          Container(
-                            margin: const EdgeInsets.symmetric(horizontal: 10, vertical: 25),
-                            width: MediaQuery.of(context).size.width / 3,
-                            child: backButton),
-                        ],),
-                        
+                            Container(
+                                margin: const EdgeInsets.symmetric(
+                                    horizontal: 10, vertical: 25),
+                                width: MediaQuery
+                                    .of(context)
+                                    .size
+                                    .width / 3,
+                                child: nextButton),
+                            Container(
+                                margin: const EdgeInsets.symmetric(
+                                    horizontal: 10, vertical: 25),
+                                width: MediaQuery
+                                    .of(context)
+                                    .size
+                                    .width / 3,
+                                child: backButton),
+                          ],),
+
                       ],
                     ),
                   ),
@@ -277,14 +292,5 @@ class _CreateInventoryItemState extends State<CreateInventoryItem> {
         ),
       ),
     );
-  }
-
-  void writeData() {
-    fbInstance.child("deliverable_product").push().set({
-      "item_code": itemCode,
-      "material": material,
-      "number_length": numLen,
-      "width": width
-    });
   }
 }
