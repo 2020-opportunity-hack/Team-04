@@ -59,7 +59,7 @@ class _CreateInventoryItemState extends State<CreateInventoryItem> {
     }
 
     final heading = Container(
-      margin: EdgeInsets.fromLTRB(5.0, 15.0, 20.0, 30.0),
+      margin: EdgeInsets.fromLTRB(5.0, 30.0, 20.0, 25.0),
       alignment: Alignment.center,
       child: Text(
         'Create_Inventory_Item',
@@ -181,13 +181,16 @@ class _CreateInventoryItemState extends State<CreateInventoryItem> {
               style.copyWith(color: Colors.white, fontWeight: FontWeight.bold)),
     );
 
-    Widget materialListView = ListView.builder(
-      itemCount: materialTypeList.length,
-      shrinkWrap: true,
-      itemBuilder: (context, index) {
-        return materialTypeList[index];
-      },
-    );
+    if (materialTypeList.isEmpty) {
+      materialTypeList.add(_materialRow());
+    }
+    // Widget materialListView = ListView.builder(
+    //   itemCount: materialTypeList.length,
+    //   shrinkWrap: true,
+    //   itemBuilder: (context, index) {
+    //     return materialTypeList[index];
+    //   },
+    // );
 
     final nextButton = ElevatedButton(
       onPressed: () {
@@ -208,10 +211,7 @@ class _CreateInventoryItemState extends State<CreateInventoryItem> {
 
     final backButton = ElevatedButton(
       onPressed: () {
-        Navigator.push(
-          context,
-          MaterialPageRoute(builder: (context) => MyHomePage()),
-        );
+        Navigator.pop(context);
       },
       child: Text("Back",
           textAlign: TextAlign.center,
@@ -244,10 +244,11 @@ class _CreateInventoryItemState extends State<CreateInventoryItem> {
                         createSectionContainer([
                           _customHeading('Material Type'),
                           Column(
-                            children: [
-                              _materialRow(),
-                              materialListView,
-                            ],
+                            children: materialTypeList
+                              // _materialRow(),
+                              // materialListView,
+                              
+                            ,
                           ),
                           Container(
                               padding: EdgeInsets.only(top: 10.0),

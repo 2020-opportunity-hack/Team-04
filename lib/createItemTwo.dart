@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'main.dart';
 import 'package:ohack/createItem.dart';
+import 'package:ohack/createItemSummary.dart';
 
 class CreateInventoryItemTwo extends StatefulWidget {
   final Function createSectionContainerfn;
@@ -139,7 +140,9 @@ class _CreateInventoryItemTwoState extends State<CreateInventoryItemTwo> {
       onPressed: () {
         Navigator.push(
           context,
-          MaterialPageRoute(builder: (context) => MyHomePage()),
+          MaterialPageRoute(builder: (context) => CreateItemSummary(
+            createSectionContainerfn: widget.createSectionContainerfn
+          )),
         );
       },
       child: Text("Next",
@@ -150,10 +153,7 @@ class _CreateInventoryItemTwoState extends State<CreateInventoryItemTwo> {
 
     final backButton = ElevatedButton(
       onPressed: () {
-        Navigator.push(
-          context,
-          MaterialPageRoute(builder: (context) => CreateInventoryItem()),
-        );
+        Navigator.pop(context);
       },
       child: Text("Back",
           textAlign: TextAlign.center,
@@ -277,19 +277,30 @@ class OtherRow extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.center,
       crossAxisAlignment: CrossAxisAlignment.baseline,
       children: [
-        ConstrainedBox(
-          constraints: BoxConstraints(maxWidth: 50),
-          child: emptyFieldInput),
-        // Expanded(flex: 1, child: SizedBox()),
-        ConstrainedBox(
-          constraints: BoxConstraints(maxWidth: 50),
-          child: emptyValueInput),
-        // Expanded(flex: 1, child: SizedBox()),
-        FlatButton.icon(
-          onPressed: delete,
-          label: Text('delete quote'),
-          icon: Icon(Icons.delete),
+        Container(
+          margin: const EdgeInsets.only(left: 5, right: 10, top: 5, bottom: 5),
+          child: ConstrainedBox(
+            constraints: BoxConstraints(maxWidth: MediaQuery.of(context).size.width/ 3.5),
+            child: emptyFieldInput),
         ),
+        // Expanded(flex: 1, child: SizedBox()),
+        Container(
+          margin: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+          child: ConstrainedBox(
+            constraints: BoxConstraints(maxWidth: MediaQuery.of(context).size.width/ 3.5),
+            child: emptyValueInput),
+        ),
+        // Expanded(flex: 1, child: SizedBox()),
+        Container(
+          margin: const EdgeInsets.only(left: 10, right: 5, top: 5, bottom: 5),
+          child: ConstrainedBox(
+            constraints: BoxConstraints(maxWidth: MediaQuery.of(context).size.width/ 10),
+            child: ElevatedButton(onPressed: delete, child: Text('X')))),
+        // FlatButton.icon(
+        //   onPressed: delete,
+        //   label: Text('delete'),
+        //   icon: Icon(Icons.delete),
+        // ),
       ],
     );
   }
