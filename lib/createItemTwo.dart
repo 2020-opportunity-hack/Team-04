@@ -4,8 +4,17 @@ import 'package:ohack/createItem.dart';
 import 'package:ohack/createItemSummary.dart';
 
 class CreateInventoryItemTwo extends StatefulWidget {
+  final String itemCode;
+  final String description;
+  final List<Object> materialTypes;
+
   final Function createSectionContainerfn;
-  const CreateInventoryItemTwo({Key key, this.createSectionContainerfn})
+  const CreateInventoryItemTwo(
+      {Key key,
+      this.itemCode,
+      this.description,
+      this.materialTypes,
+      this.createSectionContainerfn})
       : super(key: key);
 
   @override
@@ -13,6 +22,14 @@ class CreateInventoryItemTwo extends StatefulWidget {
 }
 
 class _CreateInventoryItemTwoState extends State<CreateInventoryItemTwo> {
+  String cutting;
+  String stitching;
+  String other;
+  String transportCost;
+  String costPrice;
+  String salePrice;
+  List<Object> otherFieldValue = [];
+
   final List<Widget> otherList = [];
 
   @override
@@ -140,9 +157,20 @@ class _CreateInventoryItemTwoState extends State<CreateInventoryItemTwo> {
       onPressed: () {
         Navigator.push(
           context,
-          MaterialPageRoute(builder: (context) => CreateItemSummary(
-            createSectionContainerfn: widget.createSectionContainerfn
-          )),
+          MaterialPageRoute(
+              builder: (context) => CreateItemSummary(
+                  createSectionContainerfn: widget.createSectionContainerfn,
+                  itemCode: widget.itemCode,
+                  description: widget.description,
+                  materialTypes: widget.materialTypes,
+                  cutting: cutting,
+                  stitching: stitching,
+                  other: other,
+                  transportCost: transportCost,
+                  costPrice: costPrice,
+                  salePrice: salePrice,
+                  otherFieldValue: otherFieldValue,
+                  )),
         );
       },
       child: Text("Next",
@@ -280,22 +308,26 @@ class OtherRow extends StatelessWidget {
         Container(
           margin: const EdgeInsets.only(left: 5, right: 10, top: 5, bottom: 5),
           child: ConstrainedBox(
-            constraints: BoxConstraints(maxWidth: MediaQuery.of(context).size.width/ 3.5),
-            child: emptyFieldInput),
+              constraints: BoxConstraints(
+                  maxWidth: MediaQuery.of(context).size.width / 3.5),
+              child: emptyFieldInput),
         ),
         // Expanded(flex: 1, child: SizedBox()),
         Container(
           margin: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
           child: ConstrainedBox(
-            constraints: BoxConstraints(maxWidth: MediaQuery.of(context).size.width/ 3.5),
-            child: emptyValueInput),
+              constraints: BoxConstraints(
+                  maxWidth: MediaQuery.of(context).size.width / 3.5),
+              child: emptyValueInput),
         ),
         // Expanded(flex: 1, child: SizedBox()),
         Container(
-          margin: const EdgeInsets.only(left: 10, right: 5, top: 5, bottom: 5),
-          child: ConstrainedBox(
-            constraints: BoxConstraints(maxWidth: MediaQuery.of(context).size.width/ 10),
-            child: ElevatedButton(onPressed: delete, child: Text('X')))),
+            margin:
+                const EdgeInsets.only(left: 10, right: 5, top: 5, bottom: 5),
+            child: ConstrainedBox(
+                constraints: BoxConstraints(
+                    maxWidth: MediaQuery.of(context).size.width / 10),
+                child: ElevatedButton(onPressed: delete, child: Text('X')))),
         // FlatButton.icon(
         //   onPressed: delete,
         //   label: Text('delete'),

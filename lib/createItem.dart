@@ -13,9 +13,7 @@ class _CreateInventoryItemState extends State<CreateInventoryItem> {
   final fbInstance = FirebaseDatabase.instance.reference().child("inventory");
   String itemCode;
   String description;
-  String material;
-  String numLen;
-  String width;
+  List<Object> materialTypes;
 
   final List<Widget> materialTypeList = [];
 
@@ -54,10 +52,10 @@ class _CreateInventoryItemState extends State<CreateInventoryItem> {
             ],
             borderRadius: BorderRadius.circular(5)),
         child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: children,
-          ),
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: children,
+        ),
       );
     }
 
@@ -107,14 +105,14 @@ class _CreateInventoryItemState extends State<CreateInventoryItem> {
         decoration: InputDecoration(labelText: 'Material'),
         validator: (value) {
           if (value.isEmpty) {
-            return 'Please enter an material';
+            return 'Please enter a material';
           }
           // need to validate if item code exist
           return null;
         },
         onChanged: (val) {
           setState(() {
-            material = val;
+            materialTypes.add({'Material', val});
           });
         });
 
@@ -129,7 +127,7 @@ class _CreateInventoryItemState extends State<CreateInventoryItem> {
         },
         onChanged: (val) {
           setState(() {
-            numLen = val;
+            materialTypes.add({'Length', val});
           });
         });
 
@@ -144,7 +142,7 @@ class _CreateInventoryItemState extends State<CreateInventoryItem> {
         },
         onChanged: (val) {
           setState(() {
-            width = val;
+            materialTypes.add({'Width', val});
           });
         });
 
@@ -155,7 +153,6 @@ class _CreateInventoryItemState extends State<CreateInventoryItem> {
 
     Widget _materialRow() {
       return Container(
-
         margin: EdgeInsets.only(top: 15, left: 5, right: 5),
         padding: EdgeInsets.all(10),
         decoration: BoxDecoration(
@@ -202,14 +199,17 @@ class _CreateInventoryItemState extends State<CreateInventoryItem> {
           MaterialPageRoute(
               builder: (context) => CreateInventoryItemTwo(
                     createSectionContainerfn: createSectionContainer,
+                    itemCode: itemCode,
+                    description: description,
+                    materialTypes: materialTypes,
                   )),
         );
         writeData();
       },
       child: Text("Next",
           textAlign: TextAlign.center,
-          style: style.copyWith(
-              color: Colors.white, fontWeight: FontWeight.bold)),
+          style:
+              style.copyWith(color: Colors.white, fontWeight: FontWeight.bold)),
     );
 
     final backButton = ElevatedButton(
@@ -218,8 +218,8 @@ class _CreateInventoryItemState extends State<CreateInventoryItem> {
       },
       child: Text("Back",
           textAlign: TextAlign.center,
-          style: style.copyWith(
-              color: Colors.white, fontWeight: FontWeight.bold)),
+          style:
+              style.copyWith(color: Colors.white, fontWeight: FontWeight.bold)),
     );
 
     return Scaffold(
@@ -248,9 +248,9 @@ class _CreateInventoryItemState extends State<CreateInventoryItem> {
                           _customHeading('Material Type'),
                           Column(
                             children: materialTypeList
-                              // _materialRow(),
-                              // materialListView,
-                              
+                            // _materialRow(),
+                            // materialListView,
+
                             ,
                           ),
                           Container(
@@ -261,16 +261,18 @@ class _CreateInventoryItemState extends State<CreateInventoryItem> {
                           mainAxisAlignment: MainAxisAlignment.center,
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
-                          Container(
-                            margin: const EdgeInsets.symmetric(horizontal: 10, vertical: 25),
-                            width: MediaQuery.of(context).size.width / 3,
-                            child: nextButton),
-                          Container(
-                            margin: const EdgeInsets.symmetric(horizontal: 10, vertical: 25),
-                            width: MediaQuery.of(context).size.width / 3,
-                            child: backButton),
-                        ],),
-                        
+                            Container(
+                                margin: const EdgeInsets.symmetric(
+                                    horizontal: 10, vertical: 25),
+                                width: MediaQuery.of(context).size.width / 3,
+                                child: nextButton),
+                            Container(
+                                margin: const EdgeInsets.symmetric(
+                                    horizontal: 10, vertical: 25),
+                                width: MediaQuery.of(context).size.width / 3,
+                                child: backButton),
+                          ],
+                        ),
                       ],
                     ),
                   ),
