@@ -15,11 +15,10 @@ class CreateItemSummary extends StatefulWidget {
 class _CreateItemSummaryState extends State<CreateItemSummary> {
   @override
   Widget build(BuildContext context) {
-
     final TextStyle style = TextStyle(
         fontFamily: 'Montserrat', fontSize: 20.0, fontWeight: FontWeight.bold);
 
-          final heading = Container(
+    final heading = Container(
       margin: EdgeInsets.fromLTRB(5.0, 15.0, 20.0, 30.0),
       alignment: Alignment.center,
       child: Text(
@@ -31,7 +30,7 @@ class _CreateItemSummaryState extends State<CreateItemSummary> {
       ),
     );
 
-        Widget _customHeading(headingName) {
+    Widget _customHeading(headingName) {
       return Container(
         margin: EdgeInsets.only(top: 15.0, bottom: 5.0),
         child: Text(
@@ -44,7 +43,7 @@ class _CreateItemSummaryState extends State<CreateItemSummary> {
       );
     }
 
-      final createButton = ElevatedButton(
+    final createButton = ElevatedButton(
       onPressed: () {
         Navigator.push(
           context,
@@ -63,9 +62,16 @@ class _CreateItemSummaryState extends State<CreateItemSummary> {
       },
       child: Text("Back",
           textAlign: TextAlign.center,
-          style: style.copyWith(
-              color: Colors.white, fontWeight: FontWeight.bold)),
+          style:
+              style.copyWith(color: Colors.white, fontWeight: FontWeight.bold)),
     );
+
+    Widget _createSummaryRow(String fieldName, String fieldValue) {
+      return Row(children: [
+        Text(fieldName),
+        Text(fieldValue)
+      ],);
+    }
 
     return Scaffold(
       appBar: AppBar(
@@ -86,24 +92,30 @@ class _CreateItemSummaryState extends State<CreateItemSummary> {
                     child: Column(
                       children: [
                         widget.createSectionContainerfn([
+                          _createSummaryRow('Item Code:', 'put value here'),
+                          _createSummaryRow('Description:', 'put value here'),
+                        ]),
+                        widget.createSectionContainerfn([
+                          _customHeading('Material Type:'),
+                          Column(
+                            children: [Text('need logic to map material types and display values')],
+                          ),
+                        ]),
+                        widget.createSectionContainerfn([
                           _customHeading('Labor'),
-                          Text('cuttingInput'),
-                          Text('stitchingInput'),
-                          Text('otherInput'),
+                          _createSummaryRow('Cutting:', 'put value here'),
+                          _createSummaryRow('Stitching:', 'put value here'),
+                          _createSummaryRow('Other:', 'put value here'),
                         ]),
                         widget.createSectionContainerfn([
                           _customHeading('Cost'),
-                          Text('transportInput'),
-                          Text('costInput'),
-                          Text('saleInput'),
+                          _createSummaryRow('Transport Cost:', 'put value here'),
+                          _createSummaryRow('Cost Price:', 'put value here'),
+                          _createSummaryRow('Sale Price:', 'put value here'),
                         ]),
                         widget.createSectionContainerfn([
                           _customHeading('Other'),
-                          // _otherRow(),
-                          Column(
-                            children: [Text('list of other')],
-                          ),
-                          // otherListView,
+                          // logic for checking if other fields were filled
                         ]),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.center,

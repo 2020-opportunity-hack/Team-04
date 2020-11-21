@@ -39,6 +39,7 @@ class _CreateInventoryItemState extends State<CreateInventoryItem> {
 
     Widget createSectionContainer(List<Widget> children) {
       return Container(
+        width: MediaQuery.of(context).size.width - 50,
         margin: EdgeInsets.only(top: 15, left: 5, right: 5),
         padding: EdgeInsets.all(10),
         decoration: BoxDecoration(
@@ -53,8 +54,10 @@ class _CreateInventoryItemState extends State<CreateInventoryItem> {
             ],
             borderRadius: BorderRadius.circular(5)),
         child: Column(
-          children: children,
-        ),
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: children,
+          ),
       );
     }
 
