@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:ohack/createItemTwo.dart';
-// import 'package:ohack/createItem.dart';
 import 'package:ohack/inventoryMenu.dart';
 
 class CreateItemSummary extends StatefulWidget {
@@ -14,7 +12,6 @@ class CreateItemSummary extends StatefulWidget {
   final String costPrice;
   final String salePrice;
   final List<Object> otherFieldValue;
-  
 
   final Function createSectionContainerfn;
   const CreateItemSummary(
@@ -120,14 +117,19 @@ class _CreateItemSummaryState extends State<CreateItemSummary> {
     }
 
     Widget _createMaterialType() {
+      if (widget.materialTypes == null) {
+        return Text('Empty');
+      }
       return Container(
           child: Column(
         children: widget.materialTypes.map((row) {
+          print(row);
           return Column(
             children: [
-              _createSummaryRow('Material', row['Material']),
-              _createSummaryRow('Length', row['Length']),
-              _createSummaryRow('Width', row['Width'])
+              // _createSummaryRow('Material', row['Material']),
+              // _createSummaryRow('Length', row['Length']),
+              // _createSummaryRow('Width', row['Width'])
+              _createSummaryRow('ex', 'ex')
             ],
           );
         }).toList(),

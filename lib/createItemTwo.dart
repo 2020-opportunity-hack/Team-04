@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'main.dart';
-import 'package:ohack/createItem.dart';
 import 'package:ohack/createItemSummary.dart';
 
 class CreateInventoryItemTwo extends StatefulWidget {
@@ -31,6 +29,9 @@ class _CreateInventoryItemTwoState extends State<CreateInventoryItemTwo> {
   List<Object> otherFieldValue = [];
 
   final List<Widget> otherList = [];
+  String otherKeyField = '';
+  String otherValueField = '';
+  bool showFieldsEmpty = false;
 
   @override
   Widget build(BuildContext context) {
@@ -65,70 +66,175 @@ class _CreateInventoryItemTwoState extends State<CreateInventoryItemTwo> {
     }
 
     final cuttingInput = TextFormField(
-      decoration: InputDecoration(labelText: 'Cutting:'),
-      validator: (value) {
-        if (value.isEmpty) {
-          return 'Please enter ....';
-        }
-        return null;
-      },
-    );
+        decoration: InputDecoration(labelText: 'Cutting:'),
+        validator: (value) {
+          if (value.isEmpty) {
+            return 'Please enter ....';
+          }
+          return null;
+        },
+        onChanged: (val) {
+          setState(() {
+            cutting = val;
+          });
+        });
 
     final stitchingInput = TextFormField(
-      decoration: InputDecoration(labelText: 'Stitching:'),
-      validator: (value) {
-        if (value.isEmpty) {
-          return 'Please enter ....';
-        }
-        return null;
-      },
-    );
+        decoration: InputDecoration(labelText: 'Stitching:'),
+        validator: (value) {
+          if (value.isEmpty) {
+            return 'Please enter ....';
+          }
+          return null;
+        },
+        onChanged: (val) {
+          setState(() {
+            stitching = val;
+          });
+        });
 
     final otherInput = TextFormField(
-      decoration: InputDecoration(labelText: 'Other:'),
-      validator: (value) {
-        if (value.isEmpty) {
-          return 'Please enter ....';
-        }
-        return null;
-      },
-    );
+        decoration: InputDecoration(labelText: 'Other:'),
+        validator: (value) {
+          if (value.isEmpty) {
+            return 'Please enter ....';
+          }
+          return null;
+        },
+        onChanged: (val) {
+          setState(() {
+            other = val;
+          });
+        });
 
     final transportInput = TextFormField(
-      decoration: InputDecoration(labelText: 'Transport Cost:'),
-      validator: (value) {
-        if (value.isEmpty) {
-          return 'Please enter ....';
-        }
-        return null;
-      },
-    );
+        decoration: InputDecoration(labelText: 'Transport Cost:'),
+        validator: (value) {
+          if (value.isEmpty) {
+            return 'Please enter ....';
+          }
+          return null;
+        },
+        onChanged: (val) {
+          setState(() {
+            transportCost = val;
+          });
+        });
 
     final costInput = TextFormField(
-      decoration: InputDecoration(labelText: 'Cost Price:'),
-      validator: (value) {
-        if (value.isEmpty) {
-          return 'Please enter ....';
-        }
-        return null;
-      },
-    );
+        decoration: InputDecoration(labelText: 'Cost Price:'),
+        validator: (value) {
+          if (value.isEmpty) {
+            return 'Please enter ....';
+          }
+          return null;
+        },
+        onChanged: (val) {
+          setState(() {
+            costPrice = val;
+          });
+        });
 
     final saleInput = TextFormField(
-      decoration: InputDecoration(labelText: 'Sale Price:'),
-      validator: (value) {
-        if (value.isEmpty) {
-          return 'Please enter ....';
-        }
-        return null;
-      },
-    );
+        decoration: InputDecoration(labelText: 'Sale Price:'),
+        validator: (value) {
+          if (value.isEmpty) {
+            return 'Please enter ....';
+          }
+          return null;
+        },
+        onChanged: (val) {
+          setState(() {
+            salePrice = val;
+          });
+        });
 
+    Widget _otherRow() {
+      return Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.baseline,
+        children: [
+          Container(
+            margin:
+                const EdgeInsets.only(left: 5, right: 10, top: 5, bottom: 5),
+            child: ConstrainedBox(
+                constraints: BoxConstraints(
+                    maxWidth: MediaQuery.of(context).size.width / 3.5),
+                child: TextFormField(
+                  decoration: InputDecoration(labelText: 'Enter field name'),
+                  validator: (value) {
+                    return null;
+                  },
+                  onChanged: (val) {
+                    setState(() {
+                      otherKeyField = val;
+                      print(otherKeyField);
+                    });
+                  },
+                )),
+          ),
+          Container(
+            margin: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+            child: ConstrainedBox(
+                constraints: BoxConstraints(
+                    maxWidth: MediaQuery.of(context).size.width / 3.5),
+                child: TextFormField(
+                    decoration: InputDecoration(labelText: 'Enter a value'),
+                    validator: (value) {
+                      if (otherKeyField.length == 0) {
+                        return 'Enter Field Name First';
+                      }
+                      return null;
+                    },
+                    onChanged: (val) {
+                      setState(() {
+                        otherValueField = val;
+                      });
+                    })),
+          ),
+          Container(
+              margin:
+                  const EdgeInsets.only(left: 10, right: 5, top: 5, bottom: 5),
+              child: ConstrainedBox(
+                  constraints: BoxConstraints(
+                      maxWidth: MediaQuery.of(context).size.width / 10),
+                  child: ElevatedButton(
+                      style: ButtonStyle(
+                        backgroundColor:
+                            MaterialStateProperty.all<Color>(Colors.grey[600]),
+                      ),
+                      onPressed: null,
+                      child: Text('X',
+                          textAlign: TextAlign.center,
+                          style: style.copyWith(
+                              color: Colors.white,
+                              fontWeight: FontWeight.bold))))),
+        ],
+      );
+    }
+
+    final emptyFieldError = Container(
+      margin: const EdgeInsets.only(top: 5),
+      child: Text('Fill empty fields',
+        textAlign: TextAlign.center,
+        style: style.copyWith(
+            color: Colors.purple[600], fontWeight: FontWeight.normal)),
+    );
+    
     final addOtherButton = ElevatedButton(
       onPressed: () {
+        if (otherKeyField.length == 0 || otherValueField.length == 0) {
+          setState(() {
+            showFieldsEmpty = true;
+          });
+          return null;
+        }
+        showFieldsEmpty = false;
         setState(() {
-          // otherList.add(_otherRow());
-          otherList.add(Text('widget'));
+          otherFieldValue.add({otherKeyField, otherValueField});
+          otherList.add(_otherRow());
+          otherKeyField = '';
+          otherValueField = '';
         });
       },
       child: Text("+ Add Other",
@@ -137,39 +243,30 @@ class _CreateInventoryItemTwoState extends State<CreateInventoryItemTwo> {
               style.copyWith(color: Colors.white, fontWeight: FontWeight.bold)),
     );
 
-    // if (otherList.isEmpty) {
-    //   otherList.add(_otherRow());
-    // }
-
     if (otherList.isEmpty) {
-      otherList.add(Text('widget'));
+      otherList.add(_otherRow());
     }
-
-    // Widget otherListView = ListView.builder(
-    //   itemCount: otherList.length,
-    //   shrinkWrap: true,
-    //   itemBuilder: (context, index) {
-    //     return otherList[index];
-    //   },
-    // );
 
     final nextButton = ElevatedButton(
       onPressed: () {
+        if (otherKeyField.length > 0 && otherValueField.length > 0) {
+          otherFieldValue.add({otherKeyField, otherValueField});
+        }
         Navigator.push(
           context,
           MaterialPageRoute(
               builder: (context) => CreateItemSummary(
-                  createSectionContainerfn: widget.createSectionContainerfn,
-                  itemCode: widget.itemCode,
-                  description: widget.description,
-                  materialTypes: widget.materialTypes,
-                  cutting: cutting,
-                  stitching: stitching,
-                  other: other,
-                  transportCost: transportCost,
-                  costPrice: costPrice,
-                  salePrice: salePrice,
-                  otherFieldValue: otherFieldValue,
+                    createSectionContainerfn: widget.createSectionContainerfn,
+                    itemCode: widget.itemCode,
+                    description: widget.description,
+                    materialTypes: widget.materialTypes,
+                    cutting: cutting,
+                    stitching: stitching,
+                    other: other,
+                    transportCost: transportCost,
+                    costPrice: costPrice,
+                    salePrice: salePrice,
+                    otherFieldValue: otherFieldValue,
                   )),
         );
       },
@@ -221,17 +318,8 @@ class _CreateInventoryItemTwoState extends State<CreateInventoryItemTwo> {
                         ]),
                         widget.createSectionContainerfn([
                           _customHeading('Other'),
-                          // _otherRow(),
-                          Column(
-                            children: otherList
-                                .map((element) => OtherRow(delete: () {
-                                      setState(() {
-                                        otherList.remove(element);
-                                      });
-                                    }))
-                                .toList(),
-                          ),
-                          // otherListView,
+                          Column(children: otherList),
+                          showFieldsEmpty ? emptyFieldError : SizedBox(),
                           Container(
                               padding: EdgeInsets.only(top: 10.0),
                               child: addOtherButton),
@@ -265,75 +353,26 @@ class _CreateInventoryItemTwoState extends State<CreateInventoryItemTwo> {
   }
 }
 
-class OtherRow extends StatelessWidget {
-  final Function delete;
-  OtherRow({this.delete});
+// class OtherRow extends StatelessWidget {
+//   final Function delete;
+//   OtherRow({this.delete});
 
-  final emptyFieldInput = TextFormField(
-    decoration: InputDecoration(labelText: 'Enter field name'),
-    validator: (value) {
-      return null;
-    },
-  );
+//   // final removeOtherButton = ElevatedButton(
+//   //   onPressed: delete,
 
-  final emptyValueInput = TextFormField(
-    decoration: InputDecoration(labelText: 'Enter a value'),
-    validator: (value) {
-      return null;
-    },
-  );
+//   //   //   () {
+//   //   //   setState(() {
+//   //   //     // replace otherList[0] with the value indicator we want to remove
+//   //   //     otherList.remove(otherList[0]);
+//   //   //   });
+//   //   // },
+//   //   child: Text('X'),
+//   //   style: ButtonStyle(
+//   //     elevation: MaterialStateProperty.all<double>(3),
+//   //     backgroundColor: MaterialStateProperty.all<Color>(Colors.grey[300]),
+//   //   ),
+//   // );
 
-  // final removeOtherButton = ElevatedButton(
-  //   onPressed: delete,
-
-  //   //   () {
-  //   //   setState(() {
-  //   //     // replace otherList[0] with the value indicator we want to remove
-  //   //     otherList.remove(otherList[0]);
-  //   //   });
-  //   // },
-  //   child: Text('X'),
-  //   style: ButtonStyle(
-  //     elevation: MaterialStateProperty.all<double>(3),
-  //     backgroundColor: MaterialStateProperty.all<Color>(Colors.grey[300]),
-  //   ),
-  // );
-
-  @override
-  Widget build(BuildContext context) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.center,
-      crossAxisAlignment: CrossAxisAlignment.baseline,
-      children: [
-        Container(
-          margin: const EdgeInsets.only(left: 5, right: 10, top: 5, bottom: 5),
-          child: ConstrainedBox(
-              constraints: BoxConstraints(
-                  maxWidth: MediaQuery.of(context).size.width / 3.5),
-              child: emptyFieldInput),
-        ),
-        // Expanded(flex: 1, child: SizedBox()),
-        Container(
-          margin: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
-          child: ConstrainedBox(
-              constraints: BoxConstraints(
-                  maxWidth: MediaQuery.of(context).size.width / 3.5),
-              child: emptyValueInput),
-        ),
-        // Expanded(flex: 1, child: SizedBox()),
-        Container(
-            margin:
-                const EdgeInsets.only(left: 10, right: 5, top: 5, bottom: 5),
-            child: ConstrainedBox(
-                constraints: BoxConstraints(
-                    maxWidth: MediaQuery.of(context).size.width / 10),
-                child: ElevatedButton(onPressed: delete, child: Text('X')))),
-        // FlatButton.icon(
-        //   onPressed: delete,
-        //   label: Text('delete'),
-        //   icon: Icon(Icons.delete),
-        // ),
-      ],
-    );
-  }
-}
+//   @override
+//   Widget build(BuildContext context) {}
+// }
