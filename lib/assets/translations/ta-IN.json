@@ -1,7 +1,8 @@
 {
-  "Login": "Login in Tamil",
+  "Login": "உள்நுழைய",
   "Sign_Up": "...",
   "Password_Hint": "...",
   "Email_Hint": "...",
-  "Invoice": "...Invoice"
+  "Invoice": "...Invoice",
+  "Create_Inventory_Item": "சரக்கு உருப்படியை உருவாக்கவும்"
 }

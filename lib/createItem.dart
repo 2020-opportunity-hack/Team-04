@@ -2,6 +2,7 @@ import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'main.dart';
 import 'package:ohack/createItemTwo.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 class CreateInventoryItem extends StatefulWidget {
   @override
@@ -42,7 +43,6 @@ class _CreateInventoryItemState extends State<CreateInventoryItem> {
         padding: EdgeInsets.all(10),
         decoration: BoxDecoration(
             color: Colors.white,
-            // border: Border.all(color: Colors.grey, width: 1),
             boxShadow: [
               BoxShadow(
                 color: Colors.black.withOpacity(0.2),
@@ -62,12 +62,12 @@ class _CreateInventoryItemState extends State<CreateInventoryItem> {
       margin: EdgeInsets.fromLTRB(5.0, 15.0, 20.0, 30.0),
       alignment: Alignment.center,
       child: Text(
-        'Create Inventory Item',
+        'Create_Inventory_Item',
         textAlign: TextAlign.center,
         style: style.copyWith(
           fontSize: 22,
         ),
-      ),
+      ).tr(),
     );
 
     final itemCodeInput = TextFormField(

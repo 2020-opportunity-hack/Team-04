@@ -106,47 +106,11 @@ class _CreateInventoryItemTwoState extends State<CreateInventoryItemTwo> {
       },
     );
 
-    final emptyFieldInput = TextFormField(
-      decoration: InputDecoration(labelText: 'Enter field name'),
-      validator: (value) {
-        return null;
-      },
-    );
-
-    final emptyValueInput = TextFormField(
-      decoration: InputDecoration(labelText: 'Enter a value'),
-      validator: (value) {
-        return null;
-      },
-    );
-
-    final removeOtherButton = ElevatedButton(
-      onPressed: null,
-      child: Text('x'),
-      style: ButtonStyle(
-        elevation: MaterialStateProperty.all<double>(3),
-        backgroundColor: MaterialStateProperty.all<Color>(Colors.grey[300]),
-      ),
-    );
-
-    Widget _otherRow() {
-      return Row(
-        mainAxisAlignment: MainAxisAlignment.center,
-        crossAxisAlignment: CrossAxisAlignment.baseline,
-        children: [
-          Expanded(flex: 5, child: emptyFieldInput),
-          Expanded(flex: 1, child: SizedBox()),
-          Expanded(flex: 5, child: emptyValueInput),
-          Expanded(flex: 1, child: SizedBox()),
-          Expanded(flex: 2, child: removeOtherButton),
-        ],
-      );
-    }
-
     final addOtherButton = ElevatedButton(
       onPressed: () {
         setState(() {
-          otherList.add(_otherRow());
+          // otherList.add(_otherRow());
+          otherList.add(Text('widget'));
         });
       },
       child: Text("+ Add Other",
@@ -155,13 +119,21 @@ class _CreateInventoryItemTwoState extends State<CreateInventoryItemTwo> {
               style.copyWith(color: Colors.white, fontWeight: FontWeight.bold)),
     );
 
-    Widget otherListView = ListView.builder(
-      itemCount: otherList.length,
-      shrinkWrap: true,
-      itemBuilder: (context, index) {
-        return otherList[index];
-      },
-    );
+    // if (otherList.isEmpty) {
+    //   otherList.add(_otherRow());
+    // }
+
+    if (otherList.isEmpty) {
+      otherList.add(Text('widget'));
+    }
+
+    // Widget otherListView = ListView.builder(
+    //   itemCount: otherList.length,
+    //   shrinkWrap: true,
+    //   itemBuilder: (context, index) {
+    //     return otherList[index];
+    //   },
+    // );
 
     final nextButton = ElevatedButton(
       onPressed: () {
@@ -172,8 +144,8 @@ class _CreateInventoryItemTwoState extends State<CreateInventoryItemTwo> {
       },
       child: Text("Next",
           textAlign: TextAlign.center,
-          style: style.copyWith(
-              color: Colors.white, fontWeight: FontWeight.bold)),
+          style:
+              style.copyWith(color: Colors.white, fontWeight: FontWeight.bold)),
     );
 
     final backButton = ElevatedButton(
@@ -185,8 +157,8 @@ class _CreateInventoryItemTwoState extends State<CreateInventoryItemTwo> {
       },
       child: Text("Back",
           textAlign: TextAlign.center,
-          style: style.copyWith(
-              color: Colors.white, fontWeight: FontWeight.bold)),
+          style:
+              style.copyWith(color: Colors.white, fontWeight: FontWeight.bold)),
     );
 
     return Scaffold(
@@ -221,8 +193,17 @@ class _CreateInventoryItemTwoState extends State<CreateInventoryItemTwo> {
                         ]),
                         widget.createSectionContainerfn([
                           _customHeading('Other'),
-                          _otherRow(),
-                          otherListView,
+                          // _otherRow(),
+                          Column(
+                            children: otherList
+                                .map((element) => OtherRow(delete: () {
+                                      setState(() {
+                                        otherList.remove(element);
+                                      });
+                                    }))
+                                .toList(),
+                          ),
+                          // otherListView,
                           Container(
                               padding: EdgeInsets.only(top: 10.0),
                               child: addOtherButton),
@@ -231,14 +212,16 @@ class _CreateInventoryItemTwoState extends State<CreateInventoryItemTwo> {
                           mainAxisAlignment: MainAxisAlignment.center,
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
-                          Container(
-                            margin: const EdgeInsets.symmetric(horizontal: 10, vertical: 25),
-                            width: MediaQuery.of(context).size.width / 3,
-                            child: nextButton),
-                          Container(
-                            margin: const EdgeInsets.symmetric(horizontal: 10, vertical: 25),
-                            width: MediaQuery.of(context).size.width / 3,
-                            child: backButton),
+                            Container(
+                                margin: const EdgeInsets.symmetric(
+                                    horizontal: 10, vertical: 25),
+                                width: MediaQuery.of(context).size.width / 3,
+                                child: nextButton),
+                            Container(
+                                margin: const EdgeInsets.symmetric(
+                                    horizontal: 10, vertical: 25),
+                                width: MediaQuery.of(context).size.width / 3,
+                                child: backButton),
                           ],
                         ),
                       ],
@@ -250,6 +233,64 @@ class _CreateInventoryItemTwoState extends State<CreateInventoryItemTwo> {
           ),
         ),
       ),
+    );
+  }
+}
+
+class OtherRow extends StatelessWidget {
+  final Function delete;
+  OtherRow({this.delete});
+
+  final emptyFieldInput = TextFormField(
+    decoration: InputDecoration(labelText: 'Enter field name'),
+    validator: (value) {
+      return null;
+    },
+  );
+
+  final emptyValueInput = TextFormField(
+    decoration: InputDecoration(labelText: 'Enter a value'),
+    validator: (value) {
+      return null;
+    },
+  );
+
+  // final removeOtherButton = ElevatedButton(
+  //   onPressed: delete,
+
+  //   //   () {
+  //   //   setState(() {
+  //   //     // replace otherList[0] with the value indicator we want to remove
+  //   //     otherList.remove(otherList[0]);
+  //   //   });
+  //   // },
+  //   child: Text('X'),
+  //   style: ButtonStyle(
+  //     elevation: MaterialStateProperty.all<double>(3),
+  //     backgroundColor: MaterialStateProperty.all<Color>(Colors.grey[300]),
+  //   ),
+  // );
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      crossAxisAlignment: CrossAxisAlignment.baseline,
+      children: [
+        ConstrainedBox(
+          constraints: BoxConstraints(maxWidth: 50),
+          child: emptyFieldInput),
+        // Expanded(flex: 1, child: SizedBox()),
+        ConstrainedBox(
+          constraints: BoxConstraints(maxWidth: 50),
+          child: emptyValueInput),
+        // Expanded(flex: 1, child: SizedBox()),
+        FlatButton.icon(
+          onPressed: delete,
+          label: Text('delete quote'),
+          icon: Icon(Icons.delete),
+        ),
+      ],
     );
   }
 }
