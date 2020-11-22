@@ -1,10 +1,10 @@
 # OHack Payir Thoorigai
 
-## Inspiration
+### Inspiration
 Thoorigai is made up of a group of women that learned the skills of bag making and are using it to provide for their livelihoods. They currently handle their inventory management manually and are looking for a solution that can save time and automate some of this work.
 A Flutter mobile app for inventory management.
 
-## What it does
+### About the App
 Our mobile app helps the user manage their inventory. Some of the features include letting the user record inventory items with specifications, change the quantity, and viewing all inventory.
 
 ## Table of Context
