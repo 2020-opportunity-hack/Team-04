@@ -1,4 +1,4 @@
-#(#OHack-Payir-Thoorigai)
+# OHack Payir Thoorigai
 
 ## Inspiration
 Thoorigai is made up of a group of women that learned the skills of bag making and are using it to provide for their livelihoods. They currently handle their inventory management manually and are looking for a solution that can save time and automate some of this work.
@@ -8,13 +8,13 @@ A Flutter mobile app for inventory management.
 Our mobile app helps the user manage their inventory. Some of the features include letting the user record inventory items with specifications, change the quantity, and viewing all inventory.
 
 ## Table of Context
-[About](#OHack-Payir-Thoorigai)
-[Installation](#Installation)
-[Team](#Team)
-[Tech Stack](#Tech-Stack)
+[About](#OHack-Payir-Thoorigai) 
+[Installation](#Installation) 
+[Team](#Team) 
+[Tech Stack](#Tech-Stack) 
 
 
-# (#Installation)
+# Installation
 Steps to run this project on your local machine:
 (Assuming you have flutter properly installed on your computer)
 
@@ -26,7 +26,7 @@ Steps to run this project on your local machine:
 3. flutter run
 ```
 
-# (#Team)
+# Team
 
 ## Malinda Lin
 [Website](https://malinda.dev/)
@@ -45,7 +45,7 @@ Steps to run this project on your local machine:
 [Github](https://github.com/vatsal1999)
 [LinkedIn]()
 
-# (#Tech-Stack)
+# Tech-Stack
 
 [Flutter](https://flutter.dev/)
 [Firebase](https://firebase.google.com/)
