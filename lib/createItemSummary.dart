@@ -1,3 +1,5 @@
+import 'dart:collection';
+
 import 'package:flutter/material.dart';
 import 'package:ohack/inventoryMenu.dart';
 
@@ -13,7 +15,7 @@ class CreateItemSummary extends StatefulWidget {
   final String salePrice;
   final List<Object> otherFieldValue;
 
-  final Function createSectionContainerfn;
+  final Function createSectionContainer;
   const CreateItemSummary(
       {Key key,
       this.itemCode,
@@ -26,7 +28,7 @@ class CreateItemSummary extends StatefulWidget {
       this.costPrice,
       this.salePrice,
       this.otherFieldValue,
-      this.createSectionContainerfn})
+      this.createSectionContainer})
       : super(key: key);
 
   @override
@@ -88,6 +90,9 @@ class _CreateItemSummaryState extends State<CreateItemSummary> {
     );
 
     Widget _createSummaryRow(String fieldName, String fieldValue) {
+      if (fieldValue == null) {
+        fieldValue = '';
+      }
       return Container(
         margin: const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
         child: Row(
@@ -118,18 +123,38 @@ class _CreateItemSummaryState extends State<CreateItemSummary> {
 
     Widget _createMaterialType() {
       if (widget.materialTypes == null) {
-        return Text('Empty');
+        return Text('None');
       }
+
+      // List<Widget> fn() {
+      //   List<Widget> children = [];
+      //   for (var i = 0; i < widget.materialTypes.length; i++) {
+      //     HashMap<dynamic, dynamic> entry = widget.materialTypes[i];
+      //     children.add(Column(children: [
+      //       _createSummaryRow('Material', entry['Material']),
+      //       _createSummaryRow('Length', entry['Length']),
+      //       _createSummaryRow('Width', entry['Width']),
+      //     ],));
+      //   }
+      //   return children;
+      // }
+
+      // return Container(
+      //   child: Column(
+      //     children: fn(),
+      //   ),
+      // );
+
       return Container(
           child: Column(
         children: widget.materialTypes.map((row) {
           print(row);
+          Map rowMap = row;
           return Column(
             children: [
-              // _createSummaryRow('Material', row['Material']),
-              // _createSummaryRow('Length', row['Length']),
-              // _createSummaryRow('Width', row['Width'])
-              _createSummaryRow('ex', 'ex')
+              _createSummaryRow('Material:', rowMap['Material']),
+              _createSummaryRow('Length:', rowMap['Length']),
+              _createSummaryRow('Width:', rowMap['Width'])
             ],
           );
         }).toList(),
@@ -154,30 +179,30 @@ class _CreateItemSummaryState extends State<CreateItemSummary> {
                     ),
                     child: Column(
                       children: [
-                        widget.createSectionContainerfn([
-                          _createSummaryRow('Item Code:', 'put value here'),
-                          _createSummaryRow('Description:', 'put value here'),
+                        widget.createSectionContainer([
+                          _createSummaryRow('Item Code:', widget.itemCode),
+                          _createSummaryRow('Description:', widget.description),
                         ]),
-                        widget.createSectionContainerfn([
+                        widget.createSectionContainer([
                           _customHeading('Material Type'),
                           _createSummaryRow('', ''),
                           // below function maps all material types
                           _createMaterialType()
                         ]),
-                        widget.createSectionContainerfn([
+                        widget.createSectionContainer([
                           _customHeading('Labor'),
-                          _createSummaryRow('Cutting:', 'put value here'),
-                          _createSummaryRow('Stitching:', 'put value here'),
-                          _createSummaryRow('Other:', 'put value here'),
+                          _createSummaryRow('Cutting:', widget.cutting),
+                          _createSummaryRow('Stitching:', widget.stitching),
+                          _createSummaryRow('Other:', widget.other),
                         ]),
-                        widget.createSectionContainerfn([
+                        widget.createSectionContainer([
                           _customHeading('Cost'),
                           _createSummaryRow(
-                              'Transport Cost:', 'put value here'),
-                          _createSummaryRow('Cost Price:', 'put value here'),
-                          _createSummaryRow('Sale Price:', 'put value here'),
+                              'Transport Cost:', widget.transportCost),
+                          _createSummaryRow('Cost Price:', widget.costPrice),
+                          _createSummaryRow('Sale Price:', widget.salePrice),
                         ]),
-                        widget.createSectionContainerfn([
+                        widget.createSectionContainer([
                           _customHeading('Other'),
                           _createSummaryRow('', '')
                           // logic for checking if other fields were filled

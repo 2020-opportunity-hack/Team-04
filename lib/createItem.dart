@@ -12,7 +12,7 @@ class _CreateInventoryItemState extends State<CreateInventoryItem> {
   final fbInstance = FirebaseDatabase.instance.reference().child("inventory");
   String itemCode;
   String description;
-  List<Object> materialTypes;
+  List<Map> materialTypes = [];
 
   final List<Widget> materialTypeList = [];
   String material = '';
@@ -100,59 +100,35 @@ class _CreateInventoryItemState extends State<CreateInventoryItem> {
         },
         onChanged: (val) {
           setState(() {
-            itemCode = val;
+            description = val;
           });
         });
 
     final materialTypeInput = TextFormField(
         decoration: InputDecoration(labelText: 'Material'),
-        validator: (value) {
-          if (value.isEmpty) {
-            return 'Please enter a material';
-          }
-          // need to validate if item code exist
-          return null;
-        },
         onChanged: (val) {
           setState(() {
-            materialTypes.add({'Material', val});
             material = val;
           });
         });
 
     final numberLengthInput = TextFormField(
         decoration: InputDecoration(labelText: 'Number / Length:'),
-        validator: (value) {
-          if (value.isEmpty) {
-            return 'Please enter Number / Length';
-          }
-          // need to validate if item code exist
-          return null;
-        },
         onChanged: (val) {
           setState(() {
-            materialTypes.add({'Length', val});
-            // need debug : onchange is not printing for some reason
-            print(val);
             numLen = val;
           });
         });
 
     final widthInput = TextFormField(
-        decoration: InputDecoration(labelText: 'Width:'),
-        validator: (value) {
-          if (value.isEmpty) {
-            return 'Please enter width';
-          }
-          // need to validate if item code exist
-          return null;
-        },
-        onChanged: (val) {
-          setState(() {
-            materialTypes.add({'Width', val});
-            width = val;
-          });
+      autofocus: false,
+      decoration: InputDecoration(labelText: 'Width:'),
+      onChanged: (val) {
+        setState(() {
+          width = val;
         });
+      },
+    );
 
     final removeMaterialButton = Container(
       margin: EdgeInsets.only(top: 5),
@@ -177,6 +153,14 @@ class _CreateInventoryItemState extends State<CreateInventoryItem> {
       );
     }
 
+    void _submitMaterialTypes() {
+      materialTypes
+          .add({'Material': material, 'Length': numLen, 'Width': width});
+      material = '';
+      numLen = '';
+      width = '';
+    }
+
     final emptyFieldError = Container(
       margin: const EdgeInsets.only(top: 5),
       child: Text('Fill empty fields',
@@ -188,7 +172,6 @@ class _CreateInventoryItemState extends State<CreateInventoryItem> {
     final addMaterialButton = ElevatedButton(
       onPressed: () {
         if (material.length == 0 || numLen.length == 0 || width.length == 0) {
-          print('something still empty');
           setState(() {
             showFieldsEmpty = true;
           });
@@ -196,10 +179,8 @@ class _CreateInventoryItemState extends State<CreateInventoryItem> {
         }
         showFieldsEmpty = false;
         setState(() {
+          _submitMaterialTypes();
           materialTypeList.add(_materialRow());
-          material = '';
-          numLen = '';
-          width = '';
         });
       },
       child: Text("+ Add Material Type",
@@ -214,11 +195,13 @@ class _CreateInventoryItemState extends State<CreateInventoryItem> {
 
     final nextButton = ElevatedButton(
       onPressed: () {
+        _submitMaterialTypes();
+
         Navigator.push(
           context,
           MaterialPageRoute(
               builder: (context) => CreateInventoryItemTwo(
-                    createSectionContainerfn: createSectionContainer,
+                    createSectionContainer: createSectionContainer,
                     itemCode: itemCode,
                     description: description,
                     materialTypes: materialTypes,
@@ -262,8 +245,13 @@ class _CreateInventoryItemState extends State<CreateInventoryItem> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: <Widget>[
-                        createSectionContainer(
-                            [itemCodeInput, itemDescriptionInput]),
+                        createSectionContainer([
+                          itemCodeInput,
+                          Padding(
+                            padding: const EdgeInsets.only(bottom: 8.0),
+                            child: itemDescriptionInput,
+                          )
+                        ]),
                         createSectionContainer([
                           _customHeading('Material Type'),
                           Column(

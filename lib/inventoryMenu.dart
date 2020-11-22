@@ -51,14 +51,6 @@ class InventoryMenu extends StatelessWidget {
       appBar: AppBar(
         title: Text('Payir - Thoorgayi'),
       ),
-      // body: Center(
-      //   child: ElevatedButton(
-      //     child: Text('Open route'),
-      //     onPressed: () {
-      //       // Navigate to second route when tapped.
-      //     },
-      //   ),
-      // ),
       body: Center(
         child: Container(
           width: MediaQuery.of(context).size.width,

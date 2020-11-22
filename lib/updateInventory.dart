@@ -128,21 +128,18 @@ class _UpdateInventoryItemState extends State<UpdateInventoryItem> {
       },
       child: Text("Update",
           textAlign: TextAlign.center,
-          style: style.copyWith(
-              color: Colors.white, fontWeight: FontWeight.bold)),
+          style:
+              style.copyWith(color: Colors.white, fontWeight: FontWeight.bold)),
     );
 
     final backButton = ElevatedButton(
       onPressed: () {
-        Navigator.push(
-          context,
-          MaterialPageRoute(builder: (context) => MyHomePage()),
-        );
+        Navigator.pop(context);
       },
       child: Text("Back",
           textAlign: TextAlign.center,
-          style: style.copyWith(
-              color: Colors.white, fontWeight: FontWeight.bold)),
+          style:
+              style.copyWith(color: Colors.white, fontWeight: FontWeight.bold)),
     );
 
     return Scaffold(
@@ -180,14 +177,16 @@ class _UpdateInventoryItemState extends State<UpdateInventoryItem> {
                         transportInput,
                         costInput,
                         saleInput,
-                        SizedBox(
-                          height: 35,
-                        ),
-                        updateButton,
-                        SizedBox(
-                          height: 35,
-                        ),
-                        backButton,
+                        Container(
+                            width: MediaQuery.of(context).size.width - 50,
+                            margin: const EdgeInsets.only(
+                                left: 35, right: 35, top: 35),
+                            child: updateButton),
+                        Container(
+                            width: MediaQuery.of(context).size.width - 50,
+                            margin: const EdgeInsets.symmetric(
+                                horizontal: 35, vertical: 20),
+                            child: backButton),
                       ],
                     ),
                   )

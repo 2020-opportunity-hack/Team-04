@@ -4,15 +4,15 @@ import 'package:ohack/createItemSummary.dart';
 class CreateInventoryItemTwo extends StatefulWidget {
   final String itemCode;
   final String description;
-  final List<Object> materialTypes;
+  final List<Map> materialTypes;
 
-  final Function createSectionContainerfn;
+  final Function createSectionContainer;
   const CreateInventoryItemTwo(
       {Key key,
       this.itemCode,
       this.description,
       this.materialTypes,
-      this.createSectionContainerfn})
+      this.createSectionContainer})
       : super(key: key);
 
   @override
@@ -26,7 +26,7 @@ class _CreateInventoryItemTwoState extends State<CreateInventoryItemTwo> {
   String transportCost;
   String costPrice;
   String salePrice;
-  List<Object> otherFieldValue = [];
+  List<Map> otherFieldValue = [];
 
   final List<Widget> otherList = [];
   String otherKeyField = '';
@@ -168,7 +168,6 @@ class _CreateInventoryItemTwoState extends State<CreateInventoryItemTwo> {
                   onChanged: (val) {
                     setState(() {
                       otherKeyField = val;
-                      print(otherKeyField);
                     });
                   },
                 )),
@@ -231,7 +230,7 @@ class _CreateInventoryItemTwoState extends State<CreateInventoryItemTwo> {
         }
         showFieldsEmpty = false;
         setState(() {
-          otherFieldValue.add({otherKeyField, otherValueField});
+          otherFieldValue.add({otherKeyField: otherValueField});
           otherList.add(_otherRow());
           otherKeyField = '';
           otherValueField = '';
@@ -250,13 +249,13 @@ class _CreateInventoryItemTwoState extends State<CreateInventoryItemTwo> {
     final nextButton = ElevatedButton(
       onPressed: () {
         if (otherKeyField.length > 0 && otherValueField.length > 0) {
-          otherFieldValue.add({otherKeyField, otherValueField});
+          otherFieldValue.add({otherKeyField: otherValueField});
         }
         Navigator.push(
           context,
           MaterialPageRoute(
               builder: (context) => CreateItemSummary(
-                    createSectionContainerfn: widget.createSectionContainerfn,
+                    createSectionContainer: widget.createSectionContainer,
                     itemCode: widget.itemCode,
                     description: widget.description,
                     materialTypes: widget.materialTypes,
@@ -304,19 +303,19 @@ class _CreateInventoryItemTwoState extends State<CreateInventoryItemTwo> {
                     ),
                     child: Column(
                       children: [
-                        widget.createSectionContainerfn([
+                        widget.createSectionContainer([
                           _customHeading('Labor'),
                           cuttingInput,
                           stitchingInput,
                           otherInput,
                         ]),
-                        widget.createSectionContainerfn([
+                        widget.createSectionContainer([
                           _customHeading('Cost'),
                           transportInput,
                           costInput,
                           saleInput,
                         ]),
-                        widget.createSectionContainerfn([
+                        widget.createSectionContainer([
                           _customHeading('Other'),
                           Column(children: otherList),
                           showFieldsEmpty ? emptyFieldError : SizedBox(),
