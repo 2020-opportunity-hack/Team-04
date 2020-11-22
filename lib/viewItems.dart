@@ -44,7 +44,6 @@ class _CreateInventoryItemState extends State<ViewItems> {
       return listOfItems;
     }
 
-
     final heading = Container(
       margin: EdgeInsets.fromLTRB(5.0, 15.0, 20.0, 30.0),
       alignment: Alignment.center,
