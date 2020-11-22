@@ -8,10 +8,10 @@ A Flutter mobile app for inventory management.
 Our mobile app helps the user manage their inventory. Some of the features include letting the user record inventory items with specifications, change the quantity, and viewing all inventory.
 
 ## Table of Context
-[About](#OHack-Payir-Thoorigai) 
-[Installation](#Installation) 
-[Team](#Team) 
-[Tech Stack](#Tech-Stack) 
+- [About](#OHack-Payir-Thoorigai) 
+- [Installation](#Installation) 
+- [Team](#Team) 
+- [Tech Stack](#Tech-Stack) 
 
 
 # Installation
@@ -28,24 +28,24 @@ Steps to run this project on your local machine:
 
 # Team
 
-## Malinda Lin
+### `Malinda Lin`
 [Website](https://malinda.dev/)
 [Github](https://github.com/malinda-lin)
 [LinkedIn](https://www.linkedin.com/in/malinda-lin/)
 
-## Mansi Jain
+### `Mansi Jain`
 [Github](https://github.com/supermansi)
 [LinkedIn]()
 
-## Kinnari Sanghvi
+### `Kinnari Sanghvi`
 [Github](https://github.com/kinnarisanghvi)
 [LinkedIn](https://www.linkedin.com/in/kinnari-sanghvi/)
 
-## Vatsal Palan
+## `Vatsal Palan`
 [Github](https://github.com/vatsal1999)
 [LinkedIn]()
 
 # Tech-Stack
 
-[Flutter](https://flutter.dev/)
-[Firebase](https://firebase.google.com/)
+- [Flutter](https://flutter.dev/)
+- [Firebase](https://firebase.google.com/)
