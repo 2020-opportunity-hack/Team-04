@@ -28,7 +28,7 @@ class _CreateInventoryItemTwoState extends State<CreateInventoryItemTwo> {
   String salePrice;
   List<Map> otherFieldValue = [];
 
-  final List<Widget> otherList = [];
+  List<Widget> otherList = [];
   String otherKeyField = '';
   String otherValueField = '';
   bool showFieldsEmpty = false;
@@ -212,14 +212,21 @@ class _CreateInventoryItemTwoState extends State<CreateInventoryItemTwo> {
       );
     }
 
+    void _submitOtherFields() {
+      otherFieldValue
+          .add({'keyField': otherKeyField, 'valueField': otherValueField});
+      otherKeyField = '';
+      otherValueField = '';
+    }
+
     final emptyFieldError = Container(
       margin: const EdgeInsets.only(top: 5),
       child: Text('Fill empty fields',
-        textAlign: TextAlign.center,
-        style: style.copyWith(
-            color: Colors.purple[600], fontWeight: FontWeight.normal)),
+          textAlign: TextAlign.center,
+          style: style.copyWith(
+              color: Colors.purple[600], fontWeight: FontWeight.normal)),
     );
-    
+
     final addOtherButton = ElevatedButton(
       onPressed: () {
         if (otherKeyField.length == 0 || otherValueField.length == 0) {
@@ -230,10 +237,8 @@ class _CreateInventoryItemTwoState extends State<CreateInventoryItemTwo> {
         }
         showFieldsEmpty = false;
         setState(() {
-          otherFieldValue.add({otherKeyField: otherValueField});
+          _submitOtherFields();
           otherList.add(_otherRow());
-          otherKeyField = '';
-          otherValueField = '';
         });
       },
       child: Text("+ Add Other",
@@ -249,7 +254,7 @@ class _CreateInventoryItemTwoState extends State<CreateInventoryItemTwo> {
     final nextButton = ElevatedButton(
       onPressed: () {
         if (otherKeyField.length > 0 && otherValueField.length > 0) {
-          otherFieldValue.add({otherKeyField: otherValueField});
+          _submitOtherFields();
         }
         Navigator.push(
           context,

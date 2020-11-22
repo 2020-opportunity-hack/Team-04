@@ -2,7 +2,7 @@
   "Login": "Login",
   "Sign_Up": "Sign Up",
   "Password_Hint": "Password",
-  "Email_Hint": "Email",
+  "Email_Hint": "Username or Email",
   "Invoice": "Invoice",
   "Create_Inventory_Item": "Create Inventory Item"
 }

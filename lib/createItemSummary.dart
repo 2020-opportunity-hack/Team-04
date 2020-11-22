@@ -6,14 +6,14 @@ import 'package:ohack/inventoryMenu.dart';
 class CreateItemSummary extends StatefulWidget {
   final String itemCode;
   final String description;
-  final List<Object> materialTypes;
+  final List<Map> materialTypes;
   final String cutting;
   final String stitching;
   final String other;
   final String transportCost;
   final String costPrice;
   final String salePrice;
-  final List<Object> otherFieldValue;
+  final List<Map> otherFieldValue;
 
   final Function createSectionContainer;
   const CreateItemSummary(
@@ -121,34 +121,39 @@ class _CreateItemSummaryState extends State<CreateItemSummary> {
       );
     }
 
+    Widget _createOtherRows() {
+      if (widget.materialTypes == null || widget.materialTypes.length == 0) {
+        return Text('None');
+      }
+
+      return Container(
+          child: Column(
+        children: widget.otherFieldValue.map((row) {
+          Map rowMap = row;
+          var keyField = rowMap['keyField'];
+          var valueField = rowMap['valueField'];
+          if (keyField == null) {
+            keyField = '';
+          }
+          if (valueField == null) {
+            valueField = '';
+          }
+          return Column(
+            children: [
+              _createSummaryRow(keyField, valueField),
+            ],
+          );
+        }).toList(),
+      ));
+    }
+
     Widget _createMaterialType() {
       if (widget.materialTypes == null) {
         return Text('None');
       }
-
-      // List<Widget> fn() {
-      //   List<Widget> children = [];
-      //   for (var i = 0; i < widget.materialTypes.length; i++) {
-      //     HashMap<dynamic, dynamic> entry = widget.materialTypes[i];
-      //     children.add(Column(children: [
-      //       _createSummaryRow('Material', entry['Material']),
-      //       _createSummaryRow('Length', entry['Length']),
-      //       _createSummaryRow('Width', entry['Width']),
-      //     ],));
-      //   }
-      //   return children;
-      // }
-
-      // return Container(
-      //   child: Column(
-      //     children: fn(),
-      //   ),
-      // );
-
       return Container(
           child: Column(
         children: widget.materialTypes.map((row) {
-          print(row);
           Map rowMap = row;
           return Column(
             children: [
@@ -204,7 +209,7 @@ class _CreateItemSummaryState extends State<CreateItemSummary> {
                         ]),
                         widget.createSectionContainer([
                           _customHeading('Other'),
-                          _createSummaryRow('', '')
+                          _createOtherRows(),
                           // logic for checking if other fields were filled
                         ]),
                         Row(
