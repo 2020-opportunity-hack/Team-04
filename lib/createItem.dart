@@ -232,7 +232,7 @@ class _CreateInventoryItemState extends State<CreateInventoryItem> {
       body: Center(
         child: SingleChildScrollView(
           child: Container(
-            padding: EdgeInsets.fromLTRB(20.0, 0.0, 10.0, 0.0),
+            padding: EdgeInsets.fromLTRB(10.0, 0.0, 10.0, 0.0),
             child: Column(
               children: [
                 heading,
