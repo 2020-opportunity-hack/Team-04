@@ -41,7 +41,7 @@ Steps to run this project on your local machine:
 - [Github](https://github.com/kinnarisanghvi)
 - [LinkedIn](https://www.linkedin.com/in/kinnari-sanghvi/)
 
-## `Vatsal Palan`
+### `Vatsal Palan`
 - [Github](https://github.com/vatsal1999)
 - [LinkedIn]()
 
