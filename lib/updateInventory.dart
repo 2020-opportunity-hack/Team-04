@@ -36,13 +36,15 @@ class _UpdateInventoryItemState extends State<UpdateInventoryItem> {
 
     getInventoryRecords();
 
-    final heading = Padding(
-      padding: const EdgeInsets.only(bottom: 20.0),
+    final heading = Container(
+      margin: EdgeInsets.fromLTRB(5.0, 25.0, 20.0, 30.0),
+      alignment: Alignment.center,
       child: Text(
         'Update Inventory Item',
         textAlign: TextAlign.center,
         style: style.copyWith(
-          fontSize: 30,
+          fontWeight: FontWeight.bold,
+          fontSize: 26,
         ),
       ),
     );
