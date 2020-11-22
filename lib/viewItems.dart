@@ -15,6 +15,8 @@ class _CreateInventoryItemState extends State<ViewItems> {
   final fbInstance = FirebaseDatabase.instance.reference().child("inventory");
 
   final List<Widget> materialTypeList = [];
+  int costPrice = 0;
+  int salesPrice = 0;
 
   @override
   Widget build(BuildContext context) {
@@ -33,12 +35,15 @@ class _CreateInventoryItemState extends State<ViewItems> {
         for (var k in map.keys) {
           InventoryItem ic = new InventoryItem(map[k]["item_code"],
               map[k]["number_length"], map[k]["material"], map[k]["width"]);
+          costPrice = costPrice +  int.parse(map[k]["number_length"]);
+          salesPrice = salesPrice + int.parse(map[k]["width"]);
           listOfItems.add(ic);
         }
       });
 
       return listOfItems;
     }
+
 
     final heading = Container(
       margin: EdgeInsets.fromLTRB(5.0, 15.0, 20.0, 30.0),
@@ -175,13 +180,13 @@ class _CreateInventoryItemState extends State<ViewItems> {
                                   Container(child: Column(children: [
                                     Padding(
                                       padding: const EdgeInsets.all(8.0),
-                                      child: Text('Total Cost Price:',
+                                      child: Text('Total Cost Price: $costPrice',
                                       style: columnNamesTextStyle,
                                       ),
                                     ),
                                     Padding(
                                       padding: const EdgeInsets.all(8.0),
-                                      child: Text('Total Sale Price:',
+                                      child: Text('Total Sale Price: $salesPrice',
                                       style: columnNamesTextStyle,
                                       ),
                                     ),
