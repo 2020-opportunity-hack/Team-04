@@ -29,21 +29,21 @@ Steps to run this project on your local machine:
 # Team
 
 ### `Malinda Lin`
-[Website](https://malinda.dev/)
-[Github](https://github.com/malinda-lin)
-[LinkedIn](https://www.linkedin.com/in/malinda-lin/)
+- [Website](https://malinda.dev/)
+- [Github](https://github.com/malinda-lin)
+- [LinkedIn](https://www.linkedin.com/in/malinda-lin/)
 
 ### `Mansi Jain`
-[Github](https://github.com/supermansi)
-[LinkedIn]()
+- [Github](https://github.com/supermansi)
+- [LinkedIn]()
 
 ### `Kinnari Sanghvi`
-[Github](https://github.com/kinnarisanghvi)
-[LinkedIn](https://www.linkedin.com/in/kinnari-sanghvi/)
+- [Github](https://github.com/kinnarisanghvi)
+- [LinkedIn](https://www.linkedin.com/in/kinnari-sanghvi/)
 
 ## `Vatsal Palan`
-[Github](https://github.com/vatsal1999)
-[LinkedIn]()
+- [Github](https://github.com/vatsal1999)
+- [LinkedIn]()
 
 # Tech-Stack
 
