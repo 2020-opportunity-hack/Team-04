@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'main.dart';
+import 'package:firebase_database/firebase_database.dart';
 
 class UpdateInventoryItem extends StatefulWidget {
   @override
@@ -7,9 +8,33 @@ class UpdateInventoryItem extends StatefulWidget {
 }
 
 class _UpdateInventoryItemState extends State<UpdateInventoryItem> {
+  bool greenUnderLine = false;
+  String quantity;
+  String transportCost;
+  String costPrice;
+  String salesPrice;
+
+  Set<String> itemCodes = {};
   @override
   Widget build(BuildContext context) {
     TextStyle style = TextStyle(fontFamily: 'Montserrat', fontSize: 20.0);
+
+    final fbInstance = FirebaseDatabase.instance
+        .reference()
+        .child("inventory")
+        .child("deliverable_product");
+
+    getInventoryRecords() async {
+      await fbInstance.once().then((DataSnapshot snapshot) {
+        Map<dynamic, dynamic> map = snapshot.value;
+        for (var k in map.keys) {
+          itemCodes.add(map[k]["item_code"]);
+        }
+        print(itemCodes);
+      });
+    }
+
+    getInventoryRecords();
 
     final heading = Padding(
       padding: const EdgeInsets.only(bottom: 20.0),
@@ -34,13 +59,25 @@ class _UpdateInventoryItemState extends State<UpdateInventoryItem> {
     );
 
     final itemCodeInput = TextFormField(
-      decoration: const InputDecoration(labelText: 'Enter an item code'),
-      validator: (value) {
-        if (value.isEmpty) {
-          return 'Please enter an item code';
-        }
-        // need to validate if item code exist
-        return null;
+      decoration: InputDecoration(
+        labelText: 'Enter an item code',
+        errorText: greenUnderLine ? null : "please enter item code",
+//            focusedBorder: UnderlineInputBorder(
+//              borderSide: BorderSide(color: Colors.green)
+//            )
+      ),
+      onChanged: (String value) async {
+          setState(() {
+            checkForCodeItem(value);
+          });
+        // if (checkForCodeItem(value)) {
+        //   border:
+        //   new OutlineInputBorder(
+        //       borderSide: new BorderSide(color: Colors.green));
+        // }
+      },
+      validator: (String value) {
+        return value.contains('@') ? 'Do not use the @ char.' : null;
       },
     );
 
@@ -48,6 +85,13 @@ class _UpdateInventoryItemState extends State<UpdateInventoryItem> {
       decoration: const InputDecoration(
         labelText: 'Enter Quantity',
       ),
+      onChanged: (val) {
+        setState(() {
+          quantity = val;
+          // need debug : onchange is not printing for some reason
+          print(val);
+        });
+      },
       validator: (value) {
         if (value.isEmpty) {
           return 'Please enter a quantity';
@@ -69,12 +113,26 @@ class _UpdateInventoryItemState extends State<UpdateInventoryItem> {
         }
         return null;
       },
+      onChanged: (val) {
+        setState(() {
+          transportCost = val;
+          // need debug : onchange is not printing for some reason
+          print(val);
+        });
+      },
     );
 
     final costInput = TextFormField(
       decoration: const InputDecoration(
         labelText: 'Enter cost price',
       ),
+      onChanged: (val) {
+        setState(() {
+          costPrice = val;
+          // need debug : onchange is not printing for some reason
+          print(val);
+        });
+      },
       validator: (value) {
         if (value.isEmpty) {
           return 'Please enter a cost';
@@ -93,6 +151,13 @@ class _UpdateInventoryItemState extends State<UpdateInventoryItem> {
         }
         return null;
       },
+      onChanged: (val) {
+        setState(() {
+          salesPrice = val;
+          // need debug : onchange is not printing for some reason
+          print(val);
+        });
+      },
     );
 
     final buttonStyle = ButtonStyle(
@@ -102,11 +167,10 @@ class _UpdateInventoryItemState extends State<UpdateInventoryItem> {
     final incrementButton = ElevatedButton(
       style: buttonStyle,
       onPressed: null,
-      child: Text(
-        "+",
-        textAlign: TextAlign.center,
-        style: style.copyWith(color: Colors.white, fontWeight: FontWeight.bold),
-      ),
+      child: Text("+",
+          textAlign: TextAlign.center,
+          style:
+              style.copyWith(color: Colors.white, fontWeight: FontWeight.bold)),
     );
 
     final decrementButton = ElevatedButton(
@@ -143,59 +207,65 @@ class _UpdateInventoryItemState extends State<UpdateInventoryItem> {
     );
 
     return Scaffold(
-      appBar: AppBar(
-        title: Text('Payir - Thoorgayi'),
-      ),
-      body: SingleChildScrollView(
-        child: Center(
-          child: Container(
-            child: Padding(
-              padding: const EdgeInsets.only(left: 20.0, right: 20.0),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  heading,
-                  description,
-                  Form(
-                    child: Column(
-                      children: <Widget>[
-                        itemCodeInput,
-                        Row(
-                          children: [
-                            Expanded(child: quantityInput),
-                            Container(
-                                padding: EdgeInsets.only(
-                                    left: 10.0, top: 5.0, bottom: 5.0),
-                                child: incrementButton),
-                            Container(
-                                padding: EdgeInsets.only(
-                                    left: 10.0, top: 5.0, bottom: 5.0),
-                                child: decrementButton),
-                          ],
-                        ),
-                        transportInput,
-                        costInput,
-                        saleInput,
+        appBar: AppBar(
+          title: Text('Payir - Thoorgayi'),
+        ),
+        body: SingleChildScrollView(
+            child: Center(
+                child: Container(
+                    child: Padding(
+          padding: const EdgeInsets.only(left: 20.0, right: 20.0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              heading,
+              description,
+              Form(
+                child: Column(
+                  children: <Widget>[
+                    itemCodeInput,
+                    Row(
+                      children: [
+                        Expanded(child: quantityInput),
                         Container(
-                            width: MediaQuery.of(context).size.width - 50,
-                            margin: const EdgeInsets.only(
-                                left: 35, right: 35, top: 35),
-                            child: updateButton),
+                            padding: EdgeInsets.only(
+                                left: 10.0, top: 5.0, bottom: 5.0),
+                            child: incrementButton),
                         Container(
-                            width: MediaQuery.of(context).size.width - 50,
-                            margin: const EdgeInsets.symmetric(
-                                horizontal: 35, vertical: 20),
-                            child: backButton),
+                            padding: EdgeInsets.only(
+                                left: 10.0, top: 5.0, bottom: 5.0),
+                            child: decrementButton),
                       ],
                     ),
-                  )
-                ],
-              ),
-            ),
+                    transportInput,
+                    costInput,
+                    saleInput,
+                    Container(
+                        width: MediaQuery.of(context).size.width - 50,
+                        margin:
+                            const EdgeInsets.only(left: 35, right: 35, top: 35),
+                        child: updateButton),
+                    Container(
+                        width: MediaQuery.of(context).size.width - 50,
+                        margin: const EdgeInsets.symmetric(
+                            horizontal: 35, vertical: 20),
+                        child: backButton),
+                  ],
+                ),
+              )
+            ],
           ),
-        ),
-      ),
-    );
+        )))));
+  }
+
+  bool checkForCodeItem(String value) {
+    if (itemCodes.contains(value)) {
+      greenUnderLine = true;
+    } else {
+      greenUnderLine = false;
+    }
+    print(greenUnderLine);
+    return greenUnderLine;
   }
 }
