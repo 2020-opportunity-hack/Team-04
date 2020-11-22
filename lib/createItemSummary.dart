@@ -1,5 +1,6 @@
 import 'dart:collection';
 
+import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:ohack/inventoryMenu.dart';
 
@@ -36,6 +37,7 @@ class CreateItemSummary extends StatefulWidget {
 }
 
 class _CreateItemSummaryState extends State<CreateItemSummary> {
+  final fbInstance = FirebaseDatabase.instance.reference().child("inventory");
   @override
   Widget build(BuildContext context) {
     final TextStyle style = TextStyle(
@@ -68,6 +70,7 @@ class _CreateItemSummaryState extends State<CreateItemSummary> {
 
     final createButton = ElevatedButton(
       onPressed: () {
+        writeData();
         Navigator.push(
           context,
           MaterialPageRoute(builder: (context) => InventoryMenu()),
@@ -238,5 +241,20 @@ class _CreateItemSummaryState extends State<CreateItemSummary> {
         ),
       ),
     );
+  }
+  void writeData() {
+    fbInstance.child("deliverable_product").push().set({
+      "item_code": widget.itemCode,
+      "description": widget.description,
+      "material": widget.materialTypes,
+      "cutting": widget.cutting,
+      "stitching": widget.stitching,
+      "other": widget.other,
+      "transport_cost": widget.transportCost,
+      "cost_price": widget.costPrice,
+      "sale_price": widget.salePrice,
+      "other_field": widget.otherFieldValue,
+      "quantity": 1,
+    });
   }
 }

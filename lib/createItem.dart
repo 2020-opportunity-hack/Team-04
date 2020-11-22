@@ -289,13 +289,4 @@ class _CreateInventoryItemState extends State<CreateInventoryItem> {
       ),
     );
   }
-
-//   void writeData() {
-//     fbInstance.child("deliverable_product").push().set({
-//       "item_code": itemCode,
-//       "material": material,
-//       "number_length": numLen,
-//       "width": width
-//     });
-//   }
 }
