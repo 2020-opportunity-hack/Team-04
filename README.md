@@ -84,13 +84,15 @@ Developed functionality for
 
 5. UPDATE THE ITEM
      
-    - Click on the 'Update Item' on the menu screen
+   - Click on the 'Update Item' on the menu screen
     
-    - Text field for item code is red for validation purposes. It turns purple when the item code entered is valid
+   - Text field for item code is red for validation purposes. It turns purple when the item code entered is valid
     
-    - Increment and decrement button can be used to increment/decrement the current quantity by the entered number. Make sure you enter the number and then click either of the         two buttons
+   - Increment and decrement button can be used to increment/decrement the current quantity by the entered number.
+     Make sure you enter the number and then click either of the two buttons
     
-    - User can update quantity, transport cost, cost price, and sales price. For verifying, the user can go back to the view screen and check the updated values for the same           item code
+   - User can update quantity, transport cost, cost price, and sales price.
+     For verifying, the user can go back to the view screen and check the updated values for the same item code
 
 ```
 Check out these visual tutorials for more help: 
