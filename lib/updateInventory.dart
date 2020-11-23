@@ -10,11 +10,15 @@ class UpdateInventoryItem extends StatefulWidget {
 
 class _UpdateInventoryItemState extends State<UpdateInventoryItem> {
   bool greenUnderLine = false;
+  int currentQuantity;
   String quantity;
   String transportCost;
   String costPrice;
   String salesPrice;
   String itemKey;
+
+  bool disableIncrement = true;
+  bool disableDecrement = true;
 
   Map<dynamic, dynamic> itemCodes = {};
   Map<dynamic, dynamic> keyValue = {};
@@ -32,6 +36,7 @@ class _UpdateInventoryItemState extends State<UpdateInventoryItem> {
          itemCodes = snapshot.value;
          for (var k in itemCodes.keys) {
            itemCodes.putIfAbsent(k, () => k["item_code"]);
+           this.currentQuantity = int.parse(k["quantity"]);
 //           print(k);
          }
        });
@@ -45,6 +50,13 @@ class _UpdateInventoryItemState extends State<UpdateInventoryItem> {
              .child(itemKey)
              .update({key: value});
        });
+       fbInstance
+           .child(itemKey)
+           .update({"quantity": (val) => {
+             disableIncrement
+             ? (this.currentQuantity - int.parse(this.quantity))
+              : (this.currentQuantity + int.parse(this.quantity))
+       }});
       }
 
      getInventoryRecords();
@@ -99,7 +111,6 @@ class _UpdateInventoryItemState extends State<UpdateInventoryItem> {
         onChanged: (val) {
           setState(() {
             quantity = val;
-            keyValue.update("quantity", (v) => quantity, ifAbsent: () => quantity);
           });
         },
         validator: (value) {
@@ -175,7 +186,12 @@ class _UpdateInventoryItemState extends State<UpdateInventoryItem> {
 
     final incrementButton = ElevatedButton(
       style: buttonStyle,
-      onPressed: null,
+      onPressed: () {
+        setState(() {
+          disableDecrement = true;
+          disableIncrement = false;
+        });
+      },
       child: Text(
         "+",
         textAlign: TextAlign.center,
@@ -183,9 +199,15 @@ class _UpdateInventoryItemState extends State<UpdateInventoryItem> {
             color: Colors.white, fontWeight: FontWeight.bold),
       ),
     );
+
     final decrementButton = ElevatedButton(
       style: buttonStyle,
-      onPressed: null,
+      onPressed: () {
+        setState(() {
+          disableIncrement = true;
+          disableDecrement = false;
+        });
+      },
       child: Text(
         "-",
         textAlign: TextAlign.center,
