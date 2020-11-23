@@ -44,7 +44,7 @@ Check out these visual tutorials for more help:
 
 ### `Mansi Jain`
 - [Github](https://github.com/supermansi)
-- [LinkedIn]()
+- [LinkedIn](https://www.linkedin.com/in/jmansi/)
 
 ### `Kinnari Sanghvi`
 - [Github](https://github.com/kinnarisanghvi)
@@ -52,7 +52,7 @@ Check out these visual tutorials for more help:
 
 ### `Vatsal Palan`
 - [Github](https://github.com/vatsal1999)
-- [LinkedIn]()
+- [LinkedIn](https://www.linkedin.com/in/vatsalpalan/)
 
 # Tech-Stack
 
