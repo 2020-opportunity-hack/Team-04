@@ -36,7 +36,17 @@ Check out these visual tutorials for more help:
  - [Windows](https://www.youtube.com/watch?v=Z2ugnpCQuyw)
  - [Mac](https://www.youtube.com/watch?v=hL7pkX1Pfko)
  
+
+# Features
+Developed functionality for 
+- Signing up a user
+- Login the user
+- Create inventory item
+- View items of inventory
+- Update inventory item
+
 ```
+
 1. SIGN UP
 
    - Start the app to see the login page
