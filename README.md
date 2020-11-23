@@ -2,6 +2,7 @@
 
 Demo Video:
 https://youtu.be/NlVRM6qoNZg
+[![](http://img.youtube.com/vi/NlVRM6qoNZg/0.jpg)](http://www.youtube.com/watch?v=NlVRM6qoNZg "")
 
 ### Inspiration
 Thoorigai is made up of a group of women that learned the skills of bag making and are using it to provide for their livelihoods. They currently handle their inventory management manually and are looking for a solution that can save time and automate some of this work. All of the members agreed that the primary inspiration came from the urge to apply their technical knowledge for a good cause that's why the name 'Social Hackers'. 
