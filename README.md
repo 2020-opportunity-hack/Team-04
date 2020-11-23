@@ -16,15 +16,24 @@ Our mobile app helps the user manage their inventory. Some of the features inclu
 
 # Installation
 Steps to run this project on your local machine:
-(Assuming you have flutter properly installed on your computer)
 
 ```
-1. git clone https://github.com/2020-opportunity-hack/Team-04.git
+1. Head over to this link and install flutter: https://flutter.dev/docs/get-started/install
+   The link above will walk you through installing Andriod Studio and Xcode as well
 
-2. connect your device(Andriod, IOS, ...)
+2. In your terminal and code editor: 
 
-3. flutter run
+   - cd <directory you want to save files to>
+   
+   - git clone https://github.com/2020-opportunity-hack/Team-04.git
+
+   - connect your device(Andriod, IOS, Emulator, Simulator...)
+
+   - flutter run
 ```
+Check out these visual tutorials for more help: 
+ - [Windows](https://www.youtube.com/watch?v=Z2ugnpCQuyw)
+ - [Mac](https://www.youtube.com/watch?v=hL7pkX1Pfko)
 
 # Team
 
