@@ -1,8 +1,9 @@
 # OHack Payir Thoorigai
 
 ### Demo Videos: 
+<img src="https://github.com/2020-opportunity-hack/Team-04/blob/master/demo-no-audio720.gif" width="150">  
+Demo Video for OHack:  
 https://youtu.be/NlVRM6qoNZg  
-[![](http://img.youtube.com/vi/NlVRM6qoNZg/0.jpg)](http://www.youtube.com/watch?v=NlVRM6qoNZg "")  
 Database:  
 https://youtu.be/A7ZqQgtqGOY
 
@@ -133,4 +134,4 @@ Check out these visual tutorials for more help:
 - [Flutter](https://flutter.dev/)
 - [Firebase](https://firebase.google.com/)
 
-<img src="https://github.com/______.gif" width="150">
+
