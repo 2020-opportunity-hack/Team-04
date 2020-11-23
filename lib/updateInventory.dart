@@ -94,7 +94,10 @@ class _UpdateInventoryItemState extends State<UpdateInventoryItem> {
 //            )
         ),
         onChanged: (String value) async {
-          checkForCodeItem(value);
+          setState(() {
+            checkForCodeItem(value);
+          });
+          
 //        if(v)
 //          border: new OutlineInputBorder(
 //            borderSide: new BorderSide(color: Colors.green));
@@ -216,10 +219,10 @@ class _UpdateInventoryItemState extends State<UpdateInventoryItem> {
 
       final updateButton = ElevatedButton(
         onPressed: () {
-//          Navigator.push(
-//            context,
-//            MaterialPageRoute(builder: (context) => MyHomePage()),
-//          );
+        //  Navigator.push(
+        //    context,
+        //    MaterialPageRoute(builder: (context) => MyHomePage()),
+        //  );
           updateItem();
         },
         child: Text("Update",
@@ -296,10 +299,12 @@ class _UpdateInventoryItemState extends State<UpdateInventoryItem> {
     itemCodes.forEach((k,v) =>
     {
       if(v["item_code"].compareTo(value) == 0){
+        greenUnderLine = true,
         itemKey = k,
         currentQuantity = v["quantity"],
         print("Selected Item Code" + itemKey),
-      }
+      } else
+      greenUnderLine = false
     });
   }
 }

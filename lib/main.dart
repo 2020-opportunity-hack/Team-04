@@ -182,6 +182,7 @@ class _MyHomePageState extends State<MyHomePage> {
       body: SingleChildScrollView(
         child: Center(
           child: Container(
+            height: MediaQuery.of(context).size.height,
             color: Colors.white,
             child: Padding(
               padding: const EdgeInsets.all(36.0),
