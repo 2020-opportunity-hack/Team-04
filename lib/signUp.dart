@@ -42,15 +42,6 @@ class _SignUpState extends State<SignUp> {
           border:
               OutlineInputBorder(borderRadius: BorderRadius.circular(32.0))),
     );
-    // final reEnterPasswordField = TextField(
-    //   obscureText: true,
-    //   style: style,
-    //   decoration: InputDecoration(
-    //       contentPadding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
-    //       hintText: "Re-enter Password",
-    //       border:
-    //           OutlineInputBorder(borderRadius: BorderRadius.circular(32.0))),
-    // );
 
     final loginButton = ElevatedButton(
       onPressed: () {
@@ -176,33 +167,3 @@ class _SignUpState extends State<SignUp> {
     );
   }
 }
-
-// class Category extends StatelessWidget {
-//   final String image_location;
-//   final String image_caption;
-
-//   Category({this.image_location, this.image_caption});
-//   @override
-//   Widget build(BuildContext context) {
-//     return Padding(
-//       padding: const EdgeInsets.all(2.0),
-//       child: InkWell(
-//         onTap: () {},
-//         child: Container(
-//           width: 100.0,
-//           child: ListTile(
-//             title: Image.asset(
-//               image_location,
-//               width: 100.0,
-//               height: 80.0,
-//             ),
-//             subtitle: Container(
-//               alignment: Alignment.topCenter,
-//               child: Text(image_caption),
-//             ),
-//           ),
-//         ),
-//       ),
-//     );
-//   }
-// }
