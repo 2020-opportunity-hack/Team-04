@@ -82,6 +82,7 @@ Developed functionality for
     - The view page will show item_code, quantity, sales price, and cost price. 
     
     - Shows total cost price and total sales price at the end of the screen
+    
 
 5. UPDATE THE ITEM
      
