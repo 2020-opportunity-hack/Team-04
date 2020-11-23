@@ -67,6 +67,47 @@ class _SignUpState extends State<SignUp> {
           .tr(),
     );
 
+    final _redirectButton = ElevatedButton(
+        onPressed: () {
+           Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => MyHomePage()),
+          );
+        },
+        child: Text("Return to Login")
+    );
+
+    void _showDialog() {
+      // flutter defined function
+      final username = email;
+      showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          // return object of type Dialog
+          return AlertDialog(
+            title: new Text(
+              "Account Created SuccessFully",
+              textAlign: TextAlign.center,
+              style: style.copyWith(fontStyle: FontStyle.normal),
+            ),
+            content: Text(
+              'Your username is $username',
+              textAlign: TextAlign.center,
+              style: style.copyWith(
+                  fontStyle: FontStyle.normal,
+                  fontWeight: FontWeight.normal,
+                  fontSize: 18),
+            ),
+            actions: <Widget>[
+              Container(
+                  margin: const EdgeInsets.only(bottom: 10, right: 10),
+                  child: _redirectButton),
+            ],
+          );
+        },
+      );
+    }
+
     final signUpButton = ElevatedButton(
       onPressed: () async {
         setState(() {
@@ -76,10 +117,7 @@ class _SignUpState extends State<SignUp> {
           final newuser = await _auth.createUserWithEmailAndPassword(
               email: email, password: password);
           if (newuser != null) {
-            Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => MyHomePage()),
-            );
+            _showDialog();
             setState(() {
               showProgress = false;
             });

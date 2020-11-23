@@ -68,13 +68,55 @@ class _CreateItemSummaryState extends State<CreateItemSummary> {
       );
     }
 
+    final _redirectButton = ElevatedButton(
+        onPressed: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => InventoryMenu()),
+          );
+        },
+        child: Text("Finished"));
+
+    void _showDialog() {
+      // flutter defined function
+      final itemCode = widget.itemCode;
+      showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          // return object of type Dialog
+          return AlertDialog(
+            title: new Text(
+              "New Item Created SuccessFully",
+              textAlign: TextAlign.center,
+              style: style.copyWith(fontStyle: FontStyle.normal),
+            ),
+            content: Text(
+              'Item Code: $itemCode',
+              textAlign: TextAlign.center,
+              style: style.copyWith(
+                fontStyle: FontStyle.normal,
+                fontWeight: FontWeight.normal,
+                fontSize: 18
+              ),
+            ),
+            actions: <Widget>[
+              Container(
+                margin: const EdgeInsets.only(bottom:10, right: 10),
+                child: _redirectButton),
+            ],
+          );
+        },
+      );
+    }
+
     final createButton = ElevatedButton(
       onPressed: () {
         writeData();
-        Navigator.push(
-          context,
-          MaterialPageRoute(builder: (context) => InventoryMenu()),
-        );
+        _showDialog();
+        // Navigator.push(
+        //   context,
+        //   MaterialPageRoute(builder: (context) => InventoryMenu()),
+        // );
       },
       child: Text("Create",
           textAlign: TextAlign.center,
@@ -242,6 +284,7 @@ class _CreateItemSummaryState extends State<CreateItemSummary> {
       ),
     );
   }
+
   void writeData() {
     fbInstance.child("deliverable_product").push().set({
       "item_code": widget.itemCode,
