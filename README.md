@@ -1,17 +1,17 @@
 # OHack Payir Thoorigai
 
-### Demo Videos: 
+### Demo Videos & Links: 
 <img src="https://github.com/2020-opportunity-hack/Team-04/blob/master/demo-no-audio720.gif" width="700">  
 
 - Demo Video for OHack [Click Here](https://youtu.be/5ydvLLbrShY)  
 - Database Demo Video [Click Here](https://youtu.be/A7ZqQgtqGOY)  
+- [DevPost](https://devpost.com/software/opportunity-hack-payir-thoorigai)  
 
 ### Inspiration
 Thoorigai is made up of a group of women that learned the skills of bag making and are using it to provide for their livelihoods. They currently handle their inventory management manually and are looking for a solution that can save time and automate some of this work. All of the members agreed that the primary inspiration came from the urge to apply their technical knowledge for a good cause that's why the name 'Social Hackers'. 
 A Flutter mobile app for inventory management.
 
 ### About the App  
-[Devpost](https://devpost.com/software/opportunity-hack-payir-thoorigai)  
 Our mobile app helps the user manage their inventory. Some of the features include letting the user record inventory items with specifications, change the quantity, and viewing all inventory.
 
 
