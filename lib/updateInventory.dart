@@ -126,17 +126,13 @@ class _UpdateInventoryItemState extends State<UpdateInventoryItem> {
         onChanged: (val) {
           setState(() {
             keyValue.update("transport_cost", (v) => val, ifAbsent: () => val);
-      ),
           });
         // if (checkForCodeItem(value)) {
         //   border:
         //   new OutlineInputBorder(
         //       borderSide: new BorderSide(color: Colors.green));
         // }
-      },
-      validator: (String value) {
-        return value.contains('@') ? 'Do not use the @ char.' : null;
-      },
+      }
     );
 
       final costInput = TextFormField(
@@ -173,44 +169,6 @@ class _UpdateInventoryItemState extends State<UpdateInventoryItem> {
         },
       );
 
-    final costInput = TextFormField(
-      decoration: const InputDecoration(
-        labelText: 'Enter cost price',
-      ),
-      onChanged: (val) {
-        setState(() {
-          costPrice = val;
-          // need debug : onchange is not printing for some reason
-          print(val);
-        });
-      },
-      validator: (value) {
-        if (value.isEmpty) {
-          return 'Please enter a cost';
-        }
-        return null;
-      },
-    );
-
-    final saleInput = TextFormField(
-      decoration: const InputDecoration(
-        labelText: 'Enter sale price',
-      ),
-      validator: (value) {
-        if (value.isEmpty) {
-          return 'Please enter a cost';
-        }
-        return null;
-      },
-      onChanged: (val) {
-        setState(() {
-          salesPrice = val;
-          // need debug : onchange is not printing for some reason
-          print(val);
-        });
-      },
-    );
-
     final buttonStyle = ButtonStyle(
       backgroundColor: MaterialStateProperty.all<Color>(Colors.grey),
     );
@@ -218,11 +176,24 @@ class _UpdateInventoryItemState extends State<UpdateInventoryItem> {
     final incrementButton = ElevatedButton(
       style: buttonStyle,
       onPressed: null,
-      child: Text("+",
-          textAlign: TextAlign.center,
-          style:
-              style.copyWith(color: Colors.white, fontWeight: FontWeight.bold)),
+      child: Text(
+        "+",
+        textAlign: TextAlign.center,
+        style: style.copyWith(
+            color: Colors.white, fontWeight: FontWeight.bold),
+      ),
     );
+    final decrementButton = ElevatedButton(
+      style: buttonStyle,
+      onPressed: null,
+      child: Text(
+        "-",
+        textAlign: TextAlign.center,
+        style: style.copyWith(
+            color: Colors.white, fontWeight: FontWeight.bold),
+      ),
+    );
+
       final updateButton = ElevatedButton(
         onPressed: () {
 //          Navigator.push(
@@ -236,19 +207,6 @@ class _UpdateInventoryItemState extends State<UpdateInventoryItem> {
             style: style.copyWith(
                 color: Colors.white, fontWeight: FontWeight.bold)),
       );
-
-    final updateButton = ElevatedButton(
-      onPressed: () {
-        Navigator.push(
-          context,
-          MaterialPageRoute(builder: (context) => MyHomePage()),
-        );
-      },
-      child: Text("Update",
-          textAlign: TextAlign.center,
-          style:
-              style.copyWith(color: Colors.white, fontWeight: FontWeight.bold)),
-    );
 
     final backButton = ElevatedButton(
       onPressed: () {
