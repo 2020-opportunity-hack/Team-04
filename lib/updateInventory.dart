@@ -21,7 +21,6 @@ class _UpdateInventoryItemState extends State<UpdateInventoryItem> {
   bool decrement = true;
 
   Map<dynamic, dynamic> itemCodes = {};
-  Map<dynamic, dynamic> quantities = {};
   Map<dynamic, dynamic> keyValue = {};
   @override
   Widget build(BuildContext context) {
@@ -39,6 +38,7 @@ class _UpdateInventoryItemState extends State<UpdateInventoryItem> {
            itemCodes.putIfAbsent(k, () => k["item_code"]);
            itemCodes.putIfAbsent(k, () => k["quantity"]);
          }
+         this.currentQuantity = itemCodes[itemKey]["quantity"];
        });
      }
 
@@ -52,10 +52,11 @@ class _UpdateInventoryItemState extends State<UpdateInventoryItem> {
        });
        var quant = increment ? (int.parse(currentQuantity) + int.parse(quantity)) :
        (int.parse(this.currentQuantity) - int.parse(this.quantity));
-       print("Final quant: " + quant.toString());
        fbInstance
            .child(itemKey)
            .update({"quantity": quant.toString()});
+       increment = true;
+       decrement = true;
       }
 
      getInventoryRecords();
