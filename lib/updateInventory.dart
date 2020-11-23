@@ -3,6 +3,7 @@ import 'main.dart';
 import 'package:firebase_database/firebase_database.dart';
 
 class UpdateInventoryItem extends StatefulWidget {
+  String itemK;
   @override
   _UpdateInventoryItemState createState() => _UpdateInventoryItemState();
 }
@@ -13,8 +14,10 @@ class _UpdateInventoryItemState extends State<UpdateInventoryItem> {
   String transportCost;
   String costPrice;
   String salesPrice;
+  String itemKey;
 
-  Set<String> itemCodes = {};
+  Map<dynamic, dynamic> itemCodes = {};
+  Map<dynamic, dynamic> keyValue = {};
   @override
   Widget build(BuildContext context) {
     TextStyle style = TextStyle(fontFamily: 'Montserrat', fontSize: 20.0);
@@ -24,17 +27,27 @@ class _UpdateInventoryItemState extends State<UpdateInventoryItem> {
         .child("inventory")
         .child("deliverable_product");
 
-    getInventoryRecords() async {
-      await fbInstance.once().then((DataSnapshot snapshot) {
-        Map<dynamic, dynamic> map = snapshot.value;
-        for (var k in map.keys) {
-          itemCodes.add(map[k]["item_code"]);
-        }
-        print(itemCodes);
-      });
-    }
+     getInventoryRecords() async {
+       await fbInstance.once().then((DataSnapshot snapshot) {
+         itemCodes = snapshot.value;
+         for (var k in itemCodes.keys) {
+           itemCodes.putIfAbsent(k, () => k["item_code"]);
+//           print(k);
+         }
+       });
+     }
 
-    getInventoryRecords();
+
+    updateItem() {
+       keyValue.forEach((key, value) {
+         print(key + " " + value + " " + itemKey);
+         fbInstance
+             .child(itemKey)
+             .update({key: value});
+       });
+      }
+
+     getInventoryRecords();
 
     final heading = Container(
       margin: EdgeInsets.fromLTRB(5.0, 25.0, 20.0, 30.0),
@@ -67,100 +80,94 @@ class _UpdateInventoryItemState extends State<UpdateInventoryItem> {
 //            focusedBorder: UnderlineInputBorder(
 //              borderSide: BorderSide(color: Colors.green)
 //            )
-      ),
-      onChanged: (String value) async {
+        ),
+        onChanged: (String value) async {
+          checkForCodeItem(value);
+//        if(v)
+//          border: new OutlineInputBorder(
+//            borderSide: new BorderSide(color: Colors.green));
+         },
+        validator: (String value) {
+          return value.contains('@') ? 'Do not use the @ char.' : null;
+        },
+      );
+
+      final quantityInput = TextFormField(
+        decoration: const InputDecoration(
+          labelText: 'Enter Quantity',
+        ),
+        onChanged: (val) {
           setState(() {
-            checkForCodeItem(value);
+            quantity = val;
+            keyValue.update("quantity", (v) => quantity, ifAbsent: () => quantity);
+          });
+        },
+        validator: (value) {
+          if (value.isEmpty) {
+            return 'Please enter a quantity';
+          }
+          if (int.parse(value) <= 0) {
+            return 'Quantity must be greater than 0';
+          }
+          return null;
+        },
+      );
+
+      final transportInput = TextFormField(
+        decoration: const InputDecoration(
+          labelText: 'Enter transport cost',
+        ),
+        validator: (value) {
+          if (value.isEmpty) {
+            return 'Please enter a cost';
+          }
+          return null;
+        },
+        onChanged: (val) {
+          setState(() {
+            keyValue.update("transport_cost", (v) => val, ifAbsent: () => val);
           });
         // if (checkForCodeItem(value)) {
         //   border:
         //   new OutlineInputBorder(
         //       borderSide: new BorderSide(color: Colors.green));
         // }
-      },
-      validator: (String value) {
-        return value.contains('@') ? 'Do not use the @ char.' : null;
-      },
+      }
     );
 
-    final quantityInput = TextFormField(
-      decoration: const InputDecoration(
-        labelText: 'Enter Quantity',
-      ),
-      onChanged: (val) {
-        setState(() {
-          quantity = val;
-          // need debug : onchange is not printing for some reason
-          print(val);
-        });
-      },
-      validator: (value) {
-        if (value.isEmpty) {
-          return 'Please enter a quantity';
-        }
-        if (int.parse(value) <= 0) {
-          return 'Quantity must be greater than 0';
-        }
-        return null;
-      },
-    );
+      final costInput = TextFormField(
+        decoration: const InputDecoration(
+          labelText: 'Enter cost price',
+        ),
+        onChanged: (val) {
+          setState(() {
+            keyValue.update("cost_price", (v) => val, ifAbsent: () => val);
+          });
+        },
+        validator: (value) {
+          if (value.isEmpty) {
+            return 'Please enter a cost';
+          }
+          return null;
+        },
+      );
 
-    final transportInput = TextFormField(
-      decoration: const InputDecoration(
-        labelText: 'Enter transport cost',
-      ),
-      validator: (value) {
-        if (value.isEmpty) {
-          return 'Please enter a cost';
-        }
-        return null;
-      },
-      onChanged: (val) {
-        setState(() {
-          transportCost = val;
-          // need debug : onchange is not printing for some reason
-          print(val);
-        });
-      },
-    );
-
-    final costInput = TextFormField(
-      decoration: const InputDecoration(
-        labelText: 'Enter cost price',
-      ),
-      onChanged: (val) {
-        setState(() {
-          costPrice = val;
-          // need debug : onchange is not printing for some reason
-          print(val);
-        });
-      },
-      validator: (value) {
-        if (value.isEmpty) {
-          return 'Please enter a cost';
-        }
-        return null;
-      },
-    );
-
-    final saleInput = TextFormField(
-      decoration: const InputDecoration(
-        labelText: 'Enter sale price',
-      ),
-      validator: (value) {
-        if (value.isEmpty) {
-          return 'Please enter a cost';
-        }
-        return null;
-      },
-      onChanged: (val) {
-        setState(() {
-          salesPrice = val;
-          // need debug : onchange is not printing for some reason
-          print(val);
-        });
-      },
-    );
+      final saleInput = TextFormField(
+        decoration: const InputDecoration(
+          labelText: 'Enter sale price',
+        ),
+        validator: (value) {
+          if (value.isEmpty) {
+            return 'Please enter a cost';
+          }
+          return null;
+        },
+        onChanged: (val) {
+          setState(() {
+            keyValue.update("sale_price", (v) => val, ifAbsent: () => val);
+          });
+        },
+      );
 
     final buttonStyle = ButtonStyle(
       backgroundColor: MaterialStateProperty.all<Color>(Colors.grey),
@@ -169,34 +176,37 @@ class _UpdateInventoryItemState extends State<UpdateInventoryItem> {
     final incrementButton = ElevatedButton(
       style: buttonStyle,
       onPressed: null,
-      child: Text("+",
-          textAlign: TextAlign.center,
-          style:
-              style.copyWith(color: Colors.white, fontWeight: FontWeight.bold)),
+      child: Text(
+        "+",
+        textAlign: TextAlign.center,
+        style: style.copyWith(
+            color: Colors.white, fontWeight: FontWeight.bold),
+      ),
     );
-
     final decrementButton = ElevatedButton(
       style: buttonStyle,
       onPressed: null,
       child: Text(
         "-",
         textAlign: TextAlign.center,
-        style: style.copyWith(color: Colors.white, fontWeight: FontWeight.bold),
+        style: style.copyWith(
+            color: Colors.white, fontWeight: FontWeight.bold),
       ),
     );
 
-    final updateButton = ElevatedButton(
-      onPressed: () {
-        Navigator.push(
-          context,
-          MaterialPageRoute(builder: (context) => MyHomePage()),
-        );
-      },
-      child: Text("Update",
-          textAlign: TextAlign.center,
-          style:
-              style.copyWith(color: Colors.white, fontWeight: FontWeight.bold)),
-    );
+      final updateButton = ElevatedButton(
+        onPressed: () {
+//          Navigator.push(
+//            context,
+//            MaterialPageRoute(builder: (context) => MyHomePage()),
+//          );
+          updateItem();
+        },
+        child: Text("Update",
+            textAlign: TextAlign.center,
+            style: style.copyWith(
+                color: Colors.white, fontWeight: FontWeight.bold)),
+      );
 
     final backButton = ElevatedButton(
       onPressed: () {
@@ -261,13 +271,14 @@ class _UpdateInventoryItemState extends State<UpdateInventoryItem> {
         )))));
   }
 
-  bool checkForCodeItem(String value) {
-    if (itemCodes.contains(value)) {
-      greenUnderLine = true;
-    } else {
-      greenUnderLine = false;
-    }
-    print(greenUnderLine);
-    return greenUnderLine;
+  checkForCodeItem(String value) {
+    print(value);
+    itemCodes.forEach((k,v) =>
+    {
+      if(v["item_code"].compareTo(value) == 0){
+        itemKey = k,
+        print("Selected Item Code" + itemKey),
+      }
+    });
   }
 }
