@@ -2,6 +2,7 @@
 
 ### Demo Videos: 
 <img src="https://github.com/2020-opportunity-hack/Team-04/blob/master/demo-no-audio720.gif" width="700">  
+
 - Demo Video for OHack [Link](https://youtu.be/5ydvLLbrShY)  
 - Database Demo Video [Link](https://youtu.be/A7ZqQgtqGOY)  
 
