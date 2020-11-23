@@ -1,7 +1,7 @@
 # OHack Payir Thoorigai
 
 ### Demo Videos: 
-<img src="https://github.com/2020-opportunity-hack/Team-04/blob/master/demo-no-audio720.gif" width="150">  
+<img src="https://github.com/2020-opportunity-hack/Team-04/blob/master/demo-no-audio720.gif" width="300">  
 Demo Video for OHack:  
 https://youtu.be/NlVRM6qoNZg  
 Database:  
