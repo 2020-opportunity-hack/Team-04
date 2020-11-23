@@ -46,7 +46,6 @@ Developed functionality for
 - Update inventory item
 
 ```
-
 1. SIGN UP
 
    - Start the app to see the login page
@@ -63,6 +62,7 @@ Developed functionality for
    - Takes in the username and password the user is registered with
    
    - Click on the login button. It will get the user to the menu screen
+   
   
 3. CREATE AN ITEM
     
@@ -70,9 +70,10 @@ Developed functionality for
     
     - Enter the details for the item and get to the next page where more details are asked. Make sure that the item code is not already present
     
-    - The last screen is a summary screen where the user can verify and confirm all the details you have added.
+    - The last screen is a summary screen where the user can verify and confirm all the details you have added
     
     - Clicking on the create button will push the item to the database.
+    
     
 4. VIEW THE INVENTORY    
    
