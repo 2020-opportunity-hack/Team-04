@@ -3,6 +3,7 @@ import 'main.dart';
 import 'package:firebase_database/firebase_database.dart';
 
 class UpdateInventoryItem extends StatefulWidget {
+  String itemK;
   @override
   _UpdateInventoryItemState createState() => _UpdateInventoryItemState();
 }
@@ -14,8 +15,10 @@ class _UpdateInventoryItemState extends State<UpdateInventoryItem> {
   String transportCost;
   String costPrice;
   String salesPrice;
+  String itemKey;
 
-  Set<String> itemCodes = {};
+  Map<dynamic, dynamic> itemCodes = {};
+  Map<dynamic, dynamic> keyValue = {};
   @override
   Widget build(BuildContext context) {
     TextStyle style = TextStyle(fontFamily: 'Montserrat', fontSize: 20.0);
@@ -27,13 +30,23 @@ class _UpdateInventoryItemState extends State<UpdateInventoryItem> {
 
      getInventoryRecords() async {
        await fbInstance.once().then((DataSnapshot snapshot) {
-         Map<dynamic, dynamic> map = snapshot.value;
-         for (var k in map.keys) {
-           itemCodes.add(map[k]["item_code"]);
+         itemCodes = snapshot.value;
+         for (var k in itemCodes.keys) {
+           itemCodes.putIfAbsent(k, () => k["item_code"]);
+//           print(k);
          }
-         print(itemCodes);
        });
      }
+
+
+    updateItem() {
+       keyValue.forEach((key, value) {
+         print(key + " " + value + " " + itemKey);
+         fbInstance
+             .child(itemKey)
+             .update({key: value});
+       });
+      }
 
      getInventoryRecords();
 
@@ -82,13 +95,12 @@ class _UpdateInventoryItemState extends State<UpdateInventoryItem> {
         decoration: const InputDecoration(
           labelText: 'Enter Quantity',
         ),
-          onChanged: (val) {
-            setState(() {
-              quantity = val;
-              // need debug : onchange is not printing for some reason
-              print(val);
-            });
-          },
+        onChanged: (val) {
+          setState(() {
+            quantity = val;
+            keyValue.update("quantity", (v) => quantity, ifAbsent: () => quantity);
+          });
+        },
         validator: (value) {
           if (value.isEmpty) {
             return 'Please enter a quantity';
@@ -112,9 +124,7 @@ class _UpdateInventoryItemState extends State<UpdateInventoryItem> {
         },
         onChanged: (val) {
           setState(() {
-            transportCost = val;
-            // need debug : onchange is not printing for some reason
-            print(val);
+            keyValue.update("transport_cost", (v) => val, ifAbsent: () => val);
           });
         },
       );
@@ -125,9 +135,7 @@ class _UpdateInventoryItemState extends State<UpdateInventoryItem> {
         ),
         onChanged: (val) {
           setState(() {
-            costPrice = val;
-            // need debug : onchange is not printing for some reason
-            print(val);
+            keyValue.update("cost_price", (v) => val, ifAbsent: () => val);
           });
         },
         validator: (value) {
@@ -150,9 +158,7 @@ class _UpdateInventoryItemState extends State<UpdateInventoryItem> {
         },
         onChanged: (val) {
           setState(() {
-            salesPrice = val;
-            // need debug : onchange is not printing for some reason
-            print(val);
+            keyValue.update("sale_price", (v) => val, ifAbsent: () => val);
           });
         },
       );
@@ -185,10 +191,11 @@ class _UpdateInventoryItemState extends State<UpdateInventoryItem> {
 
       final updateButton = ElevatedButton(
         onPressed: () {
-          Navigator.push(
-            context,
-            MaterialPageRoute(builder: (context) => MyHomePage()),
-          );
+//          Navigator.push(
+//            context,
+//            MaterialPageRoute(builder: (context) => MyHomePage()),
+//          );
+          updateItem();
         },
         child: Text("Update",
             textAlign: TextAlign.center,
@@ -265,13 +272,14 @@ class _UpdateInventoryItemState extends State<UpdateInventoryItem> {
       );
   }
 
-  bool checkForCodeItem(String value) {
-    if(itemCodes.contains(value)){
-        greenUnderLine = true;
-    }
-    else {
-      greenUnderLine = false;
-    }
-    print(greenUnderLine);
+  checkForCodeItem(String value) {
+    print(value);
+    itemCodes.forEach((k,v) =>
+    {
+      if(v["item_code"].compareTo(value) == 0){
+        itemKey = k,
+        print("Selected Item Code" + itemKey),
+      }
+    });
   }
 }
