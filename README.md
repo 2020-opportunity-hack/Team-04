@@ -1,9 +1,9 @@
 # OHack Payir Thoorigai
 
 ### Demo Videos: 
-<img src="https://github.com/2020-opportunity-hack/Team-04/blob/master/demo-no-audio720.gif" width="500">  
-[Demo Video for OHack](https://youtu.be/NlVRM6qoNZg)
-[Database Demo Video](https://youtu.be/A7ZqQgtqGOY)
+<img src="https://github.com/2020-opportunity-hack/Team-04/blob/master/demo-no-audio720.gif" width="700">  
+[Demo Video for OHack](https://youtu.be/NlVRM6qoNZg)  
+[Database Demo Video](https://youtu.be/A7ZqQgtqGOY)  
 
 ### Inspiration
 Thoorigai is made up of a group of women that learned the skills of bag making and are using it to provide for their livelihoods. They currently handle their inventory management manually and are looking for a solution that can save time and automate some of this work. All of the members agreed that the primary inspiration came from the urge to apply their technical knowledge for a good cause that's why the name 'Social Hackers'. 
