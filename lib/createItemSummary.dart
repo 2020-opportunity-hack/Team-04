@@ -297,7 +297,7 @@ class _CreateItemSummaryState extends State<CreateItemSummary> {
       "cost_price": widget.costPrice,
       "sale_price": widget.salePrice,
       "other_field": widget.otherFieldValue,
-      "quantity": 1,
+      "quantity": "1",
     });
   }
 }

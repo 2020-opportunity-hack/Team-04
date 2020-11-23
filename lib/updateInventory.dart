@@ -10,13 +10,18 @@ class UpdateInventoryItem extends StatefulWidget {
 
 class _UpdateInventoryItemState extends State<UpdateInventoryItem> {
   bool greenUnderLine = false;
+  String currentQuantity;
   String quantity;
   String transportCost;
   String costPrice;
   String salesPrice;
   String itemKey;
 
+  bool increment = true;
+  bool decrement = true;
+
   Map<dynamic, dynamic> itemCodes = {};
+  Map<dynamic, dynamic> quantities = {};
   Map<dynamic, dynamic> keyValue = {};
   @override
   Widget build(BuildContext context) {
@@ -32,7 +37,7 @@ class _UpdateInventoryItemState extends State<UpdateInventoryItem> {
          itemCodes = snapshot.value;
          for (var k in itemCodes.keys) {
            itemCodes.putIfAbsent(k, () => k["item_code"]);
-//           print(k);
+           itemCodes.putIfAbsent(k, () => k["quantity"]);
          }
        });
      }
@@ -45,6 +50,12 @@ class _UpdateInventoryItemState extends State<UpdateInventoryItem> {
              .child(itemKey)
              .update({key: value});
        });
+       var quant = increment ? (int.parse(currentQuantity) + int.parse(quantity)) :
+       (int.parse(this.currentQuantity) - int.parse(this.quantity));
+       print("Final quant: " + quant.toString());
+       fbInstance
+           .child(itemKey)
+           .update({"quantity": quant.toString()});
       }
 
      getInventoryRecords();
@@ -99,7 +110,7 @@ class _UpdateInventoryItemState extends State<UpdateInventoryItem> {
         onChanged: (val) {
           setState(() {
             quantity = val;
-            keyValue.update("quantity", (v) => quantity, ifAbsent: () => quantity);
+            // keyValue.update("quantity", (v) => quantity, ifAbsent: () => quantity);
           });
         },
         validator: (value) {
@@ -175,7 +186,11 @@ class _UpdateInventoryItemState extends State<UpdateInventoryItem> {
 
     final incrementButton = ElevatedButton(
       style: buttonStyle,
-      onPressed: null,
+      onPressed: increment ? () {
+        setState(() {
+          decrement = false;
+        });
+      }: null,
       child: Text(
         "+",
         textAlign: TextAlign.center,
@@ -185,7 +200,11 @@ class _UpdateInventoryItemState extends State<UpdateInventoryItem> {
     );
     final decrementButton = ElevatedButton(
       style: buttonStyle,
-      onPressed: null,
+      onPressed: decrement ? () {
+        setState(() {
+          increment = false;
+        });
+      }: null,
       child: Text(
         "-",
         textAlign: TextAlign.center,
@@ -277,6 +296,7 @@ class _UpdateInventoryItemState extends State<UpdateInventoryItem> {
     {
       if(v["item_code"].compareTo(value) == 0){
         itemKey = k,
+        currentQuantity = v["quantity"],
         print("Selected Item Code" + itemKey),
       }
     });
