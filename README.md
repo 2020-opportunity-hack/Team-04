@@ -70,6 +70,8 @@ Developed functionality for
     
     - Enter the details for the item and get to the next page where more details are asked. Make sure that the item code is not already present
     
+    - Enter integers for the fields since we're not using Double datatype for the model. Refactoring the code is a future scope.
+    
     - The last screen is a summary screen where the user can verify and confirm all the details you have added
     
     - Clicking on the create button will push the item to the database.
