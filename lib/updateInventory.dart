@@ -45,7 +45,6 @@ class _UpdateInventoryItemState extends State<UpdateInventoryItem> {
 
     updateItem() {
        keyValue.forEach((key, value) {
-         print(key + " " + value + " " + itemKey);
          fbInstance
              .child(itemKey)
              .update({key: value});
@@ -295,14 +294,12 @@ class _UpdateInventoryItemState extends State<UpdateInventoryItem> {
   }
 
   checkForCodeItem(String value) {
-    print(value);
     itemCodes.forEach((k,v) =>
     {
       if(v["item_code"].compareTo(value) == 0){
         greenUnderLine = true,
         itemKey = k,
         currentQuantity = v["quantity"],
-        print("Selected Item Code" + itemKey),
       } else
       greenUnderLine = false
     });
