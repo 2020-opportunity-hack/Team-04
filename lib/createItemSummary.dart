@@ -1,19 +1,22 @@
+import 'dart:collection';
+
+import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:ohack/inventoryMenu.dart';
 
 class CreateItemSummary extends StatefulWidget {
   final String itemCode;
   final String description;
-  final List<Object> materialTypes;
+  final List<Map> materialTypes;
   final String cutting;
   final String stitching;
   final String other;
   final String transportCost;
   final String costPrice;
   final String salePrice;
-  final List<Object> otherFieldValue;
+  final List<Map> otherFieldValue;
 
-  final Function createSectionContainerfn;
+  final Function createSectionContainer;
   const CreateItemSummary(
       {Key key,
       this.itemCode,
@@ -26,7 +29,7 @@ class CreateItemSummary extends StatefulWidget {
       this.costPrice,
       this.salePrice,
       this.otherFieldValue,
-      this.createSectionContainerfn})
+      this.createSectionContainer})
       : super(key: key);
 
   @override
@@ -34,6 +37,7 @@ class CreateItemSummary extends StatefulWidget {
 }
 
 class _CreateItemSummaryState extends State<CreateItemSummary> {
+  final fbInstance = FirebaseDatabase.instance.reference().child("inventory");
   @override
   Widget build(BuildContext context) {
     final TextStyle style = TextStyle(
@@ -66,6 +70,7 @@ class _CreateItemSummaryState extends State<CreateItemSummary> {
 
     final createButton = ElevatedButton(
       onPressed: () {
+        writeData();
         Navigator.push(
           context,
           MaterialPageRoute(builder: (context) => InventoryMenu()),
@@ -88,6 +93,9 @@ class _CreateItemSummaryState extends State<CreateItemSummary> {
     );
 
     Widget _createSummaryRow(String fieldName, String fieldValue) {
+      if (fieldValue == null) {
+        fieldValue = '';
+      }
       return Container(
         margin: const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
         child: Row(
@@ -116,20 +124,45 @@ class _CreateItemSummaryState extends State<CreateItemSummary> {
       );
     }
 
+    Widget _createOtherRows() {
+      if (widget.materialTypes == null || widget.materialTypes.length == 0) {
+        return Text('None');
+      }
+
+      return Container(
+          child: Column(
+        children: widget.otherFieldValue.map((row) {
+          Map rowMap = row;
+          var keyField = rowMap['keyField'];
+          var valueField = rowMap['valueField'];
+          if (keyField == null) {
+            keyField = '';
+          }
+          if (valueField == null) {
+            valueField = '';
+          }
+          return Column(
+            children: [
+              _createSummaryRow(keyField, valueField),
+            ],
+          );
+        }).toList(),
+      ));
+    }
+
     Widget _createMaterialType() {
       if (widget.materialTypes == null) {
-        return Text('Empty');
+        return Text('None');
       }
       return Container(
           child: Column(
         children: widget.materialTypes.map((row) {
-          print(row);
+          Map rowMap = row;
           return Column(
             children: [
-              // _createSummaryRow('Material', row['Material']),
-              // _createSummaryRow('Length', row['Length']),
-              // _createSummaryRow('Width', row['Width'])
-              _createSummaryRow('ex', 'ex')
+              _createSummaryRow('Material:', rowMap['Material']),
+              _createSummaryRow('Length:', rowMap['Length']),
+              _createSummaryRow('Width:', rowMap['Width'])
             ],
           );
         }).toList(),
@@ -143,7 +176,7 @@ class _CreateItemSummaryState extends State<CreateItemSummary> {
       body: SingleChildScrollView(
         child: Center(
           child: Container(
-            padding: EdgeInsets.fromLTRB(20.0, 0.0, 10.0, 0.0),
+            padding: EdgeInsets.fromLTRB(10.0, 0.0, 10.0, 0.0),
             child: Column(
               children: [
                 heading,
@@ -154,32 +187,32 @@ class _CreateItemSummaryState extends State<CreateItemSummary> {
                     ),
                     child: Column(
                       children: [
-                        widget.createSectionContainerfn([
-                          _createSummaryRow('Item Code:', 'put value here'),
-                          _createSummaryRow('Description:', 'put value here'),
+                        widget.createSectionContainer([
+                          _createSummaryRow('Item Code:', widget.itemCode),
+                          _createSummaryRow('Description:', widget.description),
                         ]),
-                        widget.createSectionContainerfn([
+                        widget.createSectionContainer([
                           _customHeading('Material Type'),
                           _createSummaryRow('', ''),
                           // below function maps all material types
                           _createMaterialType()
                         ]),
-                        widget.createSectionContainerfn([
+                        widget.createSectionContainer([
                           _customHeading('Labor'),
-                          _createSummaryRow('Cutting:', 'put value here'),
-                          _createSummaryRow('Stitching:', 'put value here'),
-                          _createSummaryRow('Other:', 'put value here'),
+                          _createSummaryRow('Cutting:', widget.cutting),
+                          _createSummaryRow('Stitching:', widget.stitching),
+                          _createSummaryRow('Other:', widget.other),
                         ]),
-                        widget.createSectionContainerfn([
+                        widget.createSectionContainer([
                           _customHeading('Cost'),
                           _createSummaryRow(
-                              'Transport Cost:', 'put value here'),
-                          _createSummaryRow('Cost Price:', 'put value here'),
-                          _createSummaryRow('Sale Price:', 'put value here'),
+                              'Transport Cost:', widget.transportCost),
+                          _createSummaryRow('Cost Price:', widget.costPrice),
+                          _createSummaryRow('Sale Price:', widget.salePrice),
                         ]),
-                        widget.createSectionContainerfn([
+                        widget.createSectionContainer([
                           _customHeading('Other'),
-                          _createSummaryRow('', '')
+                          _createOtherRows(),
                           // logic for checking if other fields were filled
                         ]),
                         Row(
@@ -208,5 +241,20 @@ class _CreateItemSummaryState extends State<CreateItemSummary> {
         ),
       ),
     );
+  }
+  void writeData() {
+    fbInstance.child("deliverable_product").push().set({
+      "item_code": widget.itemCode,
+      "description": widget.description,
+      "material": widget.materialTypes,
+      "cutting": widget.cutting,
+      "stitching": widget.stitching,
+      "other": widget.other,
+      "transport_cost": widget.transportCost,
+      "cost_price": widget.costPrice,
+      "sale_price": widget.salePrice,
+      "other_field": widget.otherFieldValue,
+      "quantity": 1,
+    });
   }
 }

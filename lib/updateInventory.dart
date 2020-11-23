@@ -9,7 +9,6 @@ class UpdateInventoryItem extends StatefulWidget {
 }
 
 class _UpdateInventoryItemState extends State<UpdateInventoryItem> {
-
   bool greenUnderLine = false;
   String quantity;
   String transportCost;
@@ -50,32 +49,34 @@ class _UpdateInventoryItemState extends State<UpdateInventoryItem> {
 
      getInventoryRecords();
 
-      final heading = Padding(
-        padding: const EdgeInsets.only(bottom: 20.0),
-        child: Text(
-          'Update Inventory Item',
-          textAlign: TextAlign.center,
-          style: style.copyWith(
-            fontSize: 30,
-          ),
+    final heading = Container(
+      margin: EdgeInsets.fromLTRB(5.0, 25.0, 20.0, 30.0),
+      alignment: Alignment.center,
+      child: Text(
+        'Update Inventory Item',
+        textAlign: TextAlign.center,
+        style: style.copyWith(
+          fontWeight: FontWeight.bold,
+          fontSize: 26,
         ),
-      );
+      ),
+    );
 
-      final description = Padding(
-        padding: const EdgeInsets.all(10.0),
-        child: Text(
-          'Input the Item Code to update Quantity',
-          textAlign: TextAlign.center,
-          style: style.copyWith(
-            fontSize: 20,
-          ),
+    final description = Padding(
+      padding: const EdgeInsets.all(10.0),
+      child: Text(
+        'Input the Item Code to update Quantity',
+        textAlign: TextAlign.center,
+        style: style.copyWith(
+          fontSize: 20,
         ),
-      );
+      ),
+    );
 
     final itemCodeInput = TextFormField(
-        decoration: const InputDecoration(
-            labelText: 'Enter an item code',
-            errorText: "please enter item code",
+      decoration: InputDecoration(
+        labelText: 'Enter an item code',
+        errorText: greenUnderLine ? null : "please enter item code",
 //            focusedBorder: UnderlineInputBorder(
 //              borderSide: BorderSide(color: Colors.green)
 //            )
@@ -125,9 +126,18 @@ class _UpdateInventoryItemState extends State<UpdateInventoryItem> {
         onChanged: (val) {
           setState(() {
             keyValue.update("transport_cost", (v) => val, ifAbsent: () => val);
+      ),
           });
-        },
-      );
+        // if (checkForCodeItem(value)) {
+        //   border:
+        //   new OutlineInputBorder(
+        //       borderSide: new BorderSide(color: Colors.green));
+        // }
+      },
+      validator: (String value) {
+        return value.contains('@') ? 'Do not use the @ char.' : null;
+      },
+    );
 
       final costInput = TextFormField(
         decoration: const InputDecoration(
@@ -163,32 +173,56 @@ class _UpdateInventoryItemState extends State<UpdateInventoryItem> {
         },
       );
 
-      final buttonStyle = ButtonStyle(
-        backgroundColor: MaterialStateProperty.all<Color>(Colors.grey),
-      );
+    final costInput = TextFormField(
+      decoration: const InputDecoration(
+        labelText: 'Enter cost price',
+      ),
+      onChanged: (val) {
+        setState(() {
+          costPrice = val;
+          // need debug : onchange is not printing for some reason
+          print(val);
+        });
+      },
+      validator: (value) {
+        if (value.isEmpty) {
+          return 'Please enter a cost';
+        }
+        return null;
+      },
+    );
 
-      final incrementButton = ElevatedButton(
-        style: buttonStyle,
-        onPressed: null,
-        child: Text(
-          "+",
+    final saleInput = TextFormField(
+      decoration: const InputDecoration(
+        labelText: 'Enter sale price',
+      ),
+      validator: (value) {
+        if (value.isEmpty) {
+          return 'Please enter a cost';
+        }
+        return null;
+      },
+      onChanged: (val) {
+        setState(() {
+          salesPrice = val;
+          // need debug : onchange is not printing for some reason
+          print(val);
+        });
+      },
+    );
+
+    final buttonStyle = ButtonStyle(
+      backgroundColor: MaterialStateProperty.all<Color>(Colors.grey),
+    );
+
+    final incrementButton = ElevatedButton(
+      style: buttonStyle,
+      onPressed: null,
+      child: Text("+",
           textAlign: TextAlign.center,
-          style: style.copyWith(
-              color: Colors.white, fontWeight: FontWeight.bold),
-        ),
-      );
-
-      final decrementButton = ElevatedButton(
-        style: buttonStyle,
-        onPressed: null,
-        child: Text(
-          "-",
-          textAlign: TextAlign.center,
-          style: style.copyWith(
-              color: Colors.white, fontWeight: FontWeight.bold),
-        ),
-      );
-
+          style:
+              style.copyWith(color: Colors.white, fontWeight: FontWeight.bold)),
+    );
       final updateButton = ElevatedButton(
         onPressed: () {
 //          Navigator.push(
@@ -203,73 +237,80 @@ class _UpdateInventoryItemState extends State<UpdateInventoryItem> {
                 color: Colors.white, fontWeight: FontWeight.bold)),
       );
 
-      final backButton = ElevatedButton(
-        onPressed: () {
-          Navigator.push(
-            context,
-            MaterialPageRoute(builder: (context) => MyHomePage()),
-          );
-        },
-        child: Text("Back",
-            textAlign: TextAlign.center,
-            style: style.copyWith(
-                color: Colors.white, fontWeight: FontWeight.bold)),
-      );
+    final updateButton = ElevatedButton(
+      onPressed: () {
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => MyHomePage()),
+        );
+      },
+      child: Text("Update",
+          textAlign: TextAlign.center,
+          style:
+              style.copyWith(color: Colors.white, fontWeight: FontWeight.bold)),
+    );
 
+    final backButton = ElevatedButton(
+      onPressed: () {
+        Navigator.pop(context);
+      },
+      child: Text("Back",
+          textAlign: TextAlign.center,
+          style:
+              style.copyWith(color: Colors.white, fontWeight: FontWeight.bold)),
+    );
 
-      return Scaffold(
+    return Scaffold(
         appBar: AppBar(
           title: Text('Payir - Thoorgayi'),
         ),
         body: SingleChildScrollView(
-          child: Center(
-            child: Container(
-              child: Padding(
-                padding: const EdgeInsets.only(left: 20.0, right: 20.0),
+            child: Center(
+                child: Container(
+                    child: Padding(
+          padding: const EdgeInsets.only(left: 20.0, right: 20.0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              heading,
+              description,
+              Form(
                 child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    heading,
-                    description,
-                    Form(
-                      child: Column(
-                        children: <Widget>[
-                          itemCodeInput,
-                          Row(
-                            children: [
-                              Expanded(child: quantityInput),
-                              Container(
-                                  padding: EdgeInsets.only(
-                                      left: 10.0, top: 5.0, bottom: 5.0),
-                                  child: incrementButton),
-                              Container(
-                                  padding: EdgeInsets.only(
-                                      left: 10.0, top: 5.0, bottom: 5.0),
-                                  child: decrementButton),
-                            ],
-                          ),
-                          transportInput,
-                          costInput,
-                          saleInput,
-                          SizedBox(
-                            height: 35,
-                          ),
-                          updateButton,
-                          SizedBox(
-                            height: 35,
-                          ),
-                          backButton,
-                        ],
-                      ),
-                    )
+                  children: <Widget>[
+                    itemCodeInput,
+                    Row(
+                      children: [
+                        Expanded(child: quantityInput),
+                        Container(
+                            padding: EdgeInsets.only(
+                                left: 10.0, top: 5.0, bottom: 5.0),
+                            child: incrementButton),
+                        Container(
+                            padding: EdgeInsets.only(
+                                left: 10.0, top: 5.0, bottom: 5.0),
+                            child: decrementButton),
+                      ],
+                    ),
+                    transportInput,
+                    costInput,
+                    saleInput,
+                    Container(
+                        width: MediaQuery.of(context).size.width - 50,
+                        margin:
+                            const EdgeInsets.only(left: 35, right: 35, top: 35),
+                        child: updateButton),
+                    Container(
+                        width: MediaQuery.of(context).size.width - 50,
+                        margin: const EdgeInsets.symmetric(
+                            horizontal: 35, vertical: 20),
+                        child: backButton),
                   ],
                 ),
-              ),
-            ),
+              )
+            ],
           ),
-        ),
-      );
+        )))));
   }
 
   checkForCodeItem(String value) {
