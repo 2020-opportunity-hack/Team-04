@@ -46,6 +46,7 @@ Developed functionality for
 
 ```
 1. SIGN UP
+
    - Start the app to see the login page
    
    - Click on the sign up button
