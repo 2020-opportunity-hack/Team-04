@@ -36,22 +36,14 @@ Check out these visual tutorials for more help:
  - [Windows](https://www.youtube.com/watch?v=Z2ugnpCQuyw)
  - [Mac](https://www.youtube.com/watch?v=hL7pkX1Pfko)
  
-# Features
-Developed functionality for 
-- Signing up a user
-- Login the user
-- Create inventory item
-- View items of inventory
-- Update inventory item
-
 ```
 1. SIGN UP
 
    - Start the app to see the login page
    
-   - Click on the sign up button
+   - Click on the sign-up button
    
-   - Enter the username and password. Password need to be 6 characters long for a successful signup
+   - Enter the username and password. Password needs to be 6 characters long for a successful signup
    
    - Takes the user to the login screen after successful signup
    
@@ -76,7 +68,7 @@ Developed functionality for
    
     - Click on the 'View All Items' on the menu screen
     
-    - The view page will show item_code, quantity, sales price and cost price. 
+    - The view page will show item_code, quantity, sales price, and cost price. 
     
     - Shows total cost price and total sales price at the end of the screen
 
@@ -84,12 +76,12 @@ Developed functionality for
      
     - Click on the 'Update Item' on the menu screen
     
-    - Text field for item code is red for validation purpose. It turns purple when the item code entered is valid
+    - Text field for item code is red for validation purposes. It turns purple when the item code entered is valid
     
     - Increment and decrement button can be used to increment/decrement the current quantity by the entered number. Make sure you enter the number and then click either of the         two buttons
     
-    - User can update quantity, transport cost, cost price and sales price. For verifying, user can go back to the view screen and check the updated values for the same item           code
-    
+    - User can update quantity, transport cost, cost price, and sales price. For verifying, the user can go back to the view screen and check the updated values for the same           item code
+
 ```
 Check out these visual tutorials for more help: 
  - [Windows](https://www.youtube.com/watch?v=Z2ugnpCQuyw)
