@@ -109,20 +109,43 @@ class _CreateInventoryItemState extends State<CreateInventoryItem> {
           });
         });
 
-    final materialTypeInput = TextFormField(
-        decoration: InputDecoration(labelText: 'Material'),
-        validator: (value) {
-          if (value.isEmpty) {
-            return 'Enter a material type';
-          }
-          // need to validate if item code exist
-          return null;
-        },
-        onChanged: (val) {
-          setState(() {
-            material = val;
+    // String mapNewValues(idx) {
+
+    //   if (materialTypes[idx] != null) {
+    //     print('true! <=======');
+    //     print(materialTypes[idx]['materialInput']);
+    //     return materialTypes[idx]['materialInput'];
+    //   } else {
+    //     print('nothing printed');
+    //     return '';
+    //   }
+    // }
+
+    // var counter = 0;
+
+    Widget materialTypeInput(idx) {
+      // var prevCounter = counter;
+      // Map controllerObject = {'controller$prevCounter': TextEditingController()};
+      // counter++;
+      // var name = 'controller${counter}';
+      // var name = TextEditingController();
+      return TextFormField(
+          // controller: controllerObject['controller$prevCounter'],
+          decoration: InputDecoration(labelText: 'Material'),
+          validator: (value) {
+            if (value.isEmpty) {
+              return 'Enter a material type';
+            }
+            // need to validate if item code exist
+            return null;
+          },
+          onChanged: (val) {
+            print(materialTypes);
+            setState(() {
+              materialTypes[idx]['materialInput'] = val;
+            });
           });
-        });
+    }
 
     final numberLengthInput = TextFormField(
         decoration: InputDecoration(labelText: 'Number / Length:'),
@@ -156,36 +179,47 @@ class _CreateInventoryItemState extends State<CreateInventoryItem> {
       },
     );
 
-    final removeMaterialButton = Container(
-      margin: EdgeInsets.only(top: 5),
-      child: ElevatedButton(
-          onPressed: () {}, child: Text('Remove'), style: disabledButtonStyle),
-    );
-
-    Widget _materialRow() {
+    Widget _removeMaterialButton(idx) {
       return Container(
-        margin: EdgeInsets.only(top: 15, left: 5, right: 5),
+        margin: EdgeInsets.only(top: 5),
+        child: ElevatedButton(
+            onPressed: () {
+              print("this is index <--- :");
+              print(idx);
+              setState(() {
+                print(materialTypes);
+                materialTypeList.removeAt(idx);
+                materialTypes.removeAt(idx);
+                print('after remove');
+                print(materialTypes);
+                // if (materialTypes.isNotEmpty) {
+                //   materialTypes.removeAt(idx);
+                // }
+              });
+            },
+            child: Text("Remove"),
+            style: disabledButtonStyle),
+      );
+    }
+
+    Widget _buildMaterialRow(idx) {
+      materialTypes
+          .add({'materialInput': '', 'numberInput': '', 'widthInput': ''});
+      return Container(
+        margin: EdgeInsets.only(top: 15, left: idx.toDouble(), right: 5),
         padding: EdgeInsets.all(10),
         decoration: BoxDecoration(
             border: Border.all(color: Colors.grey[200], width: 3),
             borderRadius: BorderRadius.circular(5)),
         child: Column(
           children: [
-            materialTypeInput,
+            materialTypeInput(idx),
             numberLengthInput,
             widthInput,
-            removeMaterialButton
+            _removeMaterialButton(idx)
           ],
         ),
       );
-    }
-
-    void _submitMaterialTypes() {
-      materialTypes
-          .add({'Material': material, 'Length': numLen, 'Width': width});
-      material = '';
-      numLen = '';
-      width = '';
     }
 
     final emptyFieldError = Container(
@@ -198,16 +232,8 @@ class _CreateInventoryItemState extends State<CreateInventoryItem> {
 
     final addMaterialButton = ElevatedButton(
       onPressed: () {
-        if (material.length == 0 || numLen.length == 0 || width.length == 0) {
-          setState(() {
-            showFieldsEmpty = true;
-          });
-          return null;
-        }
-        showFieldsEmpty = false;
         setState(() {
-          _submitMaterialTypes();
-          materialTypeList.add(_materialRow());
+          materialTypeList.add(_buildMaterialRow(materialTypeList.length));
         });
       },
       child: Text("+ Add Material Type",
@@ -217,14 +243,12 @@ class _CreateInventoryItemState extends State<CreateInventoryItem> {
     );
 
     if (materialTypeList.isEmpty) {
-      materialTypeList.add(_materialRow());
+      materialTypeList.add(_buildMaterialRow(materialTypeList.length));
     }
 
     final nextButton = ElevatedButton(
       onPressed: () {
-
         if (_formKey.currentState.validate()) {
-          _submitMaterialTypes();
           Navigator.push(
             context,
             MaterialPageRoute(
