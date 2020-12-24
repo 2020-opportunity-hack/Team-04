@@ -243,10 +243,10 @@ class _CreateInventoryItemTwoState extends State<CreateInventoryItemTwo> {
 
     final nextButton = ElevatedButton(
       onPressed: () {
-        if (otherKeyField.length > 0 && otherValueField.length > 0) {
-          _submitOtherFields();
-        }
         if (_formKey.currentState.validate()) {
+          if (otherKeyField.length > 0 && otherValueField.length > 0) {
+            _submitOtherFields();
+          }
           Navigator.push(
             context,
             MaterialPageRoute(
