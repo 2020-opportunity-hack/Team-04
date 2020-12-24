@@ -222,9 +222,9 @@ class _CreateInventoryItemState extends State<CreateInventoryItem> {
 
     final nextButton = ElevatedButton(
       onPressed: () {
-        _submitMaterialTypes();
 
         if (_formKey.currentState.validate()) {
+          _submitMaterialTypes();
           Navigator.push(
             context,
             MaterialPageRoute(

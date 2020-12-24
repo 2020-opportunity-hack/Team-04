@@ -74,7 +74,7 @@ class _UpdateInventoryItemState extends State<UpdateInventoryItem> {
     final description = Padding(
       padding: const EdgeInsets.all(10.0),
       child: Text(
-        'Input the Item Code to update Quantity',
+        'Input the Item Code to make changes',
         textAlign: TextAlign.center,
         style: style.copyWith(
           fontSize: 20,
