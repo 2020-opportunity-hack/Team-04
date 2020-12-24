@@ -94,15 +94,14 @@ class _CreateItemSummaryState extends State<CreateItemSummary> {
               'Item Code: $itemCode',
               textAlign: TextAlign.center,
               style: style.copyWith(
-                fontStyle: FontStyle.normal,
-                fontWeight: FontWeight.normal,
-                fontSize: 18
-              ),
+                  fontStyle: FontStyle.normal,
+                  fontWeight: FontWeight.normal,
+                  fontSize: 18),
             ),
             actions: <Widget>[
               Container(
-                margin: const EdgeInsets.only(bottom:10, right: 10),
-                child: _redirectButton),
+                  margin: const EdgeInsets.only(bottom: 10, right: 10),
+                  child: _redirectButton),
             ],
           );
         },
@@ -113,10 +112,6 @@ class _CreateItemSummaryState extends State<CreateItemSummary> {
       onPressed: () {
         writeData();
         _showDialog();
-        // Navigator.push(
-        //   context,
-        //   MaterialPageRoute(builder: (context) => InventoryMenu()),
-        // );
       },
       child: Text("Create",
           textAlign: TextAlign.center,
@@ -213,7 +208,7 @@ class _CreateItemSummaryState extends State<CreateItemSummary> {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text('Payir - Thoorgayi'),
+        title: Text('Payir - thoorigai'),
       ),
       body: SingleChildScrollView(
         child: Center(
@@ -284,6 +279,14 @@ class _CreateItemSummaryState extends State<CreateItemSummary> {
       ),
     );
   }
+
+  // String validateInput(inputItem) {
+  //   if (inputItem == null) {
+  //     return 'empty';
+  //   } else {
+  //     return inputItem;
+  //   }
+  // }
 
   void writeData() {
     fbInstance.child("deliverable_product").push().set({

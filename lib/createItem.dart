@@ -20,6 +20,12 @@ class _CreateInventoryItemState extends State<CreateInventoryItem> {
   String width = '';
   bool showFieldsEmpty = false;
 
+  final _formKey = GlobalKey<FormState>();
+
+  final disabledButtonStyle = ButtonStyle(
+    backgroundColor: MaterialStateProperty.all<Color>(Colors.grey),
+  );
+
   @override
   Widget build(BuildContext context) {
     TextStyle style = TextStyle(
@@ -78,9 +84,8 @@ class _CreateInventoryItemState extends State<CreateInventoryItem> {
         decoration: InputDecoration(labelText: 'Item Code'),
         validator: (value) {
           if (value.isEmpty) {
-            return 'Please enter an item code';
+            return 'Enter an item code';
           }
-          // need to validate if item code exist
           return null;
         },
         onChanged: (val) {
@@ -93,7 +98,7 @@ class _CreateInventoryItemState extends State<CreateInventoryItem> {
         decoration: InputDecoration(labelText: 'Description'),
         validator: (value) {
           if (value.isEmpty) {
-            return 'Please enter an item code';
+            return 'Enter a short description';
           }
           // need to validate if item code exist
           return null;
@@ -106,6 +111,13 @@ class _CreateInventoryItemState extends State<CreateInventoryItem> {
 
     final materialTypeInput = TextFormField(
         decoration: InputDecoration(labelText: 'Material'),
+        validator: (value) {
+          if (value.isEmpty) {
+            return 'Enter a material type';
+          }
+          // need to validate if item code exist
+          return null;
+        },
         onChanged: (val) {
           setState(() {
             material = val;
@@ -114,6 +126,13 @@ class _CreateInventoryItemState extends State<CreateInventoryItem> {
 
     final numberLengthInput = TextFormField(
         decoration: InputDecoration(labelText: 'Number / Length:'),
+        validator: (value) {
+          if (value.isEmpty) {
+            return 'Enter the length';
+          }
+          // need to validate if item code exist
+          return null;
+        },
         onChanged: (val) {
           setState(() {
             numLen = val;
@@ -123,6 +142,13 @@ class _CreateInventoryItemState extends State<CreateInventoryItem> {
     final widthInput = TextFormField(
       autofocus: false,
       decoration: InputDecoration(labelText: 'Width:'),
+      validator: (value) {
+        if (value.isEmpty) {
+          return 'Enter the width';
+        }
+        // need to validate if item code exist
+        return null;
+      },
       onChanged: (val) {
         setState(() {
           width = val;
@@ -132,7 +158,8 @@ class _CreateInventoryItemState extends State<CreateInventoryItem> {
 
     final removeMaterialButton = Container(
       margin: EdgeInsets.only(top: 5),
-      child: ElevatedButton(onPressed: () {}, child: Text('Remove')),
+      child: ElevatedButton(
+          onPressed: () {}, child: Text('Remove'), style: disabledButtonStyle),
     );
 
     Widget _materialRow() {
@@ -197,17 +224,18 @@ class _CreateInventoryItemState extends State<CreateInventoryItem> {
       onPressed: () {
         _submitMaterialTypes();
 
-        Navigator.push(
-          context,
-          MaterialPageRoute(
-              builder: (context) => CreateInventoryItemTwo(
-                    createSectionContainer: createSectionContainer,
-                    itemCode: itemCode,
-                    description: description,
-                    materialTypes: materialTypes,
-                  )),
-        );
-        // writeData();
+        if (_formKey.currentState.validate()) {
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+                builder: (context) => CreateInventoryItemTwo(
+                      createSectionContainer: createSectionContainer,
+                      itemCode: itemCode,
+                      description: description,
+                      materialTypes: materialTypes,
+                    )),
+          );
+        }
       },
       child: Text("Next",
           textAlign: TextAlign.center,
@@ -227,7 +255,7 @@ class _CreateInventoryItemState extends State<CreateInventoryItem> {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text('Payir - Thoorgayi'),
+        title: Text('Payir - thoorigai'),
       ),
       body: Center(
         child: SingleChildScrollView(
@@ -237,6 +265,7 @@ class _CreateInventoryItemState extends State<CreateInventoryItem> {
               children: [
                 heading,
                 Form(
+                  key: _formKey,
                   child: ConstrainedBox(
                     constraints: new BoxConstraints(
                       maxWidth: MediaQuery.of(context).size.width - 50,
