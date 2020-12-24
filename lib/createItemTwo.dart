@@ -22,16 +22,18 @@ class CreateInventoryItemTwo extends StatefulWidget {
 class _CreateInventoryItemTwoState extends State<CreateInventoryItemTwo> {
   String cutting;
   String stitching;
-  String other;
+  String other = ' ';
   String transportCost;
   String costPrice;
   String salePrice;
   List<Map> otherFieldValue = [];
 
   List<Widget> otherList = [];
-  String otherKeyField = '';
-  String otherValueField = '';
+  String otherKeyField = ' ';
+  String otherValueField = ' ';
   bool showFieldsEmpty = false;
+
+  final _formKey = GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context) {
@@ -69,7 +71,7 @@ class _CreateInventoryItemTwoState extends State<CreateInventoryItemTwo> {
         decoration: InputDecoration(labelText: 'Cutting:'),
         validator: (value) {
           if (value.isEmpty) {
-            return 'Please enter ....';
+            return 'Enter time spent cutting';
           }
           return null;
         },
@@ -83,7 +85,7 @@ class _CreateInventoryItemTwoState extends State<CreateInventoryItemTwo> {
         decoration: InputDecoration(labelText: 'Stitching:'),
         validator: (value) {
           if (value.isEmpty) {
-            return 'Please enter ....';
+            return 'Enter time spent stitching';
           }
           return null;
         },
@@ -95,12 +97,7 @@ class _CreateInventoryItemTwoState extends State<CreateInventoryItemTwo> {
 
     final otherInput = TextFormField(
         decoration: InputDecoration(labelText: 'Other:'),
-        validator: (value) {
-          if (value.isEmpty) {
-            return 'Please enter ....';
-          }
-          return null;
-        },
+        initialValue: ' ',
         onChanged: (val) {
           setState(() {
             other = val;
@@ -111,7 +108,7 @@ class _CreateInventoryItemTwoState extends State<CreateInventoryItemTwo> {
         decoration: InputDecoration(labelText: 'Transport Cost:'),
         validator: (value) {
           if (value.isEmpty) {
-            return 'Please enter ....';
+            return 'Enter transport cost';
           }
           return null;
         },
@@ -125,7 +122,7 @@ class _CreateInventoryItemTwoState extends State<CreateInventoryItemTwo> {
         decoration: InputDecoration(labelText: 'Cost Price:'),
         validator: (value) {
           if (value.isEmpty) {
-            return 'Please enter ....';
+            return 'Enter cost price';
           }
           return null;
         },
@@ -139,7 +136,7 @@ class _CreateInventoryItemTwoState extends State<CreateInventoryItemTwo> {
         decoration: InputDecoration(labelText: 'Sale Price:'),
         validator: (value) {
           if (value.isEmpty) {
-            return 'Please enter ....';
+            return 'Enter sale price';
           }
           return null;
         },
@@ -162,9 +159,7 @@ class _CreateInventoryItemTwoState extends State<CreateInventoryItemTwo> {
                     maxWidth: MediaQuery.of(context).size.width / 3.5),
                 child: TextFormField(
                   decoration: InputDecoration(labelText: 'Enter field name'),
-                  validator: (value) {
-                    return null;
-                  },
+                  initialValue: ' ',
                   onChanged: (val) {
                     setState(() {
                       otherKeyField = val;
@@ -179,12 +174,7 @@ class _CreateInventoryItemTwoState extends State<CreateInventoryItemTwo> {
                     maxWidth: MediaQuery.of(context).size.width / 3.5),
                 child: TextFormField(
                     decoration: InputDecoration(labelText: 'Enter a value'),
-                    validator: (value) {
-                      if (otherKeyField.length == 0) {
-                        return 'Enter Field Name First';
-                      }
-                      return null;
-                    },
+                    initialValue: ' ',
                     onChanged: (val) {
                       setState(() {
                         otherValueField = val;
@@ -256,23 +246,25 @@ class _CreateInventoryItemTwoState extends State<CreateInventoryItemTwo> {
         if (otherKeyField.length > 0 && otherValueField.length > 0) {
           _submitOtherFields();
         }
-        Navigator.push(
-          context,
-          MaterialPageRoute(
-              builder: (context) => CreateItemSummary(
-                    createSectionContainer: widget.createSectionContainer,
-                    itemCode: widget.itemCode,
-                    description: widget.description,
-                    materialTypes: widget.materialTypes,
-                    cutting: cutting,
-                    stitching: stitching,
-                    other: other,
-                    transportCost: transportCost,
-                    costPrice: costPrice,
-                    salePrice: salePrice,
-                    otherFieldValue: otherFieldValue,
-                  )),
-        );
+        if (_formKey.currentState.validate()) {
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+                builder: (context) => CreateItemSummary(
+                      createSectionContainer: widget.createSectionContainer,
+                      itemCode: widget.itemCode,
+                      description: widget.description,
+                      materialTypes: widget.materialTypes,
+                      cutting: cutting,
+                      stitching: stitching,
+                      other: other,
+                      transportCost: transportCost,
+                      costPrice: costPrice,
+                      salePrice: salePrice,
+                      otherFieldValue: otherFieldValue,
+                    )),
+          );
+        }
       },
       child: Text("Next",
           textAlign: TextAlign.center,
@@ -292,7 +284,7 @@ class _CreateInventoryItemTwoState extends State<CreateInventoryItemTwo> {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text('Payir - Thoorgayi'),
+        title: Text('Payir - thoorigai'),
       ),
       body: SingleChildScrollView(
         child: Center(
@@ -302,6 +294,7 @@ class _CreateInventoryItemTwoState extends State<CreateInventoryItemTwo> {
               children: [
                 heading,
                 Form(
+                  key: _formKey,
                   child: ConstrainedBox(
                     constraints: new BoxConstraints(
                       maxWidth: MediaQuery.of(context).size.width - 50,

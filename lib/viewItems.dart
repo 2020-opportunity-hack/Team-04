@@ -35,7 +35,7 @@ class _CreateInventoryItemState extends State<ViewItems> {
         for (var k in map.keys) {
           InventoryItem ic = new InventoryItem(map[k]["item_code"],
               map[k]["quantity"], map[k]["cost_price"], map[k]["sale_price"]);
-          costPrice = costPrice +  int.parse(map[k]["cost_price"]);
+          costPrice = costPrice + int.parse(map[k]["cost_price"]);
           salesPrice = salesPrice + int.parse(map[k]["sale_price"]);
           listOfItems.add(ic);
         }
@@ -43,7 +43,6 @@ class _CreateInventoryItemState extends State<ViewItems> {
 
       return listOfItems;
     }
-
 
     final heading = Container(
       margin: EdgeInsets.fromLTRB(5.0, 15.0, 20.0, 30.0),
@@ -58,9 +57,9 @@ class _CreateInventoryItemState extends State<ViewItems> {
     );
 
     final columnNamesTextStyle =
-    TextStyle(fontWeight: FontWeight.bold, fontSize: 18);
+        TextStyle(fontWeight: FontWeight.bold, fontSize: 18);
     final dataTextStyle =
-    TextStyle(fontWeight: FontWeight.normal, fontSize: 16);
+        TextStyle(fontWeight: FontWeight.normal, fontSize: 16);
 
     final columnNames = Container(
       child: Row(
@@ -99,7 +98,7 @@ class _CreateInventoryItemState extends State<ViewItems> {
 
     return Scaffold(
         appBar: AppBar(
-          title: Text('Payir - Thoorgayi'),
+          title: Text('Payir - thoorigai'),
         ),
         body: FutureBuilder(
             future: getInventoryRecords(),
@@ -114,7 +113,6 @@ class _CreateInventoryItemState extends State<ViewItems> {
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         crossAxisAlignment: CrossAxisAlignment.center,
-
                         children: [
                           heading,
                           columnNames,
@@ -127,14 +125,16 @@ class _CreateInventoryItemState extends State<ViewItems> {
                                   itemBuilder:
                                       (BuildContext context, int index) {
                                     return Container(
-                                      color: index.isEven ? Colors.purple[100]: Colors.white,
+                                      color: index.isEven
+                                          ? Colors.purple[100]
+                                          : Colors.white,
                                       child: Row(children: <Widget>[
                                         Expanded(
                                             child: Container(
                                                 margin:
-                                                const EdgeInsets.symmetric(
-                                                    horizontal: 0,
-                                                    vertical: 5),
+                                                    const EdgeInsets.symmetric(
+                                                        horizontal: 0,
+                                                        vertical: 5),
                                                 child: Text(
                                                     listOfItems[index].itemCode,
                                                     textAlign: TextAlign.center,
@@ -142,9 +142,9 @@ class _CreateInventoryItemState extends State<ViewItems> {
                                         Expanded(
                                             child: Container(
                                                 margin:
-                                                const EdgeInsets.symmetric(
-                                                    horizontal: 0,
-                                                    vertical: 5),
+                                                    const EdgeInsets.symmetric(
+                                                        horizontal: 0,
+                                                        vertical: 5),
                                                 child: Text(
                                                     listOfItems[index].quantity,
                                                     textAlign: TextAlign.center,
@@ -175,23 +175,27 @@ class _CreateInventoryItemState extends State<ViewItems> {
                                         )
                                       ]),
                                     );
-                                  })
+                                  })),
+                          Container(
+                            child: Column(
+                              children: [
+                                Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: Text(
+                                    'Total Cost Price: $costPrice',
+                                    style: columnNamesTextStyle,
+                                  ),
+                                ),
+                                Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: Text(
+                                    'Total Sale Price: $salesPrice',
+                                    style: columnNamesTextStyle,
+                                  ),
+                                ),
+                              ],
+                            ),
                           ),
-                          Container(child: Column(children: [
-                            Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: Text('Total Cost Price: $costPrice',
-                                style: columnNamesTextStyle,
-                              ),
-                            ),
-                            Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: Text('Total Sale Price: $salesPrice',
-                                style: columnNamesTextStyle,
-                              ),
-                            ),
-                          ],),),
-
                         ],
                       ),
                     ),

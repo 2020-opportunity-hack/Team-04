@@ -3,11 +3,9 @@ import 'package:firebase_database/firebase_database.dart';
 import 'package:easy_localization/easy_localization.dart';
 
 import 'package:flutter/material.dart';
-// import 'package:carousel_pro/carousel_pro.dart';
 
-// import 'package:ohack/horizontal.dart';
 import 'package:ohack/signUp.dart';
-import 'package:ohack/inventoryMenu.dart';
+import 'package:ohack/optionMenu.dart';
 import 'package:modal_progress_hud/modal_progress_hud.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
@@ -32,36 +30,25 @@ class MyApp extends StatelessWidget {
       title: 'Thoorgai',
       theme: ThemeData(
         // This is the theme of your application.
-        //
-        // Try running your application with "flutter run". You'll see the
-        // application has a blue toolbar. Then, without quitting the app, try
-        // changing the primarySwatch below to Colors.green and then invoke
-        // "hot reload" (press "r" in the console where you ran "flutter run",
-        // or simply save your changes to "hot reload" in a Flutter IDE).
-        // Notice that the counter didn't reset back to zero; the application
-        // is not restarted.
-        // primarySwatch: Colors.white,
         primaryColor: Colors.purple[600],
         accentColor: Colors.purple[600],
         buttonColor: Colors.purple[600],
         elevatedButtonTheme: ElevatedButtonThemeData(
             style: ButtonStyle(
-            elevation: MaterialStateProperty.all<double>(7),
-            backgroundColor: MaterialStateProperty.all<Color>(Colors.purple[600]),
-            )
-        ),
+          elevation: MaterialStateProperty.all<double>(7),
+          backgroundColor: MaterialStateProperty.all<Color>(Colors.purple[600]),
+        )),
         textTheme: TextTheme(
           headline1: TextStyle(fontSize: 72.0, fontWeight: FontWeight.bold),
           headline6: TextStyle(fontSize: 36.0, fontStyle: FontStyle.italic),
           bodyText2: TextStyle(fontSize: 14.0, fontFamily: 'Hind'),
         ),
-        
+
         // This makes the visual density adapt to the platform that you run
-        // the app on. For desktop platforms, the controls will be smaller and
-        // closer together (more dense) than on mobile platforms.
+        // the app on.
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
-      home: MyHomePage(title: 'Thoorgayi Login'),
+      home: MyHomePage(title: 'thoorigai Login'),
     );
   }
 }
@@ -95,7 +82,6 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   Widget build(BuildContext context) {
-
     final emailField = TextField(
       obscureText: false,
       style: style,
@@ -133,7 +119,7 @@ class _MyHomePageState extends State<MyHomePage> {
           if (newUser != null) {
             Navigator.push(
               context,
-              MaterialPageRoute(builder: (context) => FirstRoute()),
+              MaterialPageRoute(builder: (context) => OptionMenu()),
             );
 
             setState(() {
@@ -224,247 +210,3 @@ class _MyHomePageState extends State<MyHomePage> {
     );
   }
 }
-
-class FirstRoute extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    TextStyle style = TextStyle(fontFamily: 'Montserrat', fontSize: 20.0);
-
-    final invoiceButton = ElevatedButton(
-      onPressed: () {
-        Navigator.push(
-          context,
-          MaterialPageRoute(builder: (context) => MyHomePage()),
-        );
-      },
-      child: Text("Invoice",
-              textAlign: TextAlign.center,
-              style: style.copyWith(
-                  color: Colors.white, fontWeight: FontWeight.bold))
-          .tr(),
-    );
-
-    final salesButton = ElevatedButton(
-      onPressed: () {
-        Navigator.push(
-          context,
-          MaterialPageRoute(builder: (context) => MyHomePage()),
-        );
-      },
-      child: Text("Sales",
-          textAlign: TextAlign.center,
-          style:
-              style.copyWith(color: Colors.white, fontWeight: FontWeight.bold)),
-    );
-
-    final purchaseButton = ElevatedButton(
-      onPressed: () {
-        Navigator.push(
-          context,
-          MaterialPageRoute(builder: (context) => MyHomePage()),
-        );
-      },
-      child: Text("Purchase",
-          textAlign: TextAlign.center,
-          style:
-              style.copyWith(color: Colors.white, fontWeight: FontWeight.bold)),
-    );
-
-    final inventoryButton = ElevatedButton(
-      onPressed: () {
-        Navigator.push(
-          context,
-          MaterialPageRoute(builder: (context) => InventoryMenu()),
-        );
-      },
-      child: Text("Inventory",
-          textAlign: TextAlign.center,
-          style:
-              style.copyWith(color: Colors.white, fontWeight: FontWeight.bold)),
-    );
-
-    final reportButton = ElevatedButton(
-      onPressed: () {
-        Navigator.push(
-          context,
-          MaterialPageRoute(builder: (context) => MyHomePage()),
-        );
-      },
-      child: Text("Reports",
-          textAlign: TextAlign.center,
-          style:
-              style.copyWith(color: Colors.white, fontWeight: FontWeight.bold)),
-    );
-
-    
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('Payir - Thoorgayi'),
-      ),
-      body: Center(
-        child: SingleChildScrollView(
-          child: Container(
-            width: MediaQuery.of(context).size.width,
-            child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 0),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
-                  Container(
-                      width: MediaQuery.of(context).size.width - 50,
-                      margin: const EdgeInsets.symmetric(
-                          horizontal: 35, vertical: 20),
-                      child: invoiceButton),
-                  Container(
-                      width: MediaQuery.of(context).size.width - 50,
-                      margin: const EdgeInsets.symmetric(
-                          horizontal: 35, vertical: 20),
-                      child: salesButton),
-                  Container(
-                      width: MediaQuery.of(context).size.width - 50,
-                      margin: const EdgeInsets.symmetric(
-                          horizontal: 35, vertical: 20),
-                      child: purchaseButton),
-                  Container(
-                      width: MediaQuery.of(context).size.width - 50,
-                      margin: const EdgeInsets.symmetric(
-                          horizontal: 35, vertical: 20),
-                      child: inventoryButton),
-                  Container(
-                      width: MediaQuery.of(context).size.width - 50,
-                      margin: const EdgeInsets.symmetric(
-                          horizontal: 35, vertical: 20),
-                      child: reportButton)
-                ],
-              ),
-            ),
-          ),
-        ),
-      ),
-    );
-  }
-}
-
-// class HomePage extends StatefulWidget {
-//   @override
-//   _HomePageState createState() => _HomePageState();
-// }
-//
-// class _HomePageState extends State<HomePage> {
-//   @override
-//   Widget build(BuildContext context) {
-//     Widget image_carousel = new Container(
-//       height: 300.0,
-//       child: new Carousel(
-//         boxFit: BoxFit.cover,
-//         images: [
-//           AssetImage('images/c1.jpg'),
-//           AssetImage('images/c1.jpg'),
-//           AssetImage('images/c1.jpg'),
-//           AssetImage('images/c1.jpg'),
-//           AssetImage('images/c1.jpg'),
-//         ],
-//         autoplay: false,
-//         animationCurve: Curves.fastOutSlowIn,
-//         animationDuration: Duration(milliseconds: 1000),
-//       ),
-//     );
-//
-//     return Scaffold(
-//       appBar: new AppBar(
-//         //centerTitle: true,
-//         title: Text('Payir'),
-//         actions: [
-//           new IconButton(
-//               icon: Icon(
-//                 Icons.search,
-//                 color: Colors.white,
-//               ),
-//               onPressed: () {}),
-//           new IconButton(
-//               icon: Icon(
-//                 Icons.shopping_cart,
-//                 color: Colors.white,
-//               ),
-//               onPressed: () {})
-//         ],
-//       ),
-//       drawer: new Drawer(
-//         child: new ListView(
-//           children: [
-//             new UserAccountsDrawerHeader(
-//               accountName: Text('Vatsal'),
-//               accountEmail: Text('vatsal.palan@somaiya.edu'),
-//               currentAccountPicture: GestureDetector(
-//                 child: new CircleAvatar(
-//                   backgroundColor: Colors.grey,
-//                   child: Icon(
-//                     Icons.person,
-//                     color: Colors.white,
-//                   ),
-//                 ),
-//               ),
-//             ),
-//             InkWell(
-//               onTap: () {},
-//               child: ListTile(
-//                 title: Text('Home Page'),
-//                 leading: Icon(Icons.home),
-//               ),
-//             ),
-//             InkWell(
-//               onTap: () {},
-//               child: ListTile(
-//                 title: Text('My account'),
-//                 leading: Icon(Icons.person),
-//               ),
-//             ),
-//             InkWell(
-//               onTap: () {},
-//               child: ListTile(
-//                 title: Text('My orders'),
-//                 leading: Icon(Icons.shopping_basket),
-//               ),
-//             ),
-//             InkWell(
-//               onTap: () {},
-//               child: ListTile(
-//                 title: Text('Home Page'),
-//                 leading: Icon(Icons.dashboard),
-//               ),
-//             ),
-//             Divider(),
-//             InkWell(
-//               onTap: () {},
-//               child: ListTile(
-//                 title: Text('Settings'),
-//                 leading: Icon(Icons.settings),
-//               ),
-//             ),
-//             InkWell(
-//               onTap: () {},
-//               child: ListTile(
-//                 title: Text('About'),
-//                 leading: Icon(Icons.help),
-//               ),
-//             ),
-//           ],
-//         ),
-//       ),
-//       body: new ListView(
-//         children: [
-//           image_carousel,
-//           new Padding(
-//             //padding the categories
-//             padding: const EdgeInsets.all(8.0),
-//             child: new Text('Categories'),
-//           ),
-//
-//           //horizontal items
-//           Horizontal(),
-//         ],
-//       ),
-//     );
-//   }
-// }

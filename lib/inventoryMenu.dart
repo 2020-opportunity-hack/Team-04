@@ -49,7 +49,7 @@ class InventoryMenu extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text('Payir - Thoorgayi'),
+        title: Text('Payir - thoorigai'),
       ),
       body: Center(
         child: Container(
@@ -65,7 +65,6 @@ class InventoryMenu extends StatelessWidget {
                     width: MediaQuery.of(context).size.width - 50,
                     margin: const EdgeInsets.symmetric(
                         horizontal: 35, vertical: 20),
-                        
                     child: createButton),
                 Container(
                     width: MediaQuery.of(context).size.width - 50,

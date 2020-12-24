@@ -31,34 +31,32 @@ class _UpdateInventoryItemState extends State<UpdateInventoryItem> {
         .child("inventory")
         .child("deliverable_product");
 
-     getInventoryRecords() async {
-       await fbInstance.once().then((DataSnapshot snapshot) {
-         itemCodes = snapshot.value;
-         for (var k in itemCodes.keys) {
-           itemCodes.putIfAbsent(k, () => k["item_code"]);
-           itemCodes.putIfAbsent(k, () => k["quantity"]);
-         }
-         this.currentQuantity = itemCodes[itemKey]["quantity"];
-       });
-     }
-
+    getInventoryRecords() async {
+      await fbInstance.once().then((DataSnapshot snapshot) {
+        itemCodes = snapshot.value;
+        // print("these are itemcodes:");
+        // print(itemCodes["-MMmDmiTjoHJhmdgLj2h"]["item_code"]);
+        for (var k in itemCodes.keys) {
+          itemCodes.putIfAbsent(k, () => k["item_code"]);
+          itemCodes.putIfAbsent(k, () => k["quantity"]);
+          // this.currentQuantity = itemCodes[k]["quantity"];
+        }
+      });
+    }
 
     updateItem() {
-       keyValue.forEach((key, value) {
-         fbInstance
-             .child(itemKey)
-             .update({key: value});
-       });
-       var quant = increment ? (int.parse(currentQuantity) + int.parse(quantity)) :
-       (int.parse(this.currentQuantity) - int.parse(this.quantity));
-       fbInstance
-           .child(itemKey)
-           .update({"quantity": quant.toString()});
-       increment = true;
-       decrement = true;
-      }
+      keyValue.forEach((key, value) {
+        fbInstance.child(itemKey).update({key: value});
+      });
+      var quant = increment
+          ? (int.parse(currentQuantity) + int.parse(quantity))
+          : (int.parse(currentQuantity) - int.parse(quantity));
+      fbInstance.child(itemKey).update({"quantity": quant.toString()});
+      increment = true;
+      decrement = true;
+    }
 
-     getInventoryRecords();
+    getInventoryRecords();
 
     final heading = Container(
       margin: EdgeInsets.fromLTRB(5.0, 25.0, 20.0, 30.0),
@@ -87,47 +85,40 @@ class _UpdateInventoryItemState extends State<UpdateInventoryItem> {
     final itemCodeInput = TextFormField(
       decoration: InputDecoration(
         labelText: 'Enter an item code',
-        errorText: greenUnderLine ? null : "please enter item code",
-//            focusedBorder: UnderlineInputBorder(
-//              borderSide: BorderSide(color: Colors.green)
-//            )
-        ),
-        onChanged: (String value) async {
-          setState(() {
-            checkForCodeItem(value);
-          });
-          
-//        if(v)
-//          border: new OutlineInputBorder(
-//            borderSide: new BorderSide(color: Colors.green));
-         },
-        validator: (String value) {
-          return value.contains('@') ? 'Do not use the @ char.' : null;
-        },
-      );
+        errorText: greenUnderLine ? null : "Enter a valid item code",
+      ),
+      onChanged: (String value) async {
+        setState(() {
+          checkForCodeItem(value);
+        });
+      },
+      validator: (String value) {
+        return value.contains('@') ? 'Do not use the @ char.' : null;
+      },
+    );
 
-      final quantityInput = TextFormField(
-        decoration: const InputDecoration(
-          labelText: 'Enter Quantity',
-        ),
-        onChanged: (val) {
-          setState(() {
-            quantity = val;
-            // keyValue.update("quantity", (v) => quantity, ifAbsent: () => quantity);
-          });
-        },
-        validator: (value) {
-          if (value.isEmpty) {
-            return 'Please enter a quantity';
-          }
-          if (int.parse(value) <= 0) {
-            return 'Quantity must be greater than 0';
-          }
-          return null;
-        },
-      );
+    final quantityInput = TextFormField(
+      decoration: const InputDecoration(
+        labelText: 'Enter Quantity',
+      ),
+      onChanged: (val) {
+        setState(() {
+          quantity = val;
+          // keyValue.update("quantity", (v) => quantity, ifAbsent: () => quantity);
+        });
+      },
+      validator: (value) {
+        if (value.isEmpty) {
+          return 'Please enter a quantity';
+        }
+        if (int.parse(value) <= 0) {
+          return 'Quantity must be greater than 0';
+        }
+        return null;
+      },
+    );
 
-      final transportInput = TextFormField(
+    final transportInput = TextFormField(
         decoration: const InputDecoration(
           labelText: 'Enter transport cost',
         ),
@@ -141,47 +132,41 @@ class _UpdateInventoryItemState extends State<UpdateInventoryItem> {
           setState(() {
             keyValue.update("transport_cost", (v) => val, ifAbsent: () => val);
           });
-        // if (checkForCodeItem(value)) {
-        //   border:
-        //   new OutlineInputBorder(
-        //       borderSide: new BorderSide(color: Colors.green));
-        // }
-      }
+        });
+
+    final costInput = TextFormField(
+      decoration: const InputDecoration(
+        labelText: 'Enter cost price',
+      ),
+      onChanged: (val) {
+        setState(() {
+          keyValue.update("cost_price", (v) => val, ifAbsent: () => val);
+        });
+      },
+      validator: (value) {
+        if (value.isEmpty) {
+          return 'Please enter a cost';
+        }
+        return null;
+      },
     );
 
-      final costInput = TextFormField(
-        decoration: const InputDecoration(
-          labelText: 'Enter cost price',
-        ),
-        onChanged: (val) {
-          setState(() {
-            keyValue.update("cost_price", (v) => val, ifAbsent: () => val);
-          });
-        },
-        validator: (value) {
-          if (value.isEmpty) {
-            return 'Please enter a cost';
-          }
-          return null;
-        },
-      );
-
-      final saleInput = TextFormField(
-        decoration: const InputDecoration(
-          labelText: 'Enter sale price',
-        ),
-        validator: (value) {
-          if (value.isEmpty) {
-            return 'Please enter a cost';
-          }
-          return null;
-        },
-        onChanged: (val) {
-          setState(() {
-            keyValue.update("sale_price", (v) => val, ifAbsent: () => val);
-          });
-        },
-      );
+    final saleInput = TextFormField(
+      decoration: const InputDecoration(
+        labelText: 'Enter sale price',
+      ),
+      validator: (value) {
+        if (value.isEmpty) {
+          return 'Please enter a cost';
+        }
+        return null;
+      },
+      onChanged: (val) {
+        setState(() {
+          keyValue.update("sale_price", (v) => val, ifAbsent: () => val);
+        });
+      },
+    );
 
     final buttonStyle = ButtonStyle(
       backgroundColor: MaterialStateProperty.all<Color>(Colors.grey),
@@ -189,46 +174,44 @@ class _UpdateInventoryItemState extends State<UpdateInventoryItem> {
 
     final incrementButton = ElevatedButton(
       style: buttonStyle,
-      onPressed: increment ? () {
-        setState(() {
-          decrement = false;
-        });
-      }: null,
+      onPressed: increment
+          ? () {
+              setState(() {
+                decrement = false;
+              });
+            }
+          : null,
       child: Text(
         "+",
         textAlign: TextAlign.center,
-        style: style.copyWith(
-            color: Colors.white, fontWeight: FontWeight.bold),
+        style: style.copyWith(color: Colors.white, fontWeight: FontWeight.bold),
       ),
     );
     final decrementButton = ElevatedButton(
       style: buttonStyle,
-      onPressed: decrement ? () {
-        setState(() {
-          increment = false;
-        });
-      }: null,
+      onPressed: decrement
+          ? () {
+              setState(() {
+                increment = false;
+              });
+            }
+          : null,
       child: Text(
         "-",
         textAlign: TextAlign.center,
-        style: style.copyWith(
-            color: Colors.white, fontWeight: FontWeight.bold),
+        style: style.copyWith(color: Colors.white, fontWeight: FontWeight.bold),
       ),
     );
 
-      final updateButton = ElevatedButton(
-        onPressed: () {
-        //  Navigator.push(
-        //    context,
-        //    MaterialPageRoute(builder: (context) => MyHomePage()),
-        //  );
-          updateItem();
-        },
-        child: Text("Update",
-            textAlign: TextAlign.center,
-            style: style.copyWith(
-                color: Colors.white, fontWeight: FontWeight.bold)),
-      );
+    final updateButton = ElevatedButton(
+      onPressed: () {
+        updateItem();
+      },
+      child: Text("Update",
+          textAlign: TextAlign.center,
+          style:
+              style.copyWith(color: Colors.white, fontWeight: FontWeight.bold)),
+    );
 
     final backButton = ElevatedButton(
       onPressed: () {
@@ -242,7 +225,7 @@ class _UpdateInventoryItemState extends State<UpdateInventoryItem> {
 
     return Scaffold(
         appBar: AppBar(
-          title: Text('Payir - Thoorgayi'),
+          title: Text('Payir - thoorigai'),
         ),
         body: SingleChildScrollView(
             child: Center(
@@ -294,14 +277,18 @@ class _UpdateInventoryItemState extends State<UpdateInventoryItem> {
   }
 
   checkForCodeItem(String value) {
-    itemCodes.forEach((k,v) =>
-    {
-      if(v["item_code"].compareTo(value) == 0){
-        greenUnderLine = true,
-        itemKey = k,
-        currentQuantity = v["quantity"],
-      } else
-      greenUnderLine = false
-    });
+
+    bool result = false;
+    for (var k in itemCodes.keys) {
+      if (itemCodes[k]["item_code"] == value) {
+        print('valid<--');
+        result = true;
+        itemKey = k;
+        currentQuantity = itemCodes[k]["quantity"];
+        break;
+      }
+    }
+
+    greenUnderLine = result;
   }
 }

@@ -48,7 +48,7 @@ class _SignUpState extends State<SignUp> {
         Navigator.push(
           context,
           MaterialPageRoute(
-              builder: (context) => MyHomePage(title: 'Thoorgayi Login')),
+              builder: (context) => MyHomePage(title: 'thoorigai Login')),
         );
       },
       child: Text("Login",
@@ -60,13 +60,12 @@ class _SignUpState extends State<SignUp> {
 
     final _redirectButton = ElevatedButton(
         onPressed: () {
-           Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => MyHomePage()),
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => MyHomePage()),
           );
         },
-        child: Text("Return to Login")
-    );
+        child: Text("Return to Login"));
 
     void _showDialog() {
       // flutter defined function
