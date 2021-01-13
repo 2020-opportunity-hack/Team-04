@@ -15,7 +15,7 @@ A Flutter mobile app for inventory management.
 Our mobile app helps the user manage their inventory. Some of the features include letting the user record inventory items with specifications, change the quantity, and viewing all inventory.
 
 
-## Table of Context
+## Table of Contents
 - [About](#OHack-Payir-Thoorigai) 
 - [Installation](#Installation) 
 - [Features](#Features)
